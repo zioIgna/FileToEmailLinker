@@ -15,5 +15,7 @@ namespace FileToEmailLinker.Data
         }
 
         public DbSet<Receiver> Receiver { get; set; } = default!;
+
+        public DbSet<MailingPlan> MailingPlan { get; set; } = default!;
     }
 }
