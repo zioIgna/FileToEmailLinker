@@ -19,5 +19,7 @@ namespace FileToEmailLinker.Data
         public DbSet<MailingPlan> MailingPlan { get; set; } = default!;
 
         public DbSet<FileToEmailLinker.Models.Entities.FileRef> FileRef { get; set; } = default!;
+
+        public DbSet<FileToEmailLinker.Models.Entities.Schedulation> Schedulation { get; set; } = default!;
     }
 }
