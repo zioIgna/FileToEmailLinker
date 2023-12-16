@@ -56,7 +56,7 @@ namespace FileToEmailLinker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Recurrence,Date,Time")] Schedulation schedulation)
+        public async Task<IActionResult> Create([Bind("Id,Name,Recurrence,Date,Time")] Schedulation schedulation)
         {
             if (ModelState.IsValid)
             {
