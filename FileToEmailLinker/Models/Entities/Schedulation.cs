@@ -6,6 +6,7 @@ namespace FileToEmailLinker.Models.Entities
     public class Schedulation
     {
         public int Id { get; set; }
+        public string Name { get; set; } = DateTime.Now.ToString();
         public SchedulingRecurrence Recurrence { get; set; }
 
         public DateOnly Date { get; set; }
