@@ -5,6 +5,7 @@ namespace FileToEmailLinker.Models.Entities
 {
     public class Schedulation
     {
+        public int Id { get; set; }
         public SchedulingRecurrence Recurrence { get; set; }
 
         public DateOnly Date { get; set; }
