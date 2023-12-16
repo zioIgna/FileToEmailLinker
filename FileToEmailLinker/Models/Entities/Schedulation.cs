@@ -1,5 +1,4 @@
 ﻿using FileToEmailLinker.Models.Enums;
-using NuGet.Protocol;
 
 namespace FileToEmailLinker.Models.Entities
 {
@@ -8,11 +7,10 @@ namespace FileToEmailLinker.Models.Entities
         public int Id { get; set; }
         public string Name { get; set; } = DateTime.Now.ToString();
         public SchedulingRecurrence Recurrence { get; set; }
-
         public DateOnly Date { get; set; }
-
         public TimeOnly Time { get; set; }
-
+        public DateOnly StartDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+        public DateOnly EndDate { get; set; } = DateOnly.MaxValue;
         ICollection<MailingPlan> MailingPlanList { get; set; } = new List<MailingPlan>();
     }
 }

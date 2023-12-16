@@ -3,6 +3,7 @@
     public enum ActiveState
     {
         Active,
+        Complete,
         Suspended,
         Cancelled
     }
