@@ -1,4 +1,4 @@
-﻿namespace FileToEmailLinker.Models
+﻿namespace FileToEmailLinker.Models.Entities
 {
     public class Receiver
     {
