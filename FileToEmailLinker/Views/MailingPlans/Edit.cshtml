@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="ActiveState" class="control-label"></label>
-                <select asp-for="ActiveState" class="form-control"></select>
+                <select asp-for="ActiveState" class="form-control" asp-items="Html.GetEnumSelectList<FileToEmailLinker.Models.Enums.ActiveState>()"></select>
                 <span asp-validation-for="ActiveState" class="text-danger"></span>
             </div>
             <div class="form-group">

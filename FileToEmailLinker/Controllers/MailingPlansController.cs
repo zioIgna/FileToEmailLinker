@@ -48,7 +48,7 @@ namespace FileToEmailLinker.Controllers
         // GET: MailingPlans/Create
         public IActionResult Create()
         {
-            ViewData["SchedulationId"] = new SelectList(_context.Set<Schedulation>(), "Id", "Id");
+            ViewData["SchedulationId"] = new SelectList(_context.Set<Schedulation>(), "Id", "Name");
             return View();
         }
 
@@ -82,7 +82,7 @@ namespace FileToEmailLinker.Controllers
             {
                 return NotFound();
             }
-            ViewData["SchedulationId"] = new SelectList(_context.Set<Schedulation>(), "Id", "Id", mailingPlan.SchedulationId);
+            ViewData["SchedulationId"] = new SelectList(_context.Set<Schedulation>(), "Id", "Name", mailingPlan.SchedulationId);
             return View(mailingPlan);
         }
 
