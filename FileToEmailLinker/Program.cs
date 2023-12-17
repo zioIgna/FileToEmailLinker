@@ -1,12 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using FileToEmailLinker.Data;
+using FileToEmailLinker.Models.Services.Worker;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<FileToEmailLinkerContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("FileToEmailLinkerContext") ?? throw new InvalidOperationException("Connection string 'FileToEmailLinkerContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddHostedService<DailySchedulesReader>();
 
 var app = builder.Build();
 
