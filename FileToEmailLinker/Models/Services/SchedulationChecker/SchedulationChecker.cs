@@ -40,6 +40,16 @@ namespace FileToEmailLinker.Models.Services.SchedulationChecker
                     timer.Elapsed += (sender, e) =>
                     {
                         Console.WriteLine($"La schedulazione riconosciuta è la {schedulation.Name}");
+                        try
+                        {
+                            timer.Stop();
+                            timer.Dispose();
+                        }
+                        catch (Exception exc)
+                        {
+
+                            throw new Exception(exc.Message);
+                        }
                     };
                     //timers.Add(timer);
                 }
