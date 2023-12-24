@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using FileToEmailLinker.Data;
 using FileToEmailLinker.Models.Services.Worker;
+using FileToEmailLinker.Models.Services.Schedulation;
+using FileToEmailLinker.Models.Services.SchedulationChecker;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<FileToEmailLinkerContext>(options =>
@@ -10,7 +12,10 @@ builder.Services.AddDbContext<FileToEmailLinkerContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddHostedService<DailySchedulesReader>();
+builder.Services.AddHostedService<DailySchedulesReaderService>();
+
+builder.Services.AddTransient<ISchedulationService, SchedulationService>();
+builder.Services.AddTransient<ISchedulationChecker,  SchedulationChecker>();
 
 var app = builder.Build();
 
