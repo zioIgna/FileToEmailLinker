@@ -13,6 +13,10 @@ builder.Services.AddDbContext<FileToEmailLinkerContext>(options =>
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddHostedService<DailySchedulesReaderService>();
+//builder.Services.AddHostedService<MailSenderHostedService>();
+builder.Services.AddSingleton<MailSenderHostedService>();
+builder.Services.AddSingleton<IMailSenderHostedService>(provider => provider.GetRequiredService<MailSenderHostedService>());
+builder.Services.AddSingleton<IHostedService>(provider => provider.GetRequiredService<MailSenderHostedService>());
 
 builder.Services.AddTransient<ISchedulationService, SchedulationService>();
 builder.Services.AddTransient<ISchedulationChecker,  SchedulationChecker>();

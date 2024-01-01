@@ -24,7 +24,7 @@ namespace FileToEmailLinker.Models.Services.Worker
                 Console.WriteLine("Lanciata l'applicazione alle ore: " + DateTime.Now.ToString("O"));
                 DateTime adesso = DateTime.Now;
 
-                if (adesso.Hour == 23 && adesso.Minute == 04)
+                if (adesso.Hour == 14 && adesso.Minute == 38)
                 {
                     Console.Write("Riconosciuta l'ora alle: " + DateTime.Now.ToString("O"));
                     _startingTimer = new(TimeSpan.FromHours(24));
