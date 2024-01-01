@@ -7,19 +7,15 @@ namespace FileToEmailLinker.Models.Services.SchedulationChecker
     public class SchedulationChecker : ISchedulationChecker
     {
         private readonly ISchedulationService schedulationService;
-        private readonly IServiceScopeFactory serviceScopeFactory;
-
-        //private readonly IMailSenderHostedService mailSenderHostedService;
+        private readonly IMailSenderHostedService mailSenderHostedService;
 
         public SchedulationChecker(
             ISchedulationService schedulationService
-            //, IMailSenderHostedService mailSenderHostedService
-            , IServiceScopeFactory serviceScopeFactory
+            , IMailSenderHostedService mailSenderHostedService
             )
         {
             this.schedulationService = schedulationService;
-            this.serviceScopeFactory = serviceScopeFactory;
-            //this.mailSenderHostedService = mailSenderHostedService;
+            this.mailSenderHostedService = mailSenderHostedService;
         }
 
         private async Task<ICollection<Entities.Schedulation>> GetNextDaySchedulations()
@@ -52,10 +48,6 @@ namespace FileToEmailLinker.Models.Services.SchedulationChecker
                         Console.WriteLine($"La schedulazione riconosciuta è la {schedulation.Name}");
                         try
                         {
-                            using IServiceScope serviceScope = serviceScopeFactory.CreateScope();
-                            IServiceProvider serviceProvider = serviceScope.ServiceProvider;
-                            IMailSenderHostedService mailSenderHostedService = serviceProvider.GetRequiredService<IMailSenderHostedService>();
-
                             mailSenderHostedService.EnqueueMailingPlan(schedulation.Id);
                             timer.Stop();
                             timer.Dispose();
