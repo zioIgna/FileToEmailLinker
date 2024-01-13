@@ -27,10 +27,11 @@ namespace FileToEmailLinker.Models.Services.SchedulationChecker
             return schedulations;
         }
 
-        public async Task SetSchedulationsTimers()
+        public async Task<int> SetSchedulationsTimers()
         {
             //var timers = new List<System.Timers.Timer>();
             Console.WriteLine("Avviato il metodo SetSchedulationsTimers");
+            int schedulationTimersSet = 0;
             var schedulations = await GetNextDaySchedulations();
             int ordinale = 0;
             foreach (var schedulation in schedulations)
@@ -54,14 +55,16 @@ namespace FileToEmailLinker.Models.Services.SchedulationChecker
                         }
                         catch (Exception exc)
                         {
-
                             throw new Exception(exc.Message);
                         }
                     };
+                    schedulationTimersSet++;
                     //timers.Add(timer);
                 }
 
             }
+
+            return schedulationTimersSet;
         }
     }
 }

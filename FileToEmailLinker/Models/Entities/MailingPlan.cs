@@ -13,14 +13,14 @@ namespace FileToEmailLinker.Models.Entities
         public int SchedulationId { get; set; }
         public Schedulation? Schedulation { get; set; }
 
-        public string[] GetReceiverListArray()
-        {
-            var list = new List<string>();
-            if(ReceiverList != null && ReceiverList.Count > 0)
-            {
-                list.AddRange(ReceiverList.Select(elem => elem.Email));
-            }
-            return list.ToArray();
-        }
+        //public string[] GetReceiverListArray()
+        //{
+        //    var list = new List<string>();
+        //    if(ReceiverList != null && ReceiverList.Count > 0)
+        //    {
+        //        list.AddRange(ReceiverList.Select(elem => elem.Email));
+        //    }
+        //    return list.ToArray();
+        //}
     }
 }

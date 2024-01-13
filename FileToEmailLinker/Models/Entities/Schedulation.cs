@@ -14,6 +14,6 @@ namespace FileToEmailLinker.Models.Entities
         public TimeOnly Time { get; set; }
         public DateOnly StartDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
         public DateOnly EndDate { get; set; } = DateOnly.MaxValue;
-        ICollection<MailingPlan> MailingPlanList { get; set; } = new List<MailingPlan>();
+        //ICollection<MailingPlan> MailingPlanList { get; set; } = new List<MailingPlan>();
     }
 }

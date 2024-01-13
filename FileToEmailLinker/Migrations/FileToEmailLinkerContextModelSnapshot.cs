@@ -29,7 +29,7 @@ namespace FileToEmailLinker.Migrations
 
                     b.HasIndex("MailingPlanListId");
 
-                    b.ToTable("FileRefMailingPlan");
+                    b.ToTable("FileRefMailingPlan", (string)null);
                 });
 
             modelBuilder.Entity("FileToEmailLinker.Models.Entities.FileRef", b =>
@@ -44,7 +44,7 @@ namespace FileToEmailLinker.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FileRef");
+                    b.ToTable("FileRef", (string)null);
                 });
 
             modelBuilder.Entity("FileToEmailLinker.Models.Entities.MailingPlan", b =>
@@ -71,7 +71,7 @@ namespace FileToEmailLinker.Migrations
 
                     b.HasIndex("SchedulationId");
 
-                    b.ToTable("MailingPlan");
+                    b.ToTable("MailingPlan", (string)null);
                 });
 
             modelBuilder.Entity("FileToEmailLinker.Models.Entities.Receiver", b =>
@@ -99,7 +99,7 @@ namespace FileToEmailLinker.Migrations
 
                     b.HasIndex("MailingPlanId");
 
-                    b.ToTable("Receiver");
+                    b.ToTable("Receiver", (string)null);
                 });
 
             modelBuilder.Entity("FileToEmailLinker.Models.Entities.Schedulation", b =>
@@ -129,7 +129,7 @@ namespace FileToEmailLinker.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Schedulation");
+                    b.ToTable("Schedulation", (string)null);
                 });
 
             modelBuilder.Entity("FileRefMailingPlan", b =>

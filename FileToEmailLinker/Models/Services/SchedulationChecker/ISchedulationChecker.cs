@@ -2,6 +2,6 @@
 {
     public interface ISchedulationChecker
     {
-        Task SetSchedulationsTimers();
+        Task<int> SetSchedulationsTimers();
     }
 }
