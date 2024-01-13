@@ -1,5 +1,6 @@
 ﻿using Azure.Core;
 using FileToEmailLinker.Models.Entities;
+using FileToEmailLinker.Models.Exceptions;
 using FileToEmailLinker.Models.Options;
 using FileToEmailLinker.Models.Services.MailingPlan;
 using FileToEmailLinker.Models.Services.SchedulationChecker;
@@ -52,6 +53,10 @@ namespace FileToEmailLinker.Models.Services.Worker
                     IMailingPlanService mailingPlanService = serviceProvider.GetRequiredService<IMailingPlanService>();
 
                     Entities.MailingPlan mailingPlan = await mailingPlanService.GetMailingPlanBySchedulationId(schedulationId);
+                    if(mailingPlan == null)
+                    {
+                        throw new MailingPlanNotFoundException(schedulationId);
+                    }
                     MimeMessage message = new MimeMessage();
                     message.From.Add(MailboxAddress.Parse(optionsMonitor.CurrentValue.Sender));
                     InternetAddressList internetAddresses = new InternetAddressList();

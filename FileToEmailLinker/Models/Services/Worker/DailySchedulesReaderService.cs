@@ -31,10 +31,6 @@ namespace FileToEmailLinker.Models.Services.Worker
                     _startingTimer = new(TimeSpan.FromHours(24));
                     //_startingTimer = new(TimeSpan.FromMinutes(4));
                     timerSetTo24Hour = true;
-                    //if(!timerSetTo24Hour)
-                    //{
-                    //    _startingTimer = new(TimeSpan.FromHours(24));
-                    //}
                 }
                 if (timerSetTo24Hour)
                 {
@@ -44,10 +40,6 @@ namespace FileToEmailLinker.Models.Services.Worker
 
                     int schedulationsCount = await schedulationChecker.SetSchedulationsTimers();
                     Console.WriteLine($"Settate le schedulazioni: {schedulationsCount.ToString()}");
-                    //while (await _startingTimer.WaitForNextTickAsync(stoppingToken) && !stoppingToken.IsCancellationRequested)
-                    //{
-                    //    Console.WriteLine("Resettato il timer alle ore: " + DateTime.Now.ToString("G"));
-                    //}
                 }
             }
         }
