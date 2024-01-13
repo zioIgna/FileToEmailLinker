@@ -5,6 +5,7 @@ using FileToEmailLinker.Models.Services.Worker;
 using FileToEmailLinker.Models.Services.Schedulation;
 using FileToEmailLinker.Models.Services.SchedulationChecker;
 using FileToEmailLinker.Models.Options;
+using FileToEmailLinker.Models.Services.MailingPlan;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<FileToEmailLinkerContext>(options =>
@@ -21,6 +22,7 @@ builder.Services.AddSingleton<IHostedService>(provider => provider.GetRequiredSe
 
 builder.Services.AddTransient<ISchedulationService, SchedulationService>();
 builder.Services.AddTransient<ISchedulationChecker,  SchedulationChecker>();
+builder.Services.AddTransient<IMailingPlanService, MailingPlanService>();
 
 builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
 
