@@ -7,23 +7,29 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FileToEmailLinker.Data;
 using FileToEmailLinker.Models.Entities;
+using FileToEmailLinker.Models.Services.MailingPlan;
+using FileToEmailLinker.Models.InputModels.MailPlans;
 
 namespace FileToEmailLinker.Controllers
 {
     public class MailingPlansController : Controller
     {
         private readonly FileToEmailLinkerContext _context;
+        private readonly IMailingPlanService mailingPlanService;
 
-        public MailingPlansController(FileToEmailLinkerContext context)
+        public MailingPlansController(FileToEmailLinkerContext context, IMailingPlanService mailingPlanService)
         {
             _context = context;
+            this.mailingPlanService = mailingPlanService;
         }
 
         // GET: MailingPlans
         public async Task<IActionResult> Index()
         {
-            var fileToEmailLinkerContext = _context.MailingPlan.Include(m => m.Schedulation);
-            return View(await fileToEmailLinkerContext.ToListAsync());
+            //var fileToEmailLinkerContext = _context.MailingPlan.Include(m => m.Schedulation);
+            //return View(await fileToEmailLinkerContext.ToListAsync());
+            ICollection<MailingPlan> mailinPlanList = await mailingPlanService.GetMailingPlanListAsync();
+            return View(mailinPlanList);
         }
 
         // GET: MailingPlans/Details/5
@@ -47,10 +53,11 @@ namespace FileToEmailLinker.Controllers
         }
 
         // GET: MailingPlans/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["SchedulationId"] = new SelectList(_context.Set<Schedulation>(), "Id", "Name");
-            return View();
+            //ViewData["SchedulationId"] = new SelectList(_context.Set<Schedulation>(), "Id", "Name");
+            MailPlanCreateInputModel mailingPlanInputModel = await mailingPlanService.CreateMailPlanInputModelAsync();
+            return View(mailingPlanInputModel);
         }
 
         // POST: MailingPlans/Create

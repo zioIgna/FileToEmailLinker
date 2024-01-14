@@ -1,4 +1,4 @@
-﻿@model FileToEmailLinker.Models.InputModels.MailPlans.MailPlanCreateInputModel
+﻿@model FileToEmailLinker.Models.Entities.MailingPlan
 
 @{
     ViewData["Title"] = "Create";
@@ -28,32 +28,9 @@
                 <span asp-validation-for="Text" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Subject" class="control-label"></label>
-                <input type="text" asp-asp-for="Subject" class="form-control"/>
-                <span asp-asp-validation-for="Subject" class="text-danger"></span>
-            </div>
-            @foreach(var elem in Model.FileSelectList)
-            {
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="@elem.Value"/>
-                    <label class="form-check-label" >@elem.Text</label>
-                </div>
-            }
-@*                <select asp-for="FileSelectList" asp-asp-items="FileSelectList" class="form-control"></select>
-                <span asp-validation-for="FileSelectList" class="text-danger"></span>*@
-            @foreach(var elem in Model.ReceiverSelectList)
-            {
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="@elem.Value"/>
-                    <label class="form-check-label">@elem.Text</label>
-                </div>
-            }
-@*                <select asp-for="ReceiverSelectList" asp-asp-items="ReceiverSelectList" class="form-control"></select>
-                <span asp-validation-for="ReceiverSelectList" class="text-danger"></span>*@
-@*            <div class="form-group">
                 <label asp-for="SchedulationId" class="control-label"></label>
                 <select asp-for="SchedulationId" class ="form-control" asp-items="ViewBag.SchedulationId"></select>
-            </div>*@
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
