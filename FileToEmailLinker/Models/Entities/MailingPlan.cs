@@ -8,7 +8,7 @@ namespace FileToEmailLinker.Models.Entities
         public string Name { get; set; } = string.Empty;
         public ActiveState ActiveState { get; set; }
         public string Text { get; set; } = string.Empty;
-
+        public string Subject { get; set; } = string.Empty;
         public string FileStringList { get; set; }
         //public ICollection<FileRef> FileNames { get; set; } = new List<FileRef>();
         public ICollection<Receiver> ReceiverList { get; set; } = new List<Receiver>();
