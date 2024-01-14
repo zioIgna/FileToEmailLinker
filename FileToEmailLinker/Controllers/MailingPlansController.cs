@@ -36,6 +36,7 @@ namespace FileToEmailLinker.Controllers
 
             var mailingPlan = await _context.MailingPlan
                 .Include(m => m.Schedulation)
+                .Include(m => m.ReceiverList)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (mailingPlan == null)
             {
