@@ -8,5 +8,6 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         Task<Entities.MailingPlan> GetMailingPlanBySchedulationId(int schedulationId);
         Task<ICollection<Entities.MailingPlan>> GetMailingPlanListAsync();
         Task<MailPlanCreateInputModel> CreateMailPlanInputModelAsync();
+        Task<Entities.MailingPlan> CreateMailingPlanAsync(MailPlanCreateInputModel model);
     }
 }

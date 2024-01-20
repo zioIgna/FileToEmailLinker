@@ -1,4 +1,5 @@
 ﻿using FileToEmailLinker.Data;
+using FileToEmailLinker.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace FileToEmailLinker.Models.Services.Receiver
@@ -17,6 +18,12 @@ namespace FileToEmailLinker.Models.Services.Receiver
             IQueryable<Entities.Receiver> query = context.Receiver;
 
             return await query.ToListAsync();
+        }
+
+        public async Task<Entities.Receiver> GetReceiverByIdAsync(int id)
+        {
+            return await context.Receiver
+                .FirstOrDefaultAsync(rec => rec.Id == id);
         }
     }
 }

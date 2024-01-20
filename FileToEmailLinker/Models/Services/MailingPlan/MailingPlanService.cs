@@ -74,5 +74,55 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
 
             return mailPlanCreateInputModel;
         }
+
+        public async Task<Entities.MailingPlan> CreateMailingPlanAsync(MailPlanCreateInputModel model)
+        {
+            Entities.MailingPlan mailingPlan = new();
+            mailingPlan.Name = model.Name;
+            mailingPlan.ActiveState = Enums.ActiveState.Active;
+            mailingPlan.Text = model.Text;
+            mailingPlan.Subject = model.Subject;
+            if(model.FilesSelection != null && model.FilesSelection.Count > 0) 
+            {
+                foreach (var file in model.FilesSelection)
+                {
+                    if(string.IsNullOrWhiteSpace(mailingPlan.FileStringList))
+                    {
+                        mailingPlan.FileStringList = file;
+                    }
+                    else
+                    {
+                        mailingPlan.FileStringList += ";" + file;
+                    }
+                    
+                }
+            }
+            if(model.ReceiversSelection != null && model.ReceiversSelection.Count > 0)
+            {
+                foreach (var receiver in model.ReceiversSelection)
+                {
+                    int receiverId = Int32.Parse(receiver);
+                    var receiverEntity = await receiverService.GetReceiverByIdAsync(receiverId);
+                    if(receiverEntity == null)
+                    {
+                        throw new Exception("Receiver not found");
+                    }
+                    mailingPlan.ReceiverList.Add(receiverEntity);
+                }
+            }
+            var schedulation = new Entities.Schedulation();
+            schedulation.Name = model.Name;
+            schedulation.StartDate = DateOnly.FromDateTime( DateTime.Today);
+            schedulation.EndDate = DateOnly.FromDateTime(DateTime.MaxValue);
+            schedulation.Date = model.SchedDate;
+            schedulation.Time = model.SchedTime;
+
+            mailingPlan.Schedulation = schedulation;
+
+            context.Add(mailingPlan);
+            await context.SaveChangesAsync();
+
+            return mailingPlan;
+        }
     }
 }
