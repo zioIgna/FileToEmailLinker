@@ -15,5 +15,12 @@ namespace FileToEmailLinker.Models.Entities
         public DateOnly StartDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
         public DateOnly EndDate { get; set; } = DateOnly.MaxValue;
         //ICollection<MailingPlan> MailingPlanList { get; set; } = new List<MailingPlan>();
+        public bool Monday { get; set; }
+        public bool Tuesday { get; set; }
+        public bool Wednesday { get; set; }
+        public bool Thursday { get; set;}
+        public bool Friday { get; set;}
+        public bool Saturday { get; set; }
+        public bool Sunday { get; set; }
     }
 }
