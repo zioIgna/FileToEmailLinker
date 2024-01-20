@@ -2,6 +2,6 @@
 {
     public interface ISchedulationService
     {
-        Task<ICollection<Entities.Schedulation>> GetSchedulationsByDate(DateOnly date);
+        Task<ICollection<Entities.Schedulation>> GetSchedulationsByDateOrWeekDay(DateOnly date);
     }
 }

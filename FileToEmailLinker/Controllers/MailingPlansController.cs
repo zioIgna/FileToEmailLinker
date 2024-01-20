@@ -67,8 +67,12 @@ namespace FileToEmailLinker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MailPlanCreateInputModel model)
         {
-            MailingPlan mailingPlan = await mailingPlanService.CreateMailingPlanAsync(model);
-            throw new NotImplementedException();
+            if (ModelState.IsValid)
+            {
+                MailingPlan mailingPlan = await mailingPlanService.CreateMailingPlanAsync(model);
+                return RedirectToAction(nameof(Details), new {id = mailingPlan.Id });
+            }
+            return View(model);
         }
         //public async Task<IActionResult> Create([Bind("Id,Name,ActiveState,Text,SchedulationId")] MailingPlan mailingPlan)
         //{

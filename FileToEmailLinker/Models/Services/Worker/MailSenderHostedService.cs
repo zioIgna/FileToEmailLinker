@@ -63,7 +63,7 @@ namespace FileToEmailLinker.Models.Services.Worker
                     internetAddresses.AddRange(mailingPlan.ReceiverList
                         .Select(receiver => new MailboxAddress(string.Concat(receiver.Name, ' ', receiver.Surname), receiver.Email)));
                     message.To.AddRange(internetAddresses);
-                    message.Subject = "Invio files excel";
+                    message.Subject = mailingPlan.Subject;
                     message.Body = new TextPart("html")
                     {
                         Text = $"<p>{mailingPlan.Text}</p>"

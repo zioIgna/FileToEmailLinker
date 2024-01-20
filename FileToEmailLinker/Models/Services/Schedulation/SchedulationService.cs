@@ -1,5 +1,6 @@
 ﻿using FileToEmailLinker.Data;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging;
 
 namespace FileToEmailLinker.Models.Services.Schedulation
 {
@@ -12,16 +13,31 @@ namespace FileToEmailLinker.Models.Services.Schedulation
             this.context = context;
         }
 
-        public async Task<ICollection<Entities.Schedulation>> GetSchedulationsByDate(DateOnly date)
+        public async Task<ICollection<Entities.Schedulation>> GetSchedulationsByDateOrWeekDay(DateOnly date)
         {
             //var schedYear = date.Year;
             //var schedMonth = date.Month;
             //var schedDay = date.Day;
 
-            IQueryable<Entities.Schedulation> query = context.Schedulation
+            IQueryable<Entities.Schedulation> queryByDate = context.Schedulation
                 .Where(s => s.Date.Equals(date));
 
-            return await query.ToListAsync();
+            IQueryable<Entities.Schedulation> queryByWeekDay = context.Schedulation
+                .Where(s => (s.Monday && date.DayOfWeek == DayOfWeek.Monday ||
+                    s.Tuesday && date.DayOfWeek == DayOfWeek.Tuesday ||
+                    s.Wednesday && date.DayOfWeek == DayOfWeek.Wednesday ||
+                    s.Thursday && date.DayOfWeek == DayOfWeek.Thursday ||
+                    s.Friday && date.DayOfWeek == DayOfWeek.Friday ||
+                    s.Saturday && date.DayOfWeek == DayOfWeek.Saturday ||
+                    s.Sunday && date.DayOfWeek == DayOfWeek.Sunday)
+                    && s.EndDate.CompareTo(date)>= 0
+                    && s.StartDate.CompareTo(date)<= 0);
+
+            ICollection<Entities.Schedulation> ongoingSchedulations = new List<Entities.Schedulation>();
+            ongoingSchedulations.AddRange(await queryByDate.ToListAsync());
+            ongoingSchedulations.AddRange(await queryByWeekDay.ToListAsync());
+
+            return ongoingSchedulations;
         }
     }
 }

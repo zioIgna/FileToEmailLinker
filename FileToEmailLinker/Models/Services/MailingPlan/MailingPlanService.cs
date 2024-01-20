@@ -115,6 +115,13 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             schedulation.StartDate = DateOnly.FromDateTime( DateTime.Today);
             schedulation.EndDate = DateOnly.FromDateTime(DateTime.MaxValue);
             schedulation.Date = model.SchedDate;
+            schedulation.Monday = model.Monday;
+            schedulation.Tuesday = model.Tuesday;
+            schedulation.Wednesday = model.Wednesday;
+            schedulation.Thursday = model.Thursday;
+            schedulation.Friday = model.Friday;
+            schedulation.Saturday = model.Saturday;
+            schedulation.Sunday = model.Sunday;
             schedulation.Time = model.SchedTime;
 
             mailingPlan.Schedulation = schedulation;
