@@ -40,8 +40,11 @@ namespace FileToEmailLinker.Models.Services.SchedulationChecker
                 //var tomorrow = DateOnly.FromDateTime(DateTime.Now.AddDays(1).Date);
                 //schedulation.Date = tomorrow;
                 var today = DateOnly.FromDateTime(DateTime.Now.Date);
-                schedulation.Date = today;
-                var missingSeconds = (schedulation.Date.ToDateTime(schedulation.Time) - DateTime.Now).TotalSeconds;
+                if(schedulation.Date == null)
+                {
+                    schedulation.Date = today;
+                }
+                double missingSeconds = (double)((schedulation.Date?.ToDateTime(schedulation.Time) - DateTime.Now)?.TotalSeconds);
                 Console.WriteLine($"I secondi mancanti alla {++ordinale}^ esecuzione sono {missingSeconds}");
                 if (missingSeconds >= 0)
                 {

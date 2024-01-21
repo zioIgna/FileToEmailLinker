@@ -124,6 +124,9 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             schedulation.Sunday = model.Sunday;
             schedulation.Time = model.SchedTime;
 
+            schedulation.StartDate = model.StartDate;
+            schedulation.EndDate = model.EndDate;
+
             mailingPlan.Schedulation = schedulation;
 
             context.Add(mailingPlan);
