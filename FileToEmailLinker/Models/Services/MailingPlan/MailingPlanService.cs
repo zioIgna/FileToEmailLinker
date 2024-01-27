@@ -40,7 +40,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         public async Task<ICollection<Entities.MailingPlan>> GetMailingPlanListAsync()
         {
             IQueryable<Entities.MailingPlan> query = context.MailingPlan
-                .Include(mp => mp.Schedulation)
+                //.Include(mp => mp.Schedulation)
                 .Where(mp => mp.ActiveState == Enums.ActiveState.Active);
 
             return await query.ToListAsync();
@@ -115,19 +115,19 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             schedulation.StartDate = DateOnly.FromDateTime( DateTime.Today);
             schedulation.EndDate = DateOnly.FromDateTime(DateTime.MaxValue);
             schedulation.Date = model.SchedDate;
-            schedulation.Monday = model.Monday;
-            schedulation.Tuesday = model.Tuesday;
-            schedulation.Wednesday = model.Wednesday;
-            schedulation.Thursday = model.Thursday;
-            schedulation.Friday = model.Friday;
-            schedulation.Saturday = model.Saturday;
-            schedulation.Sunday = model.Sunday;
+            //schedulation.Monday = model.Monday;
+            //schedulation.Tuesday = model.Tuesday;
+            //schedulation.Wednesday = model.Wednesday;
+            //schedulation.Thursday = model.Thursday;
+            //schedulation.Friday = model.Friday;
+            //schedulation.Saturday = model.Saturday;
+            //schedulation.Sunday = model.Sunday;
             schedulation.Time = model.SchedTime;
 
             schedulation.StartDate = model.StartDate;
             schedulation.EndDate = model.EndDate;
 
-            mailingPlan.Schedulation = schedulation;
+            //mailingPlan.Schedulation = schedulation;
 
             context.Add(mailingPlan);
             await context.SaveChangesAsync();

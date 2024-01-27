@@ -41,7 +41,7 @@ namespace FileToEmailLinker.Controllers
             }
 
             var mailingPlan = await _context.MailingPlan
-                .Include(m => m.Schedulation)
+                //.Include(m => m.Schedulation)
                 .Include(m => m.ReceiverList)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (mailingPlan == null)
@@ -89,18 +89,19 @@ namespace FileToEmailLinker.Controllers
         // GET: MailingPlans/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.MailingPlan == null)
-            {
-                return NotFound();
-            }
+            //if (id == null || _context.MailingPlan == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var mailingPlan = await _context.MailingPlan.FindAsync(id);
-            if (mailingPlan == null)
-            {
-                return NotFound();
-            }
-            ViewData["SchedulationId"] = new SelectList(_context.Set<Schedulation>(), "Id", "Name", mailingPlan.SchedulationId);
-            return View(mailingPlan);
+            //var mailingPlan = await _context.MailingPlan.FindAsync(id);
+            //if (mailingPlan == null)
+            //{
+            //    return NotFound();
+            //}
+            //ViewData["SchedulationId"] = new SelectList(_context.Set<Schedulation>(), "Id", "Name", mailingPlan.SchedulationId);
+            //return View(mailingPlan);
+            throw new NotImplementedException();
         }
 
         // POST: MailingPlans/Edit/5
@@ -110,33 +111,34 @@ namespace FileToEmailLinker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ActiveState,Text,SchedulationId")] MailingPlan mailingPlan)
         {
-            if (id != mailingPlan.Id)
-            {
-                return NotFound();
-            }
+            //if (id != mailingPlan.Id)
+            //{
+            //    return NotFound();
+            //}
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(mailingPlan);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MailingPlanExists(mailingPlan.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["SchedulationId"] = new SelectList(_context.Set<Schedulation>(), "Id", "Id", mailingPlan.SchedulationId);
-            return View(mailingPlan);
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
+            //        _context.Update(mailingPlan);
+            //        await _context.SaveChangesAsync();
+            //    }
+            //    catch (DbUpdateConcurrencyException)
+            //    {
+            //        if (!MailingPlanExists(mailingPlan.Id))
+            //        {
+            //            return NotFound();
+            //        }
+            //        else
+            //        {
+            //            throw;
+            //        }
+            //    }
+            //    return RedirectToAction(nameof(Index));
+            //}
+            //ViewData["SchedulationId"] = new SelectList(_context.Set<Schedulation>(), "Id", "Id", mailingPlan.SchedulationId);
+            //return View(mailingPlan);
+            throw new NotImplementedException();
         }
 
         // GET: MailingPlans/Delete/5
@@ -148,7 +150,7 @@ namespace FileToEmailLinker.Controllers
             }
 
             var mailingPlan = await _context.MailingPlan
-                .Include(m => m.Schedulation)
+                //.Include(m => m.Schedulation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (mailingPlan == null)
             {

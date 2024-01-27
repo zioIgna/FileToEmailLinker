@@ -22,27 +22,29 @@ namespace FileToEmailLinker.Controllers
         // GET: Schedulations
         public async Task<IActionResult> Index()
         {
-              return _context.Schedulation != null ? 
-                          View(await _context.Schedulation.ToListAsync()) :
-                          Problem("Entity set 'FileToEmailLinkerContext.Schedulation'  is null.");
+              //return _context.Schedulation != null ? 
+              //            View(await _context.Schedulation.ToListAsync()) :
+              //            Problem("Entity set 'FileToEmailLinkerContext.Schedulation'  is null.");
+              throw new NotImplementedException();
         }
 
         // GET: Schedulations/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Schedulation == null)
-            {
-                return NotFound();
-            }
+            //if (id == null || _context.Schedulation == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var schedulation = await _context.Schedulation
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (schedulation == null)
-            {
-                return NotFound();
-            }
+            //var schedulation = await _context.Schedulation
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            //if (schedulation == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(schedulation);
+            //return View(schedulation);
+            throw new NotImplementedException();
         }
 
         // GET: Schedulations/Create
@@ -56,31 +58,32 @@ namespace FileToEmailLinker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Recurrence,Date,Time")] Schedulation schedulation)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(schedulation);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(schedulation);
-        }
+        //public async Task<IActionResult> Create([Bind("Id,Name,Recurrence,Date,Time")] Schedulation schedulation)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(schedulation);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(schedulation);
+        //}
 
         // GET: Schedulations/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Schedulation == null)
-            {
-                return NotFound();
-            }
+            //if (id == null || _context.Schedulation == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var schedulation = await _context.Schedulation.FindAsync(id);
-            if (schedulation == null)
-            {
-                return NotFound();
-            }
-            return View(schedulation);
+            //var schedulation = await _context.Schedulation.FindAsync(id);
+            //if (schedulation == null)
+            //{
+            //    return NotFound();
+            //}
+            //return View(schedulation);
+            throw new NotImplementedException();
         }
 
         // POST: Schedulations/Edit/5
@@ -88,52 +91,53 @@ namespace FileToEmailLinker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Recurrence,Date,Time")] Schedulation schedulation)
-        {
-            if (id != schedulation.Id)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Recurrence,Date,Time")] Schedulation schedulation)
+        //{
+        //    if (id != schedulation.Id)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(schedulation);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SchedulationExists(schedulation.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(schedulation);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(schedulation);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!SchedulationExists(schedulation.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(schedulation);
+        //}
 
         // GET: Schedulations/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Schedulation == null)
-            {
-                return NotFound();
-            }
+            //if (id == null || _context.Schedulation == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var schedulation = await _context.Schedulation
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (schedulation == null)
-            {
-                return NotFound();
-            }
+            //var schedulation = await _context.Schedulation
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            //if (schedulation == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(schedulation);
+            //return View(schedulation);
+            throw new NotImplementedException();
         }
 
         // POST: Schedulations/Delete/5
@@ -141,23 +145,25 @@ namespace FileToEmailLinker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Schedulation == null)
-            {
-                return Problem("Entity set 'FileToEmailLinkerContext.Schedulation'  is null.");
-            }
-            var schedulation = await _context.Schedulation.FindAsync(id);
-            if (schedulation != null)
-            {
-                _context.Schedulation.Remove(schedulation);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //if (_context.Schedulation == null)
+            //{
+            //    return Problem("Entity set 'FileToEmailLinkerContext.Schedulation'  is null.");
+            //}
+            //var schedulation = await _context.Schedulation.FindAsync(id);
+            //if (schedulation != null)
+            //{
+            //    _context.Schedulation.Remove(schedulation);
+            //}
+
+            //await _context.SaveChangesAsync();
+            //return RedirectToAction(nameof(Index));
+            throw new NotImplementedException();
         }
 
         private bool SchedulationExists(int id)
         {
-          return (_context.Schedulation?.Any(e => e.Id == id)).GetValueOrDefault();
+            //return (_context.Schedulation?.Any(e => e.Id == id)).GetValueOrDefault();
+            throw new NotImplementedException();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace FileToEmailLinker.Models.Entities
         //public ICollection<FileRef> FileNames { get; set; } = new List<FileRef>();
         public ICollection<Receiver> ReceiverList { get; set; } = new List<Receiver>();
         public int SchedulationId { get; set; }
-        public Schedulation? Schedulation { get; set; }
+        //public Schedulation? Schedulation { get; set; }
 
         //public string[] GetReceiverListArray()
         //{
