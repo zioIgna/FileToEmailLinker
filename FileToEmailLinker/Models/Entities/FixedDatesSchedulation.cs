@@ -2,6 +2,6 @@
 {
     public class FixedDatesSchedulation : Schedulation
     {
-        string DatesList { get; set; }
+        public string DatesList { get; set; }
     }
 }

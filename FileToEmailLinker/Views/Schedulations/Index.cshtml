@@ -12,12 +12,12 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+@*            <th>
                 @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
+            </th>*@
+@*            <th>
                 @Html.DisplayNameFor(model => model.Recurrence)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
@@ -30,12 +30,12 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+@*            <td>
                 @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
+            </td>*@
+@*            <td>
                 @Html.DisplayFor(modelItem => item.Recurrence)
-            </td>
+            </td>*@
             <td>
                     @item.Date?.ToString("dd/MM/yyyy")
             </td>

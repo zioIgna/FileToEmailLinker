@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Components.Web;
+using System.ComponentModel;
 
 namespace FileToEmailLinker.Models.Entities
 {
@@ -66,5 +67,29 @@ namespace FileToEmailLinker.Models.Entities
         public bool Thirty { get; set; }
         [DisplayName("31")]
         public bool Thirtyone { get; set; }
+        [DisplayName("Gennaio")]
+        public bool January { get; set; }
+        [DisplayName("Febbraio")]
+        public bool February { get; set; }
+        [DisplayName("Marzo")]
+        public bool March { get; set; }
+        [DisplayName("Aprile")]
+        public bool April { get; set; }
+        [DisplayName("Maggio")]
+        public bool May { get; set; }
+        [DisplayName("Giugno")]
+        public bool June { get; set; }
+        [DisplayName("Luglio")]
+        public bool July { get; set; }
+        [DisplayName("Agosto")]
+        public bool August { get; set; }
+        [DisplayName("Settambre")]
+        public bool September { get; set; }
+        [DisplayName("Ottobre")]
+        public bool October { get; set; }
+        [DisplayName("Novembre")]
+        public bool November { get; set; }
+        [DisplayName("Dicembre")]
+        public bool December { get; set; }
     }
 }

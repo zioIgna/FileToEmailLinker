@@ -32,7 +32,12 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         {
             IQueryable<Entities.MailingPlan> query = context.MailingPlan
                 .Include(mp => mp.ReceiverList)
-                .Where(mp => mp.SchedulationId == schedulationId);
+                .Include(mp => mp.WeeklySchedulation)
+                .Include(mp => mp.MonthlySchedulation)
+                .Include(mp => mp.FixedDatesSchedulation)
+                .Where(mp => mp.WeeklySchedulation.Id == schedulationId
+                    || mp.MonthlySchedulation.Id == schedulationId
+                    || mp.FixedDatesSchedulation.Id == schedulationId);
 
             return await query.FirstOrDefaultAsync();
         }
@@ -111,7 +116,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
                 }
             }
             var schedulation = new Entities.Schedulation();
-            schedulation.Name = model.Name;
+            //schedulation.Name = model.Name;
             schedulation.StartDate = DateOnly.FromDateTime( DateTime.Today);
             schedulation.EndDate = DateOnly.FromDateTime(DateTime.MaxValue);
             schedulation.Date = model.SchedDate;

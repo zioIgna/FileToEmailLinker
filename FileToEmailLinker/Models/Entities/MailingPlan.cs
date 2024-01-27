@@ -12,8 +12,10 @@ namespace FileToEmailLinker.Models.Entities
         public string FileStringList { get; set; }
         //public ICollection<FileRef> FileNames { get; set; } = new List<FileRef>();
         public ICollection<Receiver> ReceiverList { get; set; } = new List<Receiver>();
-        public int SchedulationId { get; set; }
-        //public Schedulation? Schedulation { get; set; }
+        //public int SchedulationId { get; set; }
+        public WeeklySchedulation? WeeklySchedulation { get; set; }
+        public MonthlySchedulation? MonthlySchedulation { get; set; }
+        public FixedDatesSchedulation? FixedDatesSchedulation { get; set; }
 
         //public string[] GetReceiverListArray()
         //{

@@ -48,13 +48,13 @@ namespace FileToEmailLinker.Models.Services.SchedulationChecker
                 Console.WriteLine($"I secondi mancanti alla {++ordinale}^ esecuzione sono {missingSeconds}");
                 if (missingSeconds >= 0)
                 {
-                    Console.WriteLine($"Impostato il timer per la schedulazione {schedulation.Name}");
+                    Console.WriteLine($"Impostato il timer per la schedulazione {schedulation.Id}"); //schedulation.Name
                     System.Timers.Timer timer = new System.Timers.Timer(missingSeconds * 1000);
                     timer.AutoReset = false;
                     timer.Enabled = true;
                     timer.Elapsed += (sender, e) =>
                     {
-                        Console.WriteLine($"La schedulazione riconosciuta è la {schedulation.Name}");
+                        Console.WriteLine($"La schedulazione riconosciuta è la {schedulation.Id}"); //schedulation.Name
                         try
                         {
                             mailSenderHostedService.EnqueueMailingPlan(schedulation.Id);
