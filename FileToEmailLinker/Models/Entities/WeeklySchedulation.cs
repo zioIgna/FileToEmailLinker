@@ -1,4 +1,6 @@
-﻿namespace FileToEmailLinker.Models.Entities
+﻿using FileToEmailLinker.Models.InputModels.Schedulations;
+
+namespace FileToEmailLinker.Models.Entities
 {
     public class WeeklySchedulation : Schedulation
     {

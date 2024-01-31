@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FileToEmailLinker.Models.Entities
 {
-    public class Schedulation
+    public class Schedulation : ISchedulation
     {
         public int Id { get; set; }
         //public string Name { get; set; } // = DateTime.Now.ToString();
@@ -16,6 +16,6 @@ namespace FileToEmailLinker.Models.Entities
         public DateOnly StartDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
         public DateOnly EndDate { get; set; } = DateOnly.MaxValue;
         public int MailingPlanId { get; set; }
-        public MailingPlan MailingPlan { get; set; }
+        public MailingPlan? MailingPlan { get; set; }
     }
 }

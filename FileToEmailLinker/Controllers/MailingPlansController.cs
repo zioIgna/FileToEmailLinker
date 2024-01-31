@@ -65,13 +65,16 @@ namespace FileToEmailLinker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(MailPlanCreateInputModel model)
+        public async Task<IActionResult> Create(MailPlanCreateInputModel model) //MailPlanCreateInputModel model
         {
             if (ModelState.IsValid)
             {
                 MailingPlan mailingPlan = await mailingPlanService.CreateMailingPlanAsync(model);
-                return RedirectToAction(nameof(Details), new {id = mailingPlan.Id });
+                return RedirectToAction(nameof(Details), new { id = mailingPlan.Id });
             }
+            string messages = string.Join("; ", ModelState.Values
+                                        .SelectMany(x => x.Errors)
+                                        .Select(x => x.ErrorMessage));
             return View(model);
         }
         //public async Task<IActionResult> Create([Bind("Id,Name,ActiveState,Text,SchedulationId")] MailingPlan mailingPlan)

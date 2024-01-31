@@ -1,5 +1,7 @@
 ﻿using FileToEmailLinker.Data;
+using FileToEmailLinker.Models.Entities;
 using FileToEmailLinker.Models.InputModels.MailPlans;
+using FileToEmailLinker.Models.InputModels.Schedulations;
 using FileToEmailLinker.Models.Services.Receiver;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -76,6 +78,9 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
                 receiversSelectList.Add(new SelectListItem { Text = receiver.Name + ' ' + receiver.Surname, Value = receiver.Id.ToString() });
             }
             mailPlanCreateInputModel.ReceiverSelectList = receiversSelectList;
+            WeeklyScheduleInputModel weeklySchedulation = new();
+            //WeeklySchedulation weeklySchedulation = new();
+            mailPlanCreateInputModel.WeeklySchedulation = weeklySchedulation;
 
             return mailPlanCreateInputModel;
         }
