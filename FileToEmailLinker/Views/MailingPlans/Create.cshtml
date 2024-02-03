@@ -10,8 +10,8 @@
 <h4>MailingPlan</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" method="post">
+    <form asp-action="Create" method="post">
+        <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -43,8 +43,6 @@
                     <label class="form-check-label" for="@elemId">@elem.Text</label>
                 </div>
             }
-@*                <select asp-for="FileSelectList" asp-asp-items="FileSelectList" class="form-control"></select>
-                <span asp-validation-for="FileSelectList" class="text-danger"></span>*@
             <div class="mt-2">Destinatari</div>
             @for(int i = 0; i< Model.ReceiverSelectList.Count; i++)
             {
@@ -55,12 +53,6 @@
                     <label class="form-check-label" for="@elemId">@elem.Text</label>
                 </div>
             }
-@*                <select asp-for="ReceiverSelectList" asp-asp-items="ReceiverSelectList" class="form-control"></select>
-                <span asp-validation-for="ReceiverSelectList" class="text-danger"></span>*@
-@*            <div class="form-group">
-                <label asp-for="SchedulationId" class="control-label"></label>
-                <select asp-for="SchedulationId" class ="form-control" asp-items="ViewBag.SchedulationId"></select>
-            </div>*@
             <div class="form-group">
                 <label asp-for="SchedDate" class="control-label"></label>
                 <input asp-for="SchedDate" class="form-control" type="date" />
@@ -71,38 +63,6 @@
                 <input asp-for="SchedTime" class="form-control" type="time" />
                 <span asp-validation-for="SchedTime" class="text-danger"></span>
             </div>
-@*            <div class="card">
-                <div class="card-body">
-                    <div class="form-check-inline">
-                        <input type="checkbox" class="form-check-input" asp-for="Monday" />
-                        <label class="form-check-label" for="Monday">Lunedì</label>
-                    </div>
-                    <div class="form-check-inline">
-                        <input type="checkbox" class="form-check-input" asp-for="Tuesday" />
-                        <label class="form-check-label" for="Tuesday">Martedì</label>
-                    </div>
-                    <div class="form-check-inline">
-                        <input type="checkbox" class="form-check-input" asp-for="Wednesday" />
-                        <label class="form-check-label" for="Wednesday">Mercoledì</label>
-                    </div>
-                    <div class="form-check-inline">
-                        <input type="checkbox" class="form-check-input" asp-for="Thursday" />
-                        <label class="form-check-label" for="Thursday">Giovedì</label>
-                    </div>
-                    <div class="form-check-inline">
-                        <input type="checkbox" class="form-check-input" asp-for="Friday" />
-                        <label class="form-check-label" for="Friday">Venerdì</label>
-                    </div>
-                    <div class="form-check-inline">
-                        <input type="checkbox" class="form-check-input" asp-for="Saturday" />
-                        <label class="form-check-label" for="Saturday">Sabato</label>
-                    </div>
-                    <div class="form-check-inline">
-                        <input type="checkbox" class="form-check-input" asp-for="Sunday" />
-                        <label class="form-check-label" for="Sunday">Domenica</label>
-                    </div>
-                </div>
-            </div>*@
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
                 <input asp-for="StartDate" class="form-control" type="date" />
@@ -113,17 +73,24 @@
                 <input asp-for="EndDate" class="form-control" type="date" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
-            <a type="button" class="btn btn-outline-primary" asp-action="AddWeeklyScheduleInputModel" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#schedulationSelection">Settimanale<i class="bi bi-calendar-day"></i></a>
-            <a type="button" class="btn btn-outline-primary" asp-action="SchedulationSelect" aps-route-schedType="monthly" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#schedulationSelection">Mensile<i class="bi bi-calendar-week"></i></a>
+        </div>
+        <div>
+            <hr />
+            <h6>Selezionare il tipo di schedulazione:</h6>
+            <div class="mb-3">
+                <a class="btn btn-outline-primary" asp-action="AddWeeklyScheduleInputModel" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#schedulationSelection">Settimanale<i class="bi bi-calendar-day ms-2"></i></a>
+                <a class="btn btn-outline-primary" asp-action="SchedulationSelect" aps-route-schedType="monthly" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#schedulationSelection">Mensile<i class="bi bi-calendar-week ms-2"></i></a>
+            </div>
             <div id="schedulationSelection">
                 <!--Partial View area-->
                 @*<partial name="/Views/Schedulations/_WeeklySchedulation.cshtml" model="@Model.WeeklySchedulation"></partial>*@
             </div>
+            <hr />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 
 <div>
