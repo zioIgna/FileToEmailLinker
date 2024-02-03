@@ -84,6 +84,13 @@ namespace FileToEmailLinker.Controllers
             WeeklyScheduleInputModel model = new();
             return PartialView("/Views/Schedulations/_WeeklySchedulation.cshtml", model);
         }
+
+        public IActionResult AddMonthlyScheduleInputModel()
+        {
+            MonthlyScheduleInputModel model = new();
+            return PartialView("/Views/Schedulations/_MonthlySchedulation.cshtml", model);
+        }
+
         //public async Task<IActionResult> Create([Bind("Id,Name,ActiveState,Text,SchedulationId")] MailingPlan mailingPlan)
         //{
         //    if (ModelState.IsValid)
