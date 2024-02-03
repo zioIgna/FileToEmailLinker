@@ -22,7 +22,7 @@ namespace FileToEmailLinker.Models.InputModels.MailPlans
         public DateOnly? SchedDate { get; set; }
         public TimeOnly SchedTime { get; set; }
         public WeeklyScheduleInputModel? WeeklySchedulation { get; set; }
-        public MonthlySchedulation? MonthlySchedulation { get; set; }
+        public MonthlyScheduleInputModel? MonthlySchedulation { get; set; }
         //public List<bool> WeekDays { get; set; }
         //public string? modello_MondayStr { get; set; }
         //public string? modello_TuesdayStr { get; set; }

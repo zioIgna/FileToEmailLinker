@@ -9,6 +9,7 @@ using FileToEmailLinker.Data;
 using FileToEmailLinker.Models.Entities;
 using FileToEmailLinker.Models.Services.MailingPlan;
 using FileToEmailLinker.Models.InputModels.MailPlans;
+using FileToEmailLinker.Models.InputModels.Schedulations;
 
 namespace FileToEmailLinker.Controllers
 {
@@ -76,6 +77,12 @@ namespace FileToEmailLinker.Controllers
                                         .SelectMany(x => x.Errors)
                                         .Select(x => x.ErrorMessage));
             return View(model);
+        }
+
+        public IActionResult AddWeeklyScheduleInputModel()
+        {
+            WeeklyScheduleInputModel model = new();
+            throw new NotImplementedException();
         }
         //public async Task<IActionResult> Create([Bind("Id,Name,ActiveState,Text,SchedulationId")] MailingPlan mailingPlan)
         //{
