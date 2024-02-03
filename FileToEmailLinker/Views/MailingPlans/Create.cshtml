@@ -113,11 +113,11 @@
                 <input asp-for="EndDate" class="form-control" type="date" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
-            <button type="button" class="btn btn-outline-primary" asp-action="SchedulationSelect" aps-route-schedType="weekly">Settimanale<i class="bi bi-calendar-day"></i></button>
-            <button type="button" class="btn btn-outline-primary" asp-action="SchedulationSelect" aps-route-schedType="monthly">Mensile<i class="bi bi-calendar-week"></i></button>
+            <a type="button" class="btn btn-outline-primary" asp-action="AddWeeklyScheduleInputModel" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#schedulationSelection">Settimanale<i class="bi bi-calendar-day"></i></a>
+            <a type="button" class="btn btn-outline-primary" asp-action="SchedulationSelect" aps-route-schedType="monthly" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#schedulationSelection">Mensile<i class="bi bi-calendar-week"></i></a>
             <div id="schedulationSelection">
                 <!--Partial View area-->
-                <partial name="/Views/Schedulations/_WeeklySchedulation.cshtml" model="@Model.WeeklySchedulation"></partial>
+                @*<partial name="/Views/Schedulations/_WeeklySchedulation.cshtml" model="@Model.WeeklySchedulation"></partial>*@
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

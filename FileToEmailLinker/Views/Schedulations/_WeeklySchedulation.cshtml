@@ -1,61 +1,34 @@
 ﻿@using FileToEmailLinker.Models.InputModels.Schedulations;
-@*@model FileToEmailLinker.Models.InputModels.MailPlans.MailPlanCreateInputModel*@
 @model WeeklyScheduleInputModel
-
-@{
-    //var modello = (WeeklySchedulation)Model.Schedulation;
-    var modello = Model;
-}
 
 <div class="row">
     <div class="col-7">
         <div class="col">
             <input type="checkbox" id="WeeklySchedulation.Monday" name="WeeklySchedulation.Monday" value="true" />
-            @*<input type="checkbox" asp-for="@Model.Monday" value="true"/>*@
-            @*<input type="checkbox" name="@modello.WeekDays" id="@modello.WeekDays" />*@
-            @*<input type="hidden" asp-for="@modello.MondayStr" value="Monday"/>*@
             <label for="WeeklySchedulation.Monday" class="control-label">Monday</label>
         </div>
         <div class="col">
             <input type="checkbox" id="WeeklySchedulation.Tuesday" name="WeeklySchedulation.Tuesday" value="true" />
-            @*<input type="checkbox" asp-for="@Model.Tuesday" value="true" />*@
-            @*<input type="hidden" asp-for="@modello.TuesdayStr" value="Tuesday"/>*@
-            @*<label asp-for="@Model.Tuesday" class="control-label"></label>*@
             <label for="WeeklySchedulation.Tuesday" class="control-label">Tuesday</label>
         </div>
         <div class="col">
             <input type="checkbox" id="WeeklySchedulation.Wednesday" name="WeeklySchedulation.Wednesday" value="true" />
-            @*<input type="checkbox" asp-for="@Model.Wednesday" value="true" />*@
-            @*<input type="hidden" asp-for="@modello.WednesdayStr" value="Wednesday"/>*@
-            @*<label asp-for="@Model.Wednesday" class="control-label"></label>*@
             <label for="WeeklySchedulation.Wednesday" class="control-label">Wednesday</label>
         </div>
         <div class="col">
             <input type="checkbox" id="WeeklySchedulation.Thursday" name="WeeklySchedulation.Thursday" value="true" />
-            @*<input type="checkbox" asp-for="@Model.Thursday" value="true" />*@
-            @*<input type="hidden" asp-for="@modello.ThursdayStr" value="Thursday"/>*@
-            @*<label asp-for="@Model.Thursday" class="control-label"></label>*@
             <label for="WeeklySchedulation.Thursday" class="control-label">Thursday</label>
         </div>
         <div class="col">
             <input type="checkbox" id="WeeklySchedulation.Friday" name="WeeklySchedulation.Friday" value="true" />
-            @*<input type="checkbox" asp-for="@Model.Friday" value="true" />*@
-            @*<input type="hidden" asp-for="@modello.FridayStr" value="Friday"/>*@
-            @*<label asp-for="@Model.Friday" class="control-label"></label>*@
             <label for="WeeklySchedulation.Friday" class="control-label">Friday</label>
         </div>
         <div class="col">
             <input type="checkbox" id="WeeklySchedulation.Saturday" name="WeeklySchedulation.Saturday" value="true" />
-            @*<input type="checkbox" asp-for="@Model.Saturday" value="true" />*@
-            @*<input type="hidden" asp-for="@modello.SaturdayStr" value="Saturday"/>*@
-            @*<label asp-for="@Model.Saturday" class="control-label"></label>*@
             <label for="WeeklySchedulation.Saturday" class="control-label">Saturday</label>
         </div>
         <div class="col">
             <input type="checkbox" id="WeeklySchedulation.Sunday" name="WeeklySchedulation.Sunday" value="true" />
-            @*<input type="checkbox" asp-for="@Model.Sunday" value="true" />*@
-            @*<input type="hidden" asp-for="@modello.SundayStr" value="Sunday"/>*@
-            @*<label asp-for="@Model.Sunday" class="control-label"></label>*@
             <label for="WeeklySchedulation.Sunday" class="control-label">Sunday</label>
         </div>
     </div>

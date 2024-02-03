@@ -82,7 +82,7 @@ namespace FileToEmailLinker.Controllers
         public IActionResult AddWeeklyScheduleInputModel()
         {
             WeeklyScheduleInputModel model = new();
-            throw new NotImplementedException();
+            return PartialView("/Views/Schedulations/_WeeklySchedulation.cshtml", model);
         }
         //public async Task<IActionResult> Create([Bind("Id,Name,ActiveState,Text,SchedulationId")] MailingPlan mailingPlan)
         //{
