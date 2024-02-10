@@ -78,9 +78,9 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
                 receiversSelectList.Add(new SelectListItem { Text = receiver.Name + ' ' + receiver.Surname, Value = receiver.Id.ToString() });
             }
             mailPlanCreateInputModel.ReceiverSelectList = receiversSelectList;
-            WeeklyScheduleInputModel weeklySchedulation = new();
+            //WeeklyScheduleInputModel weeklySchedulation = new();
             //WeeklySchedulation weeklySchedulation = new();
-            mailPlanCreateInputModel.WeeklySchedulation = weeklySchedulation;
+            //mailPlanCreateInputModel.WeeklySchedulation = weeklySchedulation;
 
             return mailPlanCreateInputModel;
         }
@@ -120,11 +120,30 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
                     mailingPlan.ReceiverList.Add(receiverEntity);
                 }
             }
-            var schedulation = new Entities.Schedulation();
+
+            Entities.Schedulation schedulation;
+            if(model.WeeklySchedulation != null)
+            {
+                schedulation = SetWeeklySchedulation(model);
+                mailingPlan.WeeklySchedulation = (WeeklySchedulation?)schedulation;
+            }
+            else if(model.MonthlySchedulation != null)
+            {
+                schedulation = SetMonthlySchedulation(model);
+                mailingPlan.MonthlySchedulation = (MonthlySchedulation?)schedulation;
+            }
+            else
+            {
+                //schedulation = new Entities.FixedDatesSchedulation();
+                //schedulation.Date = model.SchedDate;
+                //mailingPlan.FixedDatesSchedulation = (FixedDatesSchedulation?)schedulation;
+                throw new Exception("Non è stata selezionata una schedulazione");
+            }
+
+            //var schedulation = new Entities.Schedulation();
             //schedulation.Name = model.Name;
-            schedulation.StartDate = DateOnly.FromDateTime( DateTime.Today);
-            schedulation.EndDate = DateOnly.FromDateTime(DateTime.MaxValue);
-            schedulation.Date = model.SchedDate;
+            //schedulation.StartDate = DateOnly.FromDateTime( DateTime.Today);
+            //schedulation.EndDate = DateOnly.FromDateTime(DateTime.MaxValue);
             //schedulation.Monday = model.Monday;
             //schedulation.Tuesday = model.Tuesday;
             //schedulation.Wednesday = model.Wednesday;
@@ -143,6 +162,68 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             await context.SaveChangesAsync();
 
             return mailingPlan;
+        }
+
+        private static Entities.Schedulation SetMonthlySchedulation(MailPlanCreateInputModel model)
+        {
+            Entities.Schedulation schedulation = new MonthlySchedulation();
+            ((MonthlySchedulation)schedulation).One = model.MonthlySchedulation.One;
+            ((MonthlySchedulation)schedulation).Two = model.MonthlySchedulation.Two;
+            ((MonthlySchedulation)schedulation).Three = model.MonthlySchedulation.Three;
+            ((MonthlySchedulation)schedulation).Four = model.MonthlySchedulation.Four;
+            ((MonthlySchedulation)schedulation).Five = model.MonthlySchedulation.Five;
+            ((MonthlySchedulation)schedulation).Six = model.MonthlySchedulation.Six;
+            ((MonthlySchedulation)schedulation).Seven = model.MonthlySchedulation.Seven;
+            ((MonthlySchedulation)schedulation).Eight = model.MonthlySchedulation.Eight;
+            ((MonthlySchedulation)schedulation).Nine = model.MonthlySchedulation.Nine;
+            ((MonthlySchedulation)schedulation).Ten = model.MonthlySchedulation.Ten;
+            ((MonthlySchedulation)schedulation).Eleven = model.MonthlySchedulation.Eleven;
+            ((MonthlySchedulation)schedulation).Twelve = model.MonthlySchedulation.Twelve;
+            ((MonthlySchedulation)schedulation).Thirteen = model.MonthlySchedulation.Thirteen;
+            ((MonthlySchedulation)schedulation).Fourteen = model.MonthlySchedulation.Fourteen;
+            ((MonthlySchedulation)schedulation).Fifteen = model.MonthlySchedulation.Fifteen;
+            ((MonthlySchedulation)schedulation).Sixteen = model.MonthlySchedulation.Sixteen;
+            ((MonthlySchedulation)schedulation).Seventeen = model.MonthlySchedulation.Seventeen;
+            ((MonthlySchedulation)schedulation).Eighteen = model.MonthlySchedulation.Eighteen;
+            ((MonthlySchedulation)schedulation).Nineteen = model.MonthlySchedulation.Nineteen;
+            ((MonthlySchedulation)schedulation).Twenty = model.MonthlySchedulation.Twenty;
+            ((MonthlySchedulation)schedulation).Twentyone = model.MonthlySchedulation.Twentyone;
+            ((MonthlySchedulation)schedulation).Twentytwo = model.MonthlySchedulation.Twentytwo;
+            ((MonthlySchedulation)schedulation).Twentythree = model.MonthlySchedulation.Twentythree;
+            ((MonthlySchedulation)schedulation).Twentyfour = model.MonthlySchedulation.Twentyfour;
+            ((MonthlySchedulation)schedulation).Twentyfive = model.MonthlySchedulation.Twentyfive;
+            ((MonthlySchedulation)schedulation).Twentysix = model.MonthlySchedulation.Twentysix;
+            ((MonthlySchedulation)schedulation).Twentyseven = model.MonthlySchedulation.Twentyseven;
+            ((MonthlySchedulation)schedulation).Twentyeight = model.MonthlySchedulation.Twentyeight;
+            ((MonthlySchedulation)schedulation).Twentynine = model.MonthlySchedulation.Twentynine;
+            ((MonthlySchedulation)schedulation).Thirty = model.MonthlySchedulation.Thirty;
+            ((MonthlySchedulation)schedulation).Thirtyone = model.MonthlySchedulation.Thirtyone;
+            ((MonthlySchedulation)schedulation).January = model.MonthlySchedulation.January;
+            ((MonthlySchedulation)schedulation).February = model.MonthlySchedulation.February;
+            ((MonthlySchedulation)schedulation).March = model.MonthlySchedulation.March;
+            ((MonthlySchedulation)schedulation).April = model.MonthlySchedulation.April;
+            ((MonthlySchedulation)schedulation).May = model.MonthlySchedulation.May;
+            ((MonthlySchedulation)schedulation).June = model.MonthlySchedulation.June;
+            ((MonthlySchedulation)schedulation).July = model.MonthlySchedulation.July;
+            ((MonthlySchedulation)schedulation).August = model.MonthlySchedulation.August;
+            ((MonthlySchedulation)schedulation).September = model.MonthlySchedulation.September;
+            ((MonthlySchedulation)schedulation).October = model.MonthlySchedulation.October;
+            ((MonthlySchedulation)schedulation).November = model.MonthlySchedulation.November;
+            ((MonthlySchedulation)schedulation).December = model.MonthlySchedulation.December;
+            return schedulation;
+        }
+
+        private static Entities.Schedulation SetWeeklySchedulation(MailPlanCreateInputModel model)
+        {
+            Entities.Schedulation schedulation = new WeeklySchedulation();
+            ((WeeklySchedulation)schedulation).Monday = model.WeeklySchedulation.Monday;
+            ((WeeklySchedulation)schedulation).Tuesday = model.WeeklySchedulation.Tuesday;
+            ((WeeklySchedulation)schedulation).Wednesday = model.WeeklySchedulation.Wednesday;
+            ((WeeklySchedulation)schedulation).Thursday = model.WeeklySchedulation.Thursday;
+            ((WeeklySchedulation)schedulation).Friday = model.WeeklySchedulation.Friday;
+            ((WeeklySchedulation)schedulation).Saturday = model.WeeklySchedulation.Saturday;
+            ((WeeklySchedulation)schedulation).Sunday = model.WeeklySchedulation.Sunday;
+            return schedulation;
         }
     }
 }

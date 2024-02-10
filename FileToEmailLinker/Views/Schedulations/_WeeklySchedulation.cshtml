@@ -1,33 +1,43 @@
 ﻿@using FileToEmailLinker.Models.InputModels.Schedulations;
 @model WeeklyScheduleInputModel
 
-<div class="row">
-    <div class="col form-check">
-        <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Monday" name="WeeklySchedulation.Monday" value="true" />
-        <label class="form-check-label" for="WeeklySchedulation.Monday">Monday</label>
-    </div>
-    <div class="col form-check">
-        <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Tuesday" name="WeeklySchedulation.Tuesday" value="true" />
-        <label class="form-check-label" for="WeeklySchedulation.Tuesday">Tuesday</label>
-    </div>
-    <div class="col form-check">
-        <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Wednesday" name="WeeklySchedulation.Wednesday" value="true" />
-        <label class="form-check-label" for="WeeklySchedulation.Wednesday">Wednesday</label>
-    </div>
-    <div class="col form-check">
-        <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Thursday" name="WeeklySchedulation.Thursday" value="true" />
-        <label class="form-check-label" for="WeeklySchedulation.Thursday">Thursday</label>
-    </div>
-    <div class="col form-check">
-        <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Friday" name="WeeklySchedulation.Friday" value="true" />
-        <label class="form-check-label" for="WeeklySchedulation.Friday">Friday</label>
-    </div>
-    <div class="col form-check">
-        <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Saturday" name="WeeklySchedulation.Saturday" value="true" />
-        <label class="form-check-label" for="WeeklySchedulation.Saturday">Saturday</label>
-    </div>
-    <div class="col form-check">
-        <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Sunday" name="WeeklySchedulation.Sunday" value="true" />
-        <label class="form-check-label" for="WeeklySchedulation.Sunday">Sunday</label>
+<div class="card ps-2">
+    <div class="card-body">
+        <div class="card-text">
+            <h4>Ricorrenza Settimanale</h4>
+            <h5 class="mb-2">
+                Selezionare i giorni:
+            </h5>
+        </div>
+        <div class="row d-flex">
+            <div class="col form-check">
+                <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Monday" name="WeeklySchedulation.Monday" value="true" />
+                <label class="form-check-label" for="WeeklySchedulation.Monday">Monday</label>
+            </div>
+            <div class="col form-check">
+                <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Tuesday" name="WeeklySchedulation.Tuesday" value="true" />
+                <label class="form-check-label" for="WeeklySchedulation.Tuesday">Tuesday</label>
+            </div>
+            <div class="col form-check">
+                <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Wednesday" name="WeeklySchedulation.Wednesday" value="true" />
+                <label class="form-check-label" for="WeeklySchedulation.Wednesday">Wednesday</label>
+            </div>
+            <div class="col form-check">
+                <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Thursday" name="WeeklySchedulation.Thursday" value="true" />
+                <label class="form-check-label" for="WeeklySchedulation.Thursday">Thursday</label>
+            </div>
+            <div class="col form-check">
+                <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Friday" name="WeeklySchedulation.Friday" value="true" />
+                <label class="form-check-label" for="WeeklySchedulation.Friday">Friday</label>
+            </div>
+            <div class="col form-check">
+                <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Saturday" name="WeeklySchedulation.Saturday" value="true" />
+                <label class="form-check-label" for="WeeklySchedulation.Saturday">Saturday</label>
+            </div>
+            <div class="col form-check">
+                <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Sunday" name="WeeklySchedulation.Sunday" value="true" />
+                <label class="form-check-label" for="WeeklySchedulation.Sunday">Sunday</label>
+            </div>
+        </div>
     </div>
 </div>

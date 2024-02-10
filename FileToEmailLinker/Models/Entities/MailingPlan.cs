@@ -17,6 +17,8 @@ namespace FileToEmailLinker.Models.Entities
         public MonthlySchedulation? MonthlySchedulation { get; set; }
         public FixedDatesSchedulation? FixedDatesSchedulation { get; set; }
 
+        //public Schedulation? Schedulation { get; set; }
+
         //public string[] GetReceiverListArray()
         //{
         //    var list = new List<string>();
