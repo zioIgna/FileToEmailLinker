@@ -11,7 +11,8 @@ namespace FileToEmailLinker.Models.InputModels.MailPlans
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public ActiveState ActiveState { get; set; }
+        //public ActiveState ActiveState { get; set; }
+        public bool ActiveState { get; set; }
         public string Text { get; set; } = string.Empty;
         public string Subject { get; set; } = string.Empty;
         public List<string> FilesSelection { get; set; }

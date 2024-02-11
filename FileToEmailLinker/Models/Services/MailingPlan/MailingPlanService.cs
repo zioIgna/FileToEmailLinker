@@ -86,7 +86,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         {
             Entities.MailingPlan mailingPlan = new();
             mailingPlan.Name = model.Name;
-            mailingPlan.ActiveState = Enums.ActiveState.Active;
+            mailingPlan.ActiveState = model.ActiveState? Enums.ActiveState.Active : Enums.ActiveState.Suspended;
             mailingPlan.Text = model.Text;
             mailingPlan.Subject = model.Subject;
             if(model.FilesSelection != null && model.FilesSelection.Count > 0) 

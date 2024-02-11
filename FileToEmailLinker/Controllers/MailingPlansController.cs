@@ -10,6 +10,7 @@ using FileToEmailLinker.Models.Entities;
 using FileToEmailLinker.Models.Services.MailingPlan;
 using FileToEmailLinker.Models.InputModels.MailPlans;
 using FileToEmailLinker.Models.InputModels.Schedulations;
+using Org.BouncyCastle.Bcpg;
 
 namespace FileToEmailLinker.Controllers
 {
@@ -68,6 +69,14 @@ namespace FileToEmailLinker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MailPlanCreateInputModel model) //MailPlanCreateInputModel model
         {
+            if(model.WeeklySchedulation == null && model.MonthlySchedulation == null)
+            {
+                ModelState.AddModelError(nameof(model.WeeklySchedulation), "Non sono stati selezionati giorni per l'invio");
+            }
+            else if (model.MonthlySchedulation != null && !DayAndMonthSelected(model.MonthlySchedulation))
+            {
+                ModelState.AddModelError(nameof(model.MonthlySchedulation), "Selezionare almeno un giorno e un mese per la schedulazione mensile");
+            }
             if (ModelState.IsValid)
             {
                 MailingPlan mailingPlan = await mailingPlanService.CreateMailingPlanAsync(model);
@@ -76,7 +85,81 @@ namespace FileToEmailLinker.Controllers
             string messages = string.Join("; ", ModelState.Values
                                         .SelectMany(x => x.Errors)
                                         .Select(x => x.ErrorMessage));
-            return View(model);
+            MailPlanCreateInputModel restoredModel = await mailingPlanService.CreateMailPlanInputModelAsync();
+            restoredModel.Name = model.Name;
+            restoredModel.ActiveState = model.ActiveState;
+            restoredModel.Subject = model.Subject;
+            restoredModel.Text = model.Text;
+            restoredModel.SchedTime = model.SchedTime;
+            restoredModel.StartDate = model.StartDate;
+            restoredModel.EndDate = model.EndDate;
+            foreach(var originalAttachment in model.FilesSelection)
+            {
+                var restoredAttachment = restoredModel.FileSelectList.FirstOrDefault(file => file.Value.Equals(originalAttachment));
+                if(restoredAttachment == null)
+                {
+                    throw new Exception("Attachment not found");
+                }
+                restoredAttachment.Selected = true;
+            }
+            foreach(var originalRecipient in model.ReceiversSelection)
+            {
+                var restoredRecipient = restoredModel.ReceiverSelectList.FirstOrDefault(recepient => recepient.Value.Equals(originalRecipient));
+                if(restoredRecipient == null)
+                {
+                    throw new Exception("Recipient not found");
+                }
+                restoredRecipient.Selected = true;
+            }
+            return View(restoredModel);
+        }
+
+        private bool DayAndMonthSelected(MonthlyScheduleInputModel monthlySchedulation)
+        {
+            return (
+                (monthlySchedulation.One ||
+                monthlySchedulation.Two ||
+                monthlySchedulation.Three ||
+                monthlySchedulation.Four ||
+                monthlySchedulation.Five ||
+                monthlySchedulation.Six ||
+                monthlySchedulation.Seven ||
+                monthlySchedulation.Eight ||
+                monthlySchedulation.Nine ||
+                monthlySchedulation.Ten ||
+                monthlySchedulation.Eleven ||
+                monthlySchedulation.Twelve ||
+                monthlySchedulation.Thirteen ||
+                monthlySchedulation.Fourteen ||
+                monthlySchedulation.Fifteen ||
+                monthlySchedulation.Sixteen ||
+                monthlySchedulation.Seventeen ||
+                monthlySchedulation.Eighteen ||
+                monthlySchedulation.Nineteen ||
+                monthlySchedulation.Twenty ||
+                monthlySchedulation.Twentyone ||
+                monthlySchedulation.Twentytwo ||
+                monthlySchedulation.Twentythree ||
+                monthlySchedulation.Twentyfour ||
+                monthlySchedulation.Twentyfive ||
+                monthlySchedulation.Twentysix ||
+                monthlySchedulation.Twentyseven ||
+                monthlySchedulation.Twentyeight ||
+                monthlySchedulation.Twentynine ||
+                monthlySchedulation.Thirty ||
+                monthlySchedulation.Thirtyone) &&
+                (monthlySchedulation.January||
+                monthlySchedulation.February||
+                monthlySchedulation.March||
+                monthlySchedulation.April||
+                monthlySchedulation.May||
+                monthlySchedulation.June||
+                monthlySchedulation.July||
+                monthlySchedulation.August||
+                monthlySchedulation.September||
+                monthlySchedulation.October||
+                monthlySchedulation.November||
+                monthlySchedulation.December));
         }
 
         public IActionResult AddWeeklyScheduleInputModel()
