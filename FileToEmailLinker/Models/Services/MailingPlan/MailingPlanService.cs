@@ -78,9 +78,6 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
                 receiversSelectList.Add(new SelectListItem { Text = receiver.Name + ' ' + receiver.Surname, Value = receiver.Id.ToString() });
             }
             mailPlanCreateInputModel.ReceiverSelectList = receiversSelectList;
-            //WeeklyScheduleInputModel weeklySchedulation = new();
-            //WeeklySchedulation weeklySchedulation = new();
-            //mailPlanCreateInputModel.WeeklySchedulation = weeklySchedulation;
 
             return mailPlanCreateInputModel;
         }
@@ -134,29 +131,12 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             }
             else
             {
-                //schedulation = new Entities.FixedDatesSchedulation();
-                //schedulation.Date = model.SchedDate;
-                //mailingPlan.FixedDatesSchedulation = (FixedDatesSchedulation?)schedulation;
                 throw new Exception("Non è stata selezionata una schedulazione");
             }
 
-            //var schedulation = new Entities.Schedulation();
-            //schedulation.Name = model.Name;
-            //schedulation.StartDate = DateOnly.FromDateTime( DateTime.Today);
-            //schedulation.EndDate = DateOnly.FromDateTime(DateTime.MaxValue);
-            //schedulation.Monday = model.Monday;
-            //schedulation.Tuesday = model.Tuesday;
-            //schedulation.Wednesday = model.Wednesday;
-            //schedulation.Thursday = model.Thursday;
-            //schedulation.Friday = model.Friday;
-            //schedulation.Saturday = model.Saturday;
-            //schedulation.Sunday = model.Sunday;
             schedulation.Time = model.SchedTime;
-
             schedulation.StartDate = model.StartDate;
             schedulation.EndDate = model.EndDate;
-
-            //mailingPlan.Schedulation = schedulation;
 
             context.Add(mailingPlan);
             await context.SaveChangesAsync();

@@ -1,210 +1,204 @@
 ﻿@using FileToEmailLinker.Models.InputModels.Schedulations;
 @model MonthlyScheduleInputModel
 
-@*<div class="container">*@
-    <div class="card">
-        <div class="card-body">
-            <h4>Ricorrenza Mensile</h4>
-    @*        <div class="card-text">
-                <h4>Ricorrenza Mensile</h4>
-                <h5 class="mb-2">
-                    Selezionare i giorni:
-                </h5>
-            </div>*@
-            <div class="row">
-                <div class="col-sm-8">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-text">Selezionare i giorni</h5>
-                            <div class="d-flex row">
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.One" name="MonthlySchedulation.One" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.One">1</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Two" name="MonthlySchedulation.Two" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Two">2</label>
-                                </div>
-                                    <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Three" name="MonthlySchedulation.Three" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Three">3</label>
-                                </div>
-                                    <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Four" name="MonthlySchedulation.Four" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Four">4</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Five" name="MonthlySchedulation.Five" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Five">5</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Six" name="MonthlySchedulation.Six" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Six">6</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Seven" name="MonthlySchedulation.Seven" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Seven">7</label>
-                                </div>
-                                    <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Eight" name="MonthlySchedulation.Eight" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Eight">8</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Nine" name="MonthlySchedulation.Nine" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Nine">9</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Ten" name="MonthlySchedulation.Ten" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Ten">10</label>
-                                </div>
-                                    <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Eleven" name="MonthlySchedulation.Eleven" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Eleven">11</label>
-                                </div>
-                                    <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twelve" name="MonthlySchedulation.Twelve" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Twelve">12</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Thirteen" name="MonthlySchedulation.Thirteen" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Thirteen">13</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Fourteen" name="MonthlySchedulation.Fourteen" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Fourteen">14</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Fifteen" name="MonthlySchedulation.Fifteen" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Fifteen">15</label>
-                                </div>
-                                    <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Sixteen" name="MonthlySchedulation.Sixteen" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Sixteen">16</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Seventeen" name="MonthlySchedulation.Seventeen" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Seventeen">17</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Eithteen" name="MonthlySchedulation.Eithteen" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Eithteen">18</label>
-                                </div>
-                                    <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Nineteen" name="MonthlySchedulation.Nineteen" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Nineteen">19</label>
-                                </div>
-                                    <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twenty" name="MonthlySchedulation.Twenty" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Twenty">20</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentyone" name="MonthlySchedulation.Twentyone" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Twentyone">21</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentytwo" name="MonthlySchedulation.Twentytwo" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Twentytwo">22</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentythree" name="MonthlySchedulation.Twentythree" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Twentythree">23</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentyfour" name="MonthlySchedulation.Twentyfour" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Twentyfour">24</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentyfive" name="MonthlySchedulation.Twentyfive" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Twentyfive">25</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentysix" name="MonthlySchedulation.Twentysix" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Twentysix">26</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentyseven" name="MonthlySchedulation.Twentyseven" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Twentyseven">27</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentyeight" name="MonthlySchedulation.Twentyeight" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Twentyeight">28</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentynine" name="MonthlySchedulation.Twentynine" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Twentynine">29</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Thirty" name="MonthlySchedulation.Thirty" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Thirty">30</label>
-                                </div>
-                                <div class="col form-check">
-                                    <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Thirtyone" name="MonthlySchedulation.Thirtyone" value="true" />
-                                    <label class="form-check-label" for="MonthlySchedulation.Thirtyone">31</label>
-                                </div>
-                            </div>
-                        </div>
+<h4>Ricorrenza Mensile</h4>
+<div class="row row-cols-2">
+    <div class="col-8">
+        <div class="card bg-light">
+            <div class="card-body ms-3">
+                <h5 class="card-text">Selezionare i giorni</h5>
+                <div class="d-flex row">
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.One" name="MonthlySchedulation.One" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.One">1</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Two" name="MonthlySchedulation.Two" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Two">2</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Three" name="MonthlySchedulation.Three" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Three">3</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Four" name="MonthlySchedulation.Four" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Four">4</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Five" name="MonthlySchedulation.Five" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Five">5</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Six" name="MonthlySchedulation.Six" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Six">6</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Seven" name="MonthlySchedulation.Seven" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Seven">7</label>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-text">Selezionare i mesi</h5>
-                            @*<div class="row d-flex">*@
-                                <div class="row row-cols-1 row-cols-md-2">
-                                    <div class="col form-check">
-                                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.January" name="MonthlySchedulation.January" value="true" />
-                                        <label class="form-check-label" for="MonthlySchedulation.January">Gennaio</label>
-                                    </div>
-                                    <div class="col form-check">
-                                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.February" name="MonthlySchedulation.February" value="true" />
-                                        <label class="form-check-label" for="MonthlySchedulation.February">Febbraio</label>
-                                    </div>
-                                    <div class="col form-check">
-                                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.March" name="MonthlySchedulation.March" value="true" />
-                                        <label class="form-check-label" for="MonthlySchedulation.March">Marzo</label>
-                                    </div>
-                                    <div class="col form-check">
-                                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.April" name="MonthlySchedulation.April" value="true" />
-                                        <label class="form-check-label" for="MonthlySchedulation.April">Aprile</label>
-                                    </div>
-                                    <div class="col form-check">
-                                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.May" name="MonthlySchedulation.May" value="true" />
-                                        <label class="form-check-label" for="MonthlySchedulation.May">Maggio</label>
-                                    </div>
-                                    <div class="col form-check">
-                                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.June" name="MonthlySchedulation.June" value="true" />
-                                        <label class="form-check-label" for="MonthlySchedulation.June">Giugno</label>
-                                    </div>
-                                    <div class="col form-check">
-                                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.July" name="MonthlySchedulation.July" value="true" />
-                                        <label class="form-check-label" for="MonthlySchedulation.July">Luglio</label>
-                                    </div>
-                                    <div class="col form-check">
-                                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.August" name="MonthlySchedulation.August" value="true" />
-                                        <label class="form-check-label" for="MonthlySchedulation.August">Agosto</label>
-                                    </div>
-                                    <div class="col form-check">
-                                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.September" name="MonthlySchedulation.September" value="true" />
-                                        <label class="form-check-label" for="MonthlySchedulation.September">Settembre</label>
-                                    </div>
-                                    <div class="col form-check">
-                                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.October" name="MonthlySchedulation.October" value="true" />
-                                        <label class="form-check-label" for="MonthlySchedulation.October">Ottobre</label>
-                                    </div>
-                                    <div class="col form-check">
-                                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.November" name="MonthlySchedulation.November" value="true" />
-                                        <label class="form-check-label" for="MonthlySchedulation.November">Novembre</label>
-                                    </div>
-                                    <div class="col form-check">
-                                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.December" name="MonthlySchedulation.December" value="true" />
-                                        <label class="form-check-label" for="MonthlySchedulation.December">Dicembre</label>
-                                    </div>
-                                </div>
-                            @*</div>*@
-                        </div>
+                <div class="d-flex row">
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Eight" name="MonthlySchedulation.Eight" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Eight">8</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Nine" name="MonthlySchedulation.Nine" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Nine">9</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Ten" name="MonthlySchedulation.Ten" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Ten">10</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Eleven" name="MonthlySchedulation.Eleven" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Eleven">11</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twelve" name="MonthlySchedulation.Twelve" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Twelve">12</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Thirteen" name="MonthlySchedulation.Thirteen" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Thirteen">13</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Fourteen" name="MonthlySchedulation.Fourteen" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Fourteen">14</label>
+                    </div>
+                </div>
+                <div class="d-flex row">
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Fifteen" name="MonthlySchedulation.Fifteen" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Fifteen">15</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Sixteen" name="MonthlySchedulation.Sixteen" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Sixteen">16</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Seventeen" name="MonthlySchedulation.Seventeen" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Seventeen">17</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Eithteen" name="MonthlySchedulation.Eithteen" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Eithteen">18</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Nineteen" name="MonthlySchedulation.Nineteen" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Nineteen">19</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twenty" name="MonthlySchedulation.Twenty" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Twenty">20</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentyone" name="MonthlySchedulation.Twentyone" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Twentyone">21</label>
+                    </div>
+                </div>
+                <div class="d-flex row">
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentytwo" name="MonthlySchedulation.Twentytwo" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Twentytwo">22</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentythree" name="MonthlySchedulation.Twentythree" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Twentythree">23</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentyfour" name="MonthlySchedulation.Twentyfour" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Twentyfour">24</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentyfive" name="MonthlySchedulation.Twentyfive" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Twentyfive">25</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentysix" name="MonthlySchedulation.Twentysix" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Twentysix">26</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentyseven" name="MonthlySchedulation.Twentyseven" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Twentyseven">27</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentyeight" name="MonthlySchedulation.Twentyeight" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Twentyeight">28</label>
+                    </div>
+                </div>
+                <div class="d-flex row">
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Twentynine" name="MonthlySchedulation.Twentynine" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Twentynine">29</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Thirty" name="MonthlySchedulation.Thirty" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Thirty">30</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.Thirtyone" name="MonthlySchedulation.Thirtyone" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.Thirtyone">31</label>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-@*</div>*@
+    <div class="col-4">
+        <div class="card bg-light">
+            <div class="card-body ms-3">
+                <h5 class="card-text">Selezionare i mesi</h5>
+                <div class="row row-cols-1 row-cols-md-2">
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.January" name="MonthlySchedulation.January" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.January">Gennaio</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.February" name="MonthlySchedulation.February" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.February">Febbraio</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.March" name="MonthlySchedulation.March" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.March">Marzo</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.April" name="MonthlySchedulation.April" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.April">Aprile</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.May" name="MonthlySchedulation.May" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.May">Maggio</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.June" name="MonthlySchedulation.June" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.June">Giugno</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.July" name="MonthlySchedulation.July" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.July">Luglio</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.August" name="MonthlySchedulation.August" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.August">Agosto</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.September" name="MonthlySchedulation.September" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.September">Settembre</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.October" name="MonthlySchedulation.October" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.October">Ottobre</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.November" name="MonthlySchedulation.November" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.November">Novembre</label>
+                    </div>
+                    <div class="col form-check">
+                        <input class="form-check-input" type="checkbox" id="MonthlySchedulation.December" name="MonthlySchedulation.December" value="true" />
+                        <label class="form-check-label" for="MonthlySchedulation.December">Dicembre</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
