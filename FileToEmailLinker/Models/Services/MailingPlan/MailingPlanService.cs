@@ -205,5 +205,37 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             ((WeeklySchedulation)schedulation).Sunday = model.WeeklySchedulation.Sunday;
             return schedulation;
         }
+
+        public async Task<MailPlanCreateInputModel> RestoreModelForCreation(MailPlanCreateInputModel model)
+        {
+            MailPlanCreateInputModel restoredModel = await CreateMailPlanInputModelAsync();
+            restoredModel.Name = model.Name;
+            restoredModel.ActiveState = model.ActiveState;
+            restoredModel.Subject = model.Subject;
+            restoredModel.Text = model.Text;
+            restoredModel.SchedTime = model.SchedTime;
+            restoredModel.StartDate = model.StartDate;
+            restoredModel.EndDate = model.EndDate;
+            foreach (var originalAttachment in model.FilesSelection)
+            {
+                var restoredAttachment = restoredModel.FileSelectList.FirstOrDefault(file => file.Value.Equals(originalAttachment));
+                if (restoredAttachment == null)
+                {
+                    throw new Exception("Attachment not found");
+                }
+                restoredAttachment.Selected = true;
+            }
+            foreach (var originalRecipient in model.ReceiversSelection)
+            {
+                var restoredRecipient = restoredModel.ReceiverSelectList.FirstOrDefault(recepient => recepient.Value.Equals(originalRecipient));
+                if (restoredRecipient == null)
+                {
+                    throw new Exception("Recipient not found");
+                }
+                restoredRecipient.Selected = true;
+            }
+
+            return restoredModel;
+        }
     }
 }

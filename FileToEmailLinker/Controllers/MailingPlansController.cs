@@ -69,7 +69,24 @@ namespace FileToEmailLinker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MailPlanCreateInputModel model) //MailPlanCreateInputModel model
         {
-            if(model.WeeklySchedulation == null && model.MonthlySchedulation == null)
+            ValidateSchedules(model);
+            if (ModelState.IsValid)
+            {
+                MailingPlan mailingPlan = await mailingPlanService.CreateMailingPlanAsync(model);
+                return RedirectToAction(nameof(Details), new { id = mailingPlan.Id });
+            }
+
+            string messages = string.Join("; ", ModelState.Values
+                                        .SelectMany(x => x.Errors)
+                                        .Select(x => x.ErrorMessage));
+
+            MailPlanCreateInputModel restoredModel = await mailingPlanService.RestoreModelForCreation(model);
+            return View(restoredModel);
+        }
+
+        private void ValidateSchedules(MailPlanCreateInputModel model)
+        {
+            if (model.WeeklySchedulation == null && model.MonthlySchedulation == null)
             {
                 ModelState.AddModelError(nameof(model.WeeklySchedulation), "Non sono stati selezionati giorni per l'invio");
             }
@@ -77,41 +94,6 @@ namespace FileToEmailLinker.Controllers
             {
                 ModelState.AddModelError(nameof(model.MonthlySchedulation), "Selezionare almeno un giorno e un mese per la schedulazione mensile");
             }
-            if (ModelState.IsValid)
-            {
-                MailingPlan mailingPlan = await mailingPlanService.CreateMailingPlanAsync(model);
-                return RedirectToAction(nameof(Details), new { id = mailingPlan.Id });
-            }
-            string messages = string.Join("; ", ModelState.Values
-                                        .SelectMany(x => x.Errors)
-                                        .Select(x => x.ErrorMessage));
-            MailPlanCreateInputModel restoredModel = await mailingPlanService.CreateMailPlanInputModelAsync();
-            restoredModel.Name = model.Name;
-            restoredModel.ActiveState = model.ActiveState;
-            restoredModel.Subject = model.Subject;
-            restoredModel.Text = model.Text;
-            restoredModel.SchedTime = model.SchedTime;
-            restoredModel.StartDate = model.StartDate;
-            restoredModel.EndDate = model.EndDate;
-            foreach(var originalAttachment in model.FilesSelection)
-            {
-                var restoredAttachment = restoredModel.FileSelectList.FirstOrDefault(file => file.Value.Equals(originalAttachment));
-                if(restoredAttachment == null)
-                {
-                    throw new Exception("Attachment not found");
-                }
-                restoredAttachment.Selected = true;
-            }
-            foreach(var originalRecipient in model.ReceiversSelection)
-            {
-                var restoredRecipient = restoredModel.ReceiverSelectList.FirstOrDefault(recepient => recepient.Value.Equals(originalRecipient));
-                if(restoredRecipient == null)
-                {
-                    throw new Exception("Recipient not found");
-                }
-                restoredRecipient.Selected = true;
-            }
-            return View(restoredModel);
         }
 
         private bool DayAndMonthSelected(MonthlyScheduleInputModel monthlySchedulation)

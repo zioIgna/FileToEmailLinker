@@ -9,5 +9,6 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         Task<ICollection<Entities.MailingPlan>> GetMailingPlanListAsync();
         Task<MailPlanCreateInputModel> CreateMailPlanInputModelAsync();
         Task<Entities.MailingPlan> CreateMailingPlanAsync(MailPlanCreateInputModel model);
+        Task<MailPlanCreateInputModel> RestoreModelForCreation(MailPlanCreateInputModel model);
     }
 }
