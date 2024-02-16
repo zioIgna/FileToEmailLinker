@@ -25,6 +25,9 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         public async Task<Entities.MailingPlan> GetMailingPlanById(int id)
         {
             IQueryable<Entities.MailingPlan> query = context.MailingPlan
+                .Include(mp => mp.MonthlySchedulation)
+                .Include(mp => mp.WeeklySchedulation)
+                .Include(mp => mp.ReceiverList)
                 .Where(x => x.Id == id);
 
             return await query.FirstOrDefaultAsync();

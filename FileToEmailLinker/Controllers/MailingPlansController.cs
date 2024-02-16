@@ -35,21 +35,27 @@ namespace FileToEmailLinker.Controllers
         }
 
         // GET: MailingPlans/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null || _context.MailingPlan == null)
+            var mailingPlan = await mailingPlanService.GetMailingPlanById(id);
+            if(mailingPlan == null)
             {
                 return NotFound();
             }
 
-            var mailingPlan = await _context.MailingPlan
-                //.Include(m => m.Schedulation)
-                .Include(m => m.ReceiverList)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (mailingPlan == null)
-            {
-                return NotFound();
-            }
+            //if (id == null || _context.MailingPlan == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //var mailingPlan = await _context.MailingPlan
+            //    //.Include(m => m.Schedulation)
+            //    .Include(m => m.ReceiverList)
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            //if (mailingPlan == null)
+            //{
+            //    return NotFound();
+            //}
 
             return View(mailingPlan);
         }
