@@ -13,17 +13,20 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Nome
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ActiveState)
+                Stato
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Text)
+                Soggetto email
             </th>
-@*            <th>
-                @Html.DisplayNameFor(model => model.Schedulation)
-            </th>*@
+            <th>
+                Schedulazione
+            </th>
+            <th>
+                Orario
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -37,11 +40,28 @@
                 @Html.DisplayFor(modelItem => item.ActiveState)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Text)
+                @Html.DisplayFor(modelItem => item.Subject)
             </td>
-@*            <td>
-                @Html.DisplayFor(modelItem => item.Schedulation.Id)
-            </td>*@
+            <td>
+                @if (item.WeeklySchedulation != null)
+                {
+                    <span>Settimanale</span>
+                }
+                else
+                {
+                    <span>Mensile</span>
+                }
+            </td>
+            <td>
+                @if (item.WeeklySchedulation != null)
+                {
+                    <span>@item.WeeklySchedulation.Time</span>
+                }
+                else
+                {
+                    <span>@item.MonthlySchedulation.Time</span>
+                }
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
