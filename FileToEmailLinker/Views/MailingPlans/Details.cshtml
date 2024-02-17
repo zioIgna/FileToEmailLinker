@@ -17,12 +17,12 @@
     <div class="card bg-light mb-2">
         <div class="card-header fw-bold">Informazioni generali</div>
         <div class="card-body">
-            <div class="row row-cols-md-2 mb-1">
+            <div class="row d-flex row-cols-md-2 mb-1">
                 <div class="col-6">
                     <div class="row row-cols-2">
                         <div class="col-8">
                             <div class="form-group">
-                                <label asp-for="Name" class="control-label"></label>
+                                <label asp-for="Name" class="control-label">Nome programmazione</label>
                                 <input id="Name" value="@Model.Name" class="form-control" style="background-color:white" disabled readonly/>
                             </div>
                         </div>
@@ -41,32 +41,28 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <div class="form-group mt-2">
-                                <label asp-for="Subject" class="control-label"></label>
+                            <div class="form-group mt-2 mb-2">
+                                <label asp-for="Subject" class="control-label">Soggetto email</label>
                                 <input type="text" id="Subject" value="@Model.Subject" class="form-control" style="background-color:white" disabled readonly />
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label asp-for="Text" class="control-label"></label>
-                        <textarea rows="4" id="Text" class="form-control" style="background-color:white" disabled readonly>@Model.Text</textarea>
+                    <div class="row row-cols-2">
+                        <div class="col form-group">
+                            <label for="StartDate" class="control-label">Inizio pianificazione</label>
+                            <input id="StartDate" value="@startDateStr" class="form-control" style="background-color:white" type="text" disabled readonly />
+                        </div>
+                        <div class="col form-group">
+                            <label for="EndDate" class="control-label">Fine pianificazione</label>
+                            <input id="EndDate" value="@endDateStr" class="form-control" style="background-color:white" type="text" disabled readonly />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row row-cols-md-3 mt-2">
-                <div class="col form-group">
-                    <label for="SchedTime" class="control-label">Ora invio</label>
-                    <input id="SchedTime" value="@schedulationTime" class="form-control" style="background-color:white" type="time" disabled readonly />
-                </div>
-                <div class="col form-group">
-                    <label for="StartDate" class="control-label">Inizio pianificazione</label>
-                    <input id="StartDate" value="@startDateStr" class="form-control" style="background-color:white" type="text" disabled readonly />
-                </div>
-                <div class="col form-group">
-                    <label for="EndDate" class="control-label">Fine pianificazione</label>
-                    <input id="EndDate" value="@endDateStr" class="form-control" style="background-color:white" type="text" disabled readonly />
+                <div class="col-6 align-self-stretch">
+                    <div class="form-group stretchtextarea">
+                        <label asp-for="Text" class="control-label">Testo email</label>
+                        <textarea id="Text" class="form-control stretchtextarea" style="background-color:white" disabled readonly>@Model.Text</textarea>
+                    </div>
                 </div>
             </div>
         </div>
@@ -117,263 +113,14 @@
         <div class="card-body">
             @if(Model.WeeklySchedulation != null)
             {
-                <h6>Giorni:</h6>
-                <div class="row row-cols-auto">
-                    @if (Model.WeeklySchedulation.Monday)
-                    {
-                        <div class="col"><i class="bi bi-calendar-check">  Lunedì</i></div>
-                    }
-                    @if (Model.WeeklySchedulation.Tuesday)
-                    {
-                        <div class="col"><i class="bi bi-calendar-check">  Martedì</i></div>
-                    }
-                    @if (Model.WeeklySchedulation.Wednesday)
-                    {
-                        <div class="col"><i class="bi bi-calendar-check">  Mercoledì</i></div>
-                    }
-                    @if (Model.WeeklySchedulation.Thursday)
-                    {
-                        <div class="col"><i class="bi bi-calendar-check">  Giovedì</i></div>
-                    }
-                    @if (Model.WeeklySchedulation.Friday)
-                    {
-                        <div class="col"><i class="bi bi-calendar-check">  Venerdì</i></div>
-                    }
-                    @if (Model.WeeklySchedulation.Saturday)
-                    {
-                        <div class="col"><i class="bi bi-calendar-check">  Sabato</i></div>
-                    }
-                    @if (Model.WeeklySchedulation.Sunday)
-                    {
-                        <div class="col"><i class="bi bi-calendar-check">  Domenica</i></div>
-                    }
-                </div>
+                <partial name="Schedulations/_WeeklySchedulationDetails" model="@Model.WeeklySchedulation"></partial>
             }
             @if(Model.MonthlySchedulation != null)
             {
-                <h6>Giorni:</h6>
-                <div class="row row-cols-auto mb-3">
-                    @if (Model.MonthlySchedulation.One)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  1</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Two)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  2</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Three)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  3</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Four)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  4</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Five)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  5</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Six)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  6</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Seven)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  7</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Eight)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  8</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Nine)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  9</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Ten)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  10</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Eleven)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  11</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Twelve)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  12</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Thirteen)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  13</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Fourteen)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  14</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Fifteen)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  15</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Sixteen)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  16</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Seventeen)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  17</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Eighteen)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  18</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Nineteen)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  19</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Twenty)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  20</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Twentyone)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  21</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Twentytwo)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  22</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Twentythree)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  23</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Twentyfour)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  24</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Twentyfive)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  25</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Twentysix)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  26</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Twentyseven)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  27</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Twentyeight)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  28</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Twentynine)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  29</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Thirty)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  30</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.Thirtyone)
-                    {
-                        <div class="col"><i class="bi bi-calendar-date">  31</i></div>
-                    }
-                </div>
-                <h6>Mesi:</h6>
-                <div class="row row-cols-auto">
-                    @if (Model.MonthlySchedulation.January)
-                    {
-                        <div class="col"><i class="bi bi-calendar-month">  Gennaio</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.February)
-                    {
-                        <div class="col"><i class="bi bi-calendar-month">  Febbraio</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.March)
-                    {
-                        <div class="col"><i class="bi bi-calendar-month">  Marzo</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.April)
-                    {
-                        <div class="col"><i class="bi bi-calendar-month">  Aprile</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.May)
-                    {
-                        <div class="col"><i class="bi bi-calendar-month">  Maggio</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.June)
-                    {
-                        <div class="col"><i class="bi bi-calendar-month">  Giugno</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.July)
-                    {
-                        <div class="col"><i class="bi bi-calendar-month">  Luglio</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.August)
-                    {
-                        <div class="col"><i class="bi bi-calendar-month">  Agosto</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.September)
-                    {
-                        <div class="col"><i class="bi bi-calendar-month">  Settembre</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.October)
-                    {
-                        <div class="col"><i class="bi bi-calendar-month">  Ottobre</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.November)
-                    {
-                        <div class="col"><i class="bi bi-calendar-month">  Novembre</i></div>
-                    }
-                    @if (Model.MonthlySchedulation.December)
-                    {
-                        <div class="col"><i class="bi bi-calendar-month">  Dicembre</i></div>
-                    }
-                </div>
+                <partial name="Schedulations/_MonthlySchedulationDetails" model="@Model.MonthlySchedulation"></partial>
             }
         </div>
     </div>
-@*    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ActiveState)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ActiveState)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Text)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Text)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ReceiverList)
-        </dt>
-        <dd class="col-sm-10">
-            <ul>
-                @foreach(var recipient in Model.ReceiverList)
-                {
-                    <li>@string.Concat(recipient.Name, ' ',recipient.Surname)</li>
-                }
-            </ul>
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FileStringList)
-        </dt>
-        <dd class="col-sm-10">
-            <ul>
-                @foreach(var fileName in Model.FileStringList.Split(';'))
-                {
-                    <li>@fileName</li>
-                }
-            </ul>
-        </dd>
-    </dl>*@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |

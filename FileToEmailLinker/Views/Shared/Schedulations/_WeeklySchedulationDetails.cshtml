@@ -1,0 +1,33 @@
+﻿@model WeeklySchedulation
+
+<h6>Giorni:</h6>
+<div class="row row-cols-auto">
+    @if (Model.Monday)
+    {
+        <div class="col"><i class="bi bi-calendar-check">  Lunedì</i></div>
+    }
+    @if (Model.Tuesday)
+    {
+        <div class="col"><i class="bi bi-calendar-check">  Martedì</i></div>
+    }
+    @if (Model.Wednesday)
+    {
+        <div class="col"><i class="bi bi-calendar-check">  Mercoledì</i></div>
+    }
+    @if (Model.Thursday)
+    {
+        <div class="col"><i class="bi bi-calendar-check">  Giovedì</i></div>
+    }
+    @if (Model.Friday)
+    {
+        <div class="col"><i class="bi bi-calendar-check">  Venerdì</i></div>
+    }
+    @if (Model.Saturday)
+    {
+        <div class="col"><i class="bi bi-calendar-check">  Sabato</i></div>
+    }
+    @if (Model.Sunday)
+    {
+        <div class="col"><i class="bi bi-calendar-check">  Domenica</i></div>
+    }
+</div>
