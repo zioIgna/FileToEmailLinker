@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FileToEmailLinker.Models.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace FileToEmailLinker.Models.InputModels.Schedulations
 {
@@ -19,5 +20,19 @@ namespace FileToEmailLinker.Models.InputModels.Schedulations
         //        yield return new ValidationResult($"Selezionare almeno un giorno per l'invio settimanale");
         //    }
         //}
+
+        public static WeeklyScheduleInputModel FromEntity(WeeklySchedulation weeklySchedulation)
+        {
+            WeeklyScheduleInputModel model = new WeeklyScheduleInputModel();
+            model.Monday = weeklySchedulation.Monday;
+            model.Tuesday = weeklySchedulation.Tuesday;
+            model.Wednesday = weeklySchedulation.Wednesday;
+            model.Thursday = weeklySchedulation.Thursday;
+            model.Friday = weeklySchedulation.Friday;
+            model.Saturday = weeklySchedulation.Saturday;
+            model.Sunday = weeklySchedulation.Sunday;
+
+            return model;
+        }
     }
 }

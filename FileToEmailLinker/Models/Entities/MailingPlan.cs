@@ -15,7 +15,9 @@ namespace FileToEmailLinker.Models.Entities
         //public int SchedulationId { get; set; }
         public WeeklySchedulation? WeeklySchedulation { get; set; }
         public MonthlySchedulation? MonthlySchedulation { get; set; }
-        public FixedDatesSchedulation? FixedDatesSchedulation { get; set; }
+
+        public Schedulation? Schedulation { get => WeeklySchedulation != null ? WeeklySchedulation : MonthlySchedulation != null ? MonthlySchedulation : null; }
+        //public FixedDatesSchedulation? FixedDatesSchedulation { get; set; }
 
         //public Schedulation? Schedulation { get; set; }
 

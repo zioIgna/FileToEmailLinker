@@ -39,10 +39,11 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
                 .Include(mp => mp.ReceiverList)
                 .Include(mp => mp.WeeklySchedulation)
                 .Include(mp => mp.MonthlySchedulation)
-                .Include(mp => mp.FixedDatesSchedulation)
+                //.Include(mp => mp.FixedDatesSchedulation)
                 .Where(mp => mp.WeeklySchedulation.Id == schedulationId
                     || mp.MonthlySchedulation.Id == schedulationId
-                    || mp.FixedDatesSchedulation.Id == schedulationId);
+                    //|| mp.FixedDatesSchedulation.Id == schedulationId
+                    );
 
             return await query.FirstOrDefaultAsync();
         }
@@ -60,30 +61,44 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         public async Task<MailPlanCreateInputModel> CreateMailPlanInputModelAsync()
         {
             MailPlanCreateInputModel mailPlanCreateInputModel = new();
-            List<SelectListItem> filesSelectList = new List<SelectListItem>();
-            var rootdir = env.ContentRootPath;
-            var folderPath = configuration["HolderPath"];
-            if(folderPath == null)
-            {
-                throw new Exception("La cartella degli allegati non è raggiungibile");
-            }
-            var fullPath = Path.Combine(rootdir,"wwwroot", folderPath);
-            //DirectoryInfo dir = new DirectoryInfo(fullPath);
-            //FileInfo[] files = dir.GetFiles("*.xlsx");
-            IEnumerable<string>? files = Directory.EnumerateFiles(fullPath, "*.xlsx");
-            foreach (var file in files)
-            {
-                filesSelectList.Add(new SelectListItem { Text = Path.GetFileName(file), Value = Path.GetFileName(file) });
-            }
-            mailPlanCreateInputModel.FileSelectList = filesSelectList;
+            SetFileSelectListForCreate(mailPlanCreateInputModel);
+            await SetReceiverSelectListForCreate(mailPlanCreateInputModel);
+
+            return mailPlanCreateInputModel;
+        }
+
+        private async Task SetReceiverSelectListForCreate(MailPlanCreateInputModel mailPlanCreateInputModel)
+        {
             List<SelectListItem> receiversSelectList = new List<SelectListItem>();
             foreach (var receiver in await receiverService.GetReceiverListAsync())
             {
                 receiversSelectList.Add(new SelectListItem { Text = receiver.Name + ' ' + receiver.Surname, Value = receiver.Id.ToString() });
             }
             mailPlanCreateInputModel.ReceiverSelectList = receiversSelectList;
+        }
 
-            return mailPlanCreateInputModel;
+        private void SetFileSelectListForCreate(MailPlanCreateInputModel mailPlanCreateInputModel)
+        {
+            List<SelectListItem> filesSelectList = new List<SelectListItem>();
+            IEnumerable<string> files = GetFolderFiles();
+            foreach (var file in files)
+            {
+                filesSelectList.Add(new SelectListItem { Text = Path.GetFileName(file), Value = Path.GetFileName(file) });
+            }
+            mailPlanCreateInputModel.FileSelectList = filesSelectList;
+        }
+
+        private IEnumerable<string> GetFolderFiles()
+        {
+            var rootdir = env.ContentRootPath;
+            var folderPath = configuration["HolderPath"];
+            if (folderPath == null)
+            {
+                throw new Exception("La cartella degli allegati non è raggiungibile");
+            }
+            var fullPath = Path.Combine(rootdir, "wwwroot", folderPath);
+            IEnumerable<string>? files = Directory.EnumerateFiles(fullPath, "*.xlsx");
+            return files;
         }
 
         public async Task<Entities.MailingPlan> CreateMailingPlanAsync(MailPlanCreateInputModel model)
@@ -240,6 +255,68 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             }
 
             return restoredModel;
+        }
+
+        public async Task<MailPlanCreateInputModel?> GetMailingPlanEditModelAsync(int id)
+        {
+            Entities.MailingPlan mailingPlan = await GetMailingPlanById(id);
+            if (mailingPlan is null)
+            {
+                return null;
+            }
+            MailPlanCreateInputModel mailPlanCreateInputModel = new MailPlanCreateInputModel();
+            mailPlanCreateInputModel.Id = id;
+            mailPlanCreateInputModel.Name = mailingPlan.Name;
+            mailPlanCreateInputModel.Subject = mailingPlan.Subject;
+            mailPlanCreateInputModel.Text = mailingPlan.Text;
+            mailPlanCreateInputModel.StartDate = mailingPlan.Schedulation.StartDate;
+            mailPlanCreateInputModel.EndDate = mailingPlan.Schedulation.EndDate;
+            mailPlanCreateInputModel.SchedTime = mailingPlan.Schedulation.Time;
+            
+            SetFileSelectListForEdit(mailingPlan, mailPlanCreateInputModel);
+            await SetReceiverSelectListForEdit(mailingPlan, mailPlanCreateInputModel);
+
+            if (mailingPlan.WeeklySchedulation != null)
+            {
+                mailPlanCreateInputModel.WeeklySchedulation = WeeklyScheduleInputModel.FromEntity(mailingPlan.WeeklySchedulation);
+            }
+            else
+            {
+                mailPlanCreateInputModel.MonthlySchedulation = MonthlyScheduleInputModel.FromEntity(mailingPlan.MonthlySchedulation);
+            }
+
+            return mailPlanCreateInputModel;
+        }
+
+        private void SetFileSelectListForEdit(Entities.MailingPlan mailingPlan, MailPlanCreateInputModel mailPlanCreateInputModel)
+        {
+            List<SelectListItem> filesSelectList = new List<SelectListItem>();
+            IEnumerable<string> files = GetFolderFiles();
+            foreach (var file in files)
+            {
+                var item = new SelectListItem { Text = Path.GetFileName(file), Value = Path.GetFileName(file) };
+                if (mailingPlan.FileStringList.Split(';').Any(f => f.Equals(item.Text)))
+                {
+                    item.Selected = true;
+                }
+                filesSelectList.Add(item);
+            }
+            mailPlanCreateInputModel.FileSelectList = filesSelectList;
+        }
+
+        private async Task SetReceiverSelectListForEdit(Entities.MailingPlan mailingPlan, MailPlanCreateInputModel mailPlanCreateInputModel)
+        {
+            List<SelectListItem> receiversSelectList = new List<SelectListItem>();
+            foreach (var receiver in await receiverService.GetReceiverListAsync())
+            {
+                var item = new SelectListItem { Text = receiver.Name + ' ' + receiver.Surname, Value = receiver.Id.ToString() };
+                if(mailingPlan.ReceiverList.Any(r => r.Id == receiver.Id))
+                {
+                    item.Selected = true;
+                }
+                receiversSelectList.Add(item);
+            }
+            mailPlanCreateInputModel.ReceiverSelectList = receiversSelectList;
         }
     }
 }

@@ -11,31 +11,73 @@
         </div>
         <div class="row d-flex">
             <div class="col form-check">
-                <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Monday" name="WeeklySchedulation.Monday" value="true" />
+                @if (Model.Monday)
+                {
+                    <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Monday" name="WeeklySchedulation.Monday" value="true" checked/>
+                }else
+                {
+                    <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Monday" name="WeeklySchedulation.Monday" value="true" />
+                }
                 <label class="form-check-label" for="WeeklySchedulation.Monday">Lunedì</label>
             </div>
             <div class="col form-check">
-                <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Tuesday" name="WeeklySchedulation.Tuesday" value="true" />
+                @if (Model.Tuesday)
+                {
+                    <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Tuesday" name="WeeklySchedulation.Tuesday" value="true" checked/>
+                }else
+                {
+                    <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Tuesday" name="WeeklySchedulation.Tuesday" value="true" />
+                }
                 <label class="form-check-label" for="WeeklySchedulation.Tuesday">Martedì</label>
             </div>
             <div class="col form-check">
-                <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Wednesday" name="WeeklySchedulation.Wednesday" value="true" />
+                @if (Model.Wednesday)
+                {
+                    <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Wednesday" name="WeeklySchedulation.Wednesday" value="true" checked/>
+                }else
+                {
+                    <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Wednesday" name="WeeklySchedulation.Wednesday" value="true" />
+                }
                 <label class="form-check-label" for="WeeklySchedulation.Wednesday">Mercoledì</label>
             </div>
             <div class="col form-check">
-                <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Thursday" name="WeeklySchedulation.Thursday" value="true" />
+                @if (Model.Thursday)
+                {
+                    <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Thursday" name="WeeklySchedulation.Thursday" value="true" checked/>
+                }else
+                {
+                    <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Thursday" name="WeeklySchedulation.Thursday" value="true" />
+                }
                 <label class="form-check-label" for="WeeklySchedulation.Thursday">Giovedì</label>
             </div>
             <div class="col form-check">
-                <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Friday" name="WeeklySchedulation.Friday" value="true" />
+                @if (Model.Friday)
+                {
+                    <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Friday" name="WeeklySchedulation.Friday" value="true" checked/>
+                }else
+                {
+                    <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Friday" name="WeeklySchedulation.Friday" value="true" />
+                }
                 <label class="form-check-label" for="WeeklySchedulation.Friday">Venerdì</label>
             </div>
             <div class="col form-check">
-                <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Saturday" name="WeeklySchedulation.Saturday" value="true" />
+                @if (Model.Saturday)
+                {
+                    <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Saturday" name="WeeklySchedulation.Saturday" value="true" checked/>
+                }else
+                {
+                    <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Saturday" name="WeeklySchedulation.Saturday" value="true" />
+                }
                 <label class="form-check-label" for="WeeklySchedulation.Saturday">Sabato</label>
             </div>
             <div class="col form-check">
-                <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Sunday" name="WeeklySchedulation.Sunday" value="true" />
+                @if (Model.Sunday)
+                {
+                    <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Sunday" name="WeeklySchedulation.Sunday" value="true" checked/>
+                }else
+                {
+                    <input class="form-check-input" type="checkbox" id="WeeklySchedulation.Sunday" name="WeeklySchedulation.Sunday" value="true" />
+                }
                 <label class="form-check-label" for="WeeklySchedulation.Sunday">Domenica</label>
             </div>
         </div>

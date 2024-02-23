@@ -53,14 +53,15 @@
                 }
             </td>
             <td>
-                @if (item.WeeklySchedulation != null)
+                <span>@item.Schedulation.Time</span>
+@*                @if (item.WeeklySchedulation != null)
                 {
                     <span>@item.WeeklySchedulation.Time</span>
                 }
                 else
                 {
                     <span>@item.MonthlySchedulation.Time</span>
-                }
+                }*@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -43,20 +43,6 @@ namespace FileToEmailLinker.Controllers
                 return NotFound();
             }
 
-            //if (id == null || _context.MailingPlan == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var mailingPlan = await _context.MailingPlan
-            //    //.Include(m => m.Schedulation)
-            //    .Include(m => m.ReceiverList)
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-            //if (mailingPlan == null)
-            //{
-            //    return NotFound();
-            //}
-
             return View(mailingPlan);
         }
 
@@ -177,19 +163,20 @@ namespace FileToEmailLinker.Controllers
         // GET: MailingPlans/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            //if (id == null || _context.MailingPlan == null)
-            //{
-            //    return NotFound();
-            //}
+            if(id is null)
+            {
+                ViewData["ErrorMessage"] = "Errato riferimento per la programmazione";
+                return View(nameof(Index));
+            }
+            MailingPlan mailingPlan = await mailingPlanService.GetMailingPlanById((int)id);
+            if(mailingPlan is null)
+            {
+                ViewData["ErrorMessage"] = "Non è possibile recuperare la programmazione cercata";
+                return View(nameof(Index));
+            }
+            MailPlanCreateInputModel mailPlanInputModel = await mailingPlanService.GetMailingPlanEditModelAsync((int)id);
 
-            //var mailingPlan = await _context.MailingPlan.FindAsync(id);
-            //if (mailingPlan == null)
-            //{
-            //    return NotFound();
-            //}
-            //ViewData["SchedulationId"] = new SelectList(_context.Set<Schedulation>(), "Id", "Name", mailingPlan.SchedulationId);
-            //return View(mailingPlan);
-            throw new NotImplementedException();
+            return View(mailPlanInputModel);
         }
 
         // POST: MailingPlans/Edit/5

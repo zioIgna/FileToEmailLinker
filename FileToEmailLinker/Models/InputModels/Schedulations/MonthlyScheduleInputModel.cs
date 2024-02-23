@@ -1,4 +1,6 @@
-﻿namespace FileToEmailLinker.Models.InputModels.Schedulations
+﻿using FileToEmailLinker.Models.Entities;
+
+namespace FileToEmailLinker.Models.InputModels.Schedulations
 {
     public class MonthlyScheduleInputModel
     {
@@ -45,5 +47,55 @@
         public bool October { get; set; }
         public bool November { get; set; }
         public bool December { get; set; }
+
+        public static MonthlyScheduleInputModel FromEntity(MonthlySchedulation monthlySchedulation)
+        {
+            MonthlyScheduleInputModel model = new MonthlyScheduleInputModel();
+            model.One = monthlySchedulation.One;
+            model.Two = monthlySchedulation.Two;
+            model.Three = monthlySchedulation.Three;
+            model.Four = monthlySchedulation.Four;
+            model.Five = monthlySchedulation.Five;
+            model.Six = monthlySchedulation.Six;
+            model.Seven = monthlySchedulation.Seven;
+            model.Eight = monthlySchedulation.Eight;
+            model.Nine = monthlySchedulation.Nine;
+            model.Ten = monthlySchedulation.Ten;
+            model.Eleven = monthlySchedulation.Eleven;
+            model.Twelve = monthlySchedulation.Twelve;
+            model.Thirteen = monthlySchedulation.Thirteen;
+            model.Fourteen = monthlySchedulation.Fourteen;
+            model.Fifteen = monthlySchedulation.Fifteen;
+            model.Sixteen = monthlySchedulation.Sixteen;
+            model.Seventeen = monthlySchedulation.Seventeen;
+            model.Eighteen = monthlySchedulation.Eighteen;
+            model.Nineteen = monthlySchedulation.Nineteen;
+            model.Twenty = monthlySchedulation.Twenty;
+            model.Twentyone = monthlySchedulation.Twentyone;
+            model.Twentytwo = monthlySchedulation.Twentytwo;
+            model.Twentythree = monthlySchedulation.Twentythree;
+            model.Twentyfour = monthlySchedulation.Twentyfour;
+            model.Twentyfive = monthlySchedulation.Twentyfive;
+            model.Twentysix = monthlySchedulation.Twentysix;
+            model.Twentyseven = monthlySchedulation.Twentyseven;
+            model.Twentyeight = monthlySchedulation.Twentyeight;
+            model.Twentynine = monthlySchedulation.Twentynine;
+            model.Thirty = monthlySchedulation.Thirty;
+            model.Thirtyone = monthlySchedulation.Thirtyone;
+            model.January = monthlySchedulation.January;
+            model.February = monthlySchedulation.February;
+            model.March = monthlySchedulation.March;
+            model.April = monthlySchedulation.April;
+            model.May = monthlySchedulation.May;
+            model.June = monthlySchedulation.June;
+            model.July = monthlySchedulation.July;
+            model.August = monthlySchedulation.August;
+            model.September = monthlySchedulation.September;
+            model.October = monthlySchedulation.October;
+            model.November = monthlySchedulation.November;
+            model.December = monthlySchedulation.December;
+
+            return model;
+        }
     }
 }
