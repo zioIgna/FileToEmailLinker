@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FileToEmailLinker.Models.InputModels.MailPlans
 {
-    public class MailPlanCreateInputModel
+    public class MailPlanInputModel
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

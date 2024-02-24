@@ -5,6 +5,8 @@ using FileToEmailLinker.Models.InputModels.Schedulations;
 using FileToEmailLinker.Models.Services.Receiver;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Plugins;
+using Org.BouncyCastle.Asn1.Crmf;
 
 namespace FileToEmailLinker.Models.Services.MailingPlan
 {
@@ -58,16 +60,18 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             return await query.ToListAsync();
         }
 
-        public async Task<MailPlanCreateInputModel> CreateMailPlanInputModelAsync()
+        public async Task<MailPlanInputModel> CreateMailPlanInputModelAsync()
         {
-            MailPlanCreateInputModel mailPlanCreateInputModel = new();
+            MailPlanInputModel mailPlanCreateInputModel = new();
             SetFileSelectListForCreate(mailPlanCreateInputModel);
             await SetReceiverSelectListForCreate(mailPlanCreateInputModel);
 
             return mailPlanCreateInputModel;
         }
 
-        private async Task SetReceiverSelectListForCreate(MailPlanCreateInputModel mailPlanCreateInputModel)
+        
+
+        private async Task SetReceiverSelectListForCreate(MailPlanInputModel mailPlanCreateInputModel)
         {
             List<SelectListItem> receiversSelectList = new List<SelectListItem>();
             foreach (var receiver in await receiverService.GetReceiverListAsync())
@@ -77,7 +81,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             mailPlanCreateInputModel.ReceiverSelectList = receiversSelectList;
         }
 
-        private void SetFileSelectListForCreate(MailPlanCreateInputModel mailPlanCreateInputModel)
+        private void SetFileSelectListForCreate(MailPlanInputModel mailPlanCreateInputModel)
         {
             List<SelectListItem> filesSelectList = new List<SelectListItem>();
             IEnumerable<string> files = GetFolderFiles();
@@ -101,18 +105,43 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             return files;
         }
 
-        public async Task<Entities.MailingPlan> CreateMailingPlanAsync(MailPlanCreateInputModel model)
+        public async Task<Entities.MailingPlan> CreateMailingPlanAsync(MailPlanInputModel model)
         {
             Entities.MailingPlan mailingPlan = new();
+            await SetInputValues(model, mailingPlan);
+
+            context.Add(mailingPlan);
+            await context.SaveChangesAsync();
+
+            return mailingPlan;
+        }
+
+        public async Task<Entities.MailingPlan> EditMailingPlanAsync(MailPlanInputModel model)
+        {
+            Entities.MailingPlan mailingPlan = await GetMailingPlanById(model.Id);
+            if(mailingPlan == null)
+            {
+                throw new Exception("Non è possibile recuperare la programmazione richiesta");
+            }
+            await SetInputValues(model, mailingPlan);
+
+            await context.SaveChangesAsync();
+
+            return mailingPlan;
+        }
+
+        private async Task SetInputValues(MailPlanInputModel model, Entities.MailingPlan mailingPlan)
+        {
             mailingPlan.Name = model.Name;
-            mailingPlan.ActiveState = model.ActiveState? Enums.ActiveState.Active : Enums.ActiveState.Suspended;
+            mailingPlan.ActiveState = model.ActiveState ? Enums.ActiveState.Active : Enums.ActiveState.Suspended;
             mailingPlan.Text = model.Text;
             mailingPlan.Subject = model.Subject;
-            if(model.FilesSelection != null && model.FilesSelection.Count > 0) 
+            mailingPlan.FileStringList = string.Empty;
+            if (model.FilesSelection != null && model.FilesSelection.Count > 0)
             {
                 foreach (var file in model.FilesSelection)
                 {
-                    if(string.IsNullOrWhiteSpace(mailingPlan.FileStringList))
+                    if (string.IsNullOrWhiteSpace(mailingPlan.FileStringList))
                     {
                         mailingPlan.FileStringList = file;
                     }
@@ -120,16 +149,17 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
                     {
                         mailingPlan.FileStringList += ";" + file;
                     }
-                    
+
                 }
             }
-            if(model.ReceiversSelection != null && model.ReceiversSelection.Count > 0)
+            mailingPlan.ReceiverList.Clear();
+            if (model.ReceiversSelection != null && model.ReceiversSelection.Count > 0)
             {
                 foreach (var receiver in model.ReceiversSelection)
                 {
                     int receiverId = Int32.Parse(receiver);
                     var receiverEntity = await receiverService.GetReceiverByIdAsync(receiverId);
-                    if(receiverEntity == null)
+                    if (receiverEntity == null)
                     {
                         throw new Exception("Receiver not found");
                     }
@@ -138,12 +168,12 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             }
 
             Entities.Schedulation schedulation;
-            if(model.WeeklySchedulation != null)
+            if (model.WeeklySchedulation != null)
             {
                 schedulation = SetWeeklySchedulation(model);
                 mailingPlan.WeeklySchedulation = (WeeklySchedulation?)schedulation;
             }
-            else if(model.MonthlySchedulation != null)
+            else if (model.MonthlySchedulation != null)
             {
                 schedulation = SetMonthlySchedulation(model);
                 mailingPlan.MonthlySchedulation = (MonthlySchedulation?)schedulation;
@@ -156,14 +186,9 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             schedulation.Time = model.SchedTime;
             schedulation.StartDate = model.StartDate;
             schedulation.EndDate = model.EndDate;
-
-            context.Add(mailingPlan);
-            await context.SaveChangesAsync();
-
-            return mailingPlan;
         }
 
-        private static Entities.Schedulation SetMonthlySchedulation(MailPlanCreateInputModel model)
+        private static Entities.Schedulation SetMonthlySchedulation(MailPlanInputModel model)
         {
             Entities.Schedulation schedulation = new MonthlySchedulation();
             ((MonthlySchedulation)schedulation).One = model.MonthlySchedulation.One;
@@ -212,7 +237,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             return schedulation;
         }
 
-        private static Entities.Schedulation SetWeeklySchedulation(MailPlanCreateInputModel model)
+        private static Entities.Schedulation SetWeeklySchedulation(MailPlanInputModel model)
         {
             Entities.Schedulation schedulation = new WeeklySchedulation();
             ((WeeklySchedulation)schedulation).Monday = model.WeeklySchedulation.Monday;
@@ -225,9 +250,9 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             return schedulation;
         }
 
-        public async Task<MailPlanCreateInputModel> RestoreModelForCreation(MailPlanCreateInputModel model)
+        public async Task<MailPlanInputModel> RestoreModelForCreation(MailPlanInputModel model)
         {
-            MailPlanCreateInputModel restoredModel = await CreateMailPlanInputModelAsync();
+            MailPlanInputModel restoredModel = await CreateMailPlanInputModelAsync();
             restoredModel.Name = model.Name;
             restoredModel.ActiveState = model.ActiveState;
             restoredModel.Subject = model.Subject;
@@ -257,14 +282,14 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             return restoredModel;
         }
 
-        public async Task<MailPlanCreateInputModel?> GetMailingPlanEditModelAsync(int id)
+        public async Task<MailPlanInputModel?> GetMailingPlanEditModelAsync(int id)
         {
             Entities.MailingPlan mailingPlan = await GetMailingPlanById(id);
             if (mailingPlan is null)
             {
                 return null;
             }
-            MailPlanCreateInputModel mailPlanCreateInputModel = new MailPlanCreateInputModel();
+            MailPlanInputModel mailPlanCreateInputModel = new MailPlanInputModel();
             mailPlanCreateInputModel.Id = id;
             mailPlanCreateInputModel.Name = mailingPlan.Name;
             mailPlanCreateInputModel.Subject = mailingPlan.Subject;
@@ -288,7 +313,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             return mailPlanCreateInputModel;
         }
 
-        private void SetFileSelectListForEdit(Entities.MailingPlan mailingPlan, MailPlanCreateInputModel mailPlanCreateInputModel)
+        private void SetFileSelectListForEdit(Entities.MailingPlan mailingPlan, MailPlanInputModel mailPlanCreateInputModel)
         {
             List<SelectListItem> filesSelectList = new List<SelectListItem>();
             IEnumerable<string> files = GetFolderFiles();
@@ -304,7 +329,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             mailPlanCreateInputModel.FileSelectList = filesSelectList;
         }
 
-        private async Task SetReceiverSelectListForEdit(Entities.MailingPlan mailingPlan, MailPlanCreateInputModel mailPlanCreateInputModel)
+        private async Task SetReceiverSelectListForEdit(Entities.MailingPlan mailingPlan, MailPlanInputModel mailPlanCreateInputModel)
         {
             List<SelectListItem> receiversSelectList = new List<SelectListItem>();
             foreach (var receiver in await receiverService.GetReceiverListAsync())

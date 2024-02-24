@@ -1,4 +1,4 @@
-﻿@model FileToEmailLinker.Models.InputModels.MailPlans.MailPlanCreateInputModel
+﻿@model FileToEmailLinker.Models.InputModels.MailPlans.MailPlanInputModel
 
 @{
     ViewData["Title"] = "Create";
@@ -10,120 +10,13 @@
 <hr />
     <form asp-action="Create" method="post">
         <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="card bg-light mb-2">
-            <div class="card-header fw-bold">Informazioni generali</div>
-            <div class="card-body">
-                <div class="row row-cols-md-2 mb-1">
-                    <div class="col-6">
-                        <div class="row row-cols-2">
-                            <div class="col-8">
-                                <div class="form-group">
-                                    <label asp-for="Name" class="control-label"></label>
-                                    <input asp-for="Name" class="form-control" />
-                                    <span asp-validation-for="Name" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-4 d-flex">
-                                <div class="form-check form-switch align-self-end">
-                                    <label asp-for="ActiveState" class="form-check-label">Attivo</label>
-                                    <input class="form-check-input" type="checkbox" asp-for="ActiveState" checked/>
-                                    <span asp-validation-for="ActiveState" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group mt-2">
-                                    <label asp-for="Subject" class="control-label"></label>
-                                    <input type="text" asp-for="Subject" class="form-control" />
-                                    <span asp-asp-validation-for="Subject" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label asp-for="Text" class="control-label"></label>
-                            <textarea rows="4" asp-for="Text" class="form-control"></textarea>
-                            <span asp-validation-for="Text" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row row-cols-md-3 mt-2">
-                    <div class="col form-group">
-                        <label asp-for="SchedTime" class="control-label"></label>
-                        <input asp-for="SchedTime" class="form-control" type="time" />
-                        <span asp-validation-for="SchedTime" class="text-danger"></span>
-                    </div>
-                    <div class="col form-group">
-                        <label asp-for="StartDate" class="control-label"></label>
-                        <input asp-for="StartDate" class="form-control" type="date" />
-                        <span asp-validation-for="StartDate" class="text-danger"></span>
-                    </div>
-                    <div class="col form-group">
-                        <label asp-for="EndDate" class="control-label"></label>
-                        <input asp-for="EndDate" class="form-control" type="date" />
-                        <span asp-validation-for="EndDate" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card bg-light mb-2">
-            <div class="card-header fw-bold">
-                Selezione allegati
-            </div>
-            <div class="card-body">
-                @*<div class="mt-2">Allegati</div>*@
-                @for(int i= 0; i < Model.FileSelectList.Count; i++)
-                {
-                    var elem = Model.FileSelectList[i];
-                    var elemId = "FilesSelection_" + i.ToString();
-                    <div class="form-check">
-                        @if (elem.Selected)
-                        {
-                            <input class="form-check-input" type="checkbox" name="FilesSelection" id="@elemId" value="@elem.Value" checked/>
-                        }
-                        else
-                        {
-                            <input class="form-check-input" type="checkbox" name="FilesSelection" id="@elemId" value="@elem.Value" />
-                        }
-                        <label class="form-check-label" for="@elemId">@elem.Text</label>
-                    </div>
-                }
-            </div>
-        </div>
-        <div class="card bg-light">
-            <div class="card-header fw-bold">
-                Selezione destinatari
-            </div>
-            <div class="card-body">
-                @*<div class="mt-2">Destinatari</div>*@
-                @for (int i = 0; i < Model.ReceiverSelectList.Count; i++)
-                {
-                    var elem = Model.ReceiverSelectList[i];
-                    var elemId = "ReceiversSelection_" + i.ToString();
-                    <div class="form-check">
-                        @if (elem.Selected)
-                        {
-                            <input class="form-check-input" type="checkbox" name="ReceiversSelection" id="@elemId" value="@elem.Value" checked/>
-                        }
-                        else
-                        {
-                            <input class="form-check-input" type="checkbox" name="ReceiversSelection" id="@elemId" value="@elem.Value" />
-                        }
-                        <label class="form-check-label" for="@elemId">@elem.Text</label>
-                    </div>
-                }
-            </div>
-        </div>
 
-            @*<div class="form-group">
-                <label asp-for="SchedDate" class="control-label"></label>
-                <input asp-for="SchedDate" class="form-control" type="date" />
-                <span asp-validation-for="SchedDate" class="text-danger"></span>
-            </div>*@
-            
-        
+        <partial name="/Views/Shared/Input/_InformazioniGeneraliInput.cshtml" model="@Model"></partial>
+
+        <partial name="/Views/Shared/Input/_SelezioneAllegati.cshtml" model="@Model.FileSelectList"></partial>
+
+        <partial name="/Views/Shared/Input/_SelezioneDestinatari.cshtml" model="@Model.ReceiverSelectList"></partial>
+
         <div>
             <hr />
             <h6>Selezionare il tipo di schedulazione:</h6>

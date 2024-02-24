@@ -7,9 +7,10 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         Task<Entities.MailingPlan> GetMailingPlanById(int id);
         Task<Entities.MailingPlan> GetMailingPlanBySchedulationId(int schedulationId);
         Task<ICollection<Entities.MailingPlan>> GetMailingPlanListAsync();
-        Task<MailPlanCreateInputModel> CreateMailPlanInputModelAsync();
-        Task<Entities.MailingPlan> CreateMailingPlanAsync(MailPlanCreateInputModel model);
-        Task<MailPlanCreateInputModel> RestoreModelForCreation(MailPlanCreateInputModel model);
-        Task<MailPlanCreateInputModel> GetMailingPlanEditModelAsync(int id);
+        Task<MailPlanInputModel> CreateMailPlanInputModelAsync();
+        Task<Entities.MailingPlan> CreateMailingPlanAsync(MailPlanInputModel model);
+        Task<MailPlanInputModel> RestoreModelForCreation(MailPlanInputModel model);
+        Task<MailPlanInputModel> GetMailingPlanEditModelAsync(int id);
+        Task<Entities.MailingPlan> EditMailingPlanAsync(MailPlanInputModel model);
     }
 }

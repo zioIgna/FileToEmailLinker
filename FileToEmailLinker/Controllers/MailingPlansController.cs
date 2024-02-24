@@ -50,7 +50,7 @@ namespace FileToEmailLinker.Controllers
         public async Task<IActionResult> Create()
         {
             //ViewData["SchedulationId"] = new SelectList(_context.Set<Schedulation>(), "Id", "Name");
-            MailPlanCreateInputModel mailingPlanInputModel = await mailingPlanService.CreateMailPlanInputModelAsync();
+            MailPlanInputModel mailingPlanInputModel = await mailingPlanService.CreateMailPlanInputModelAsync();
             return View(mailingPlanInputModel);
         }
 
@@ -59,7 +59,7 @@ namespace FileToEmailLinker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(MailPlanCreateInputModel model) //MailPlanCreateInputModel model
+        public async Task<IActionResult> Create(MailPlanInputModel model) //MailPlanCreateInputModel model
         {
             ValidateSchedules(model);
             if (ModelState.IsValid)
@@ -72,11 +72,11 @@ namespace FileToEmailLinker.Controllers
                                         .SelectMany(x => x.Errors)
                                         .Select(x => x.ErrorMessage));
 
-            MailPlanCreateInputModel restoredModel = await mailingPlanService.RestoreModelForCreation(model);
+            MailPlanInputModel restoredModel = await mailingPlanService.RestoreModelForCreation(model);
             return View(restoredModel);
         }
 
-        private void ValidateSchedules(MailPlanCreateInputModel model)
+        private void ValidateSchedules(MailPlanInputModel model)
         {
             if (model.WeeklySchedulation == null && model.MonthlySchedulation == null)
             {
@@ -174,7 +174,7 @@ namespace FileToEmailLinker.Controllers
                 ViewData["ErrorMessage"] = "Non è possibile recuperare la programmazione cercata";
                 return View(nameof(Index));
             }
-            MailPlanCreateInputModel mailPlanInputModel = await mailingPlanService.GetMailingPlanEditModelAsync((int)id);
+            MailPlanInputModel mailPlanInputModel = await mailingPlanService.GetMailingPlanEditModelAsync((int)id);
 
             return View(mailPlanInputModel);
         }
@@ -184,36 +184,21 @@ namespace FileToEmailLinker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ActiveState,Text,SchedulationId")] MailingPlan mailingPlan)
+        public async Task<IActionResult> Edit(MailPlanInputModel model)
         {
-            //if (id != mailingPlan.Id)
-            //{
-            //    return NotFound();
-            //}
+            ValidateSchedules(model);
+            if (ModelState.IsValid)
+            {
+                MailingPlan mailingPlan = await mailingPlanService.EditMailingPlanAsync(model);
+                return RedirectToAction(nameof(Details), new { id = mailingPlan.Id });
+            }
 
-            //if (ModelState.IsValid)
-            //{
-            //    try
-            //    {
-            //        _context.Update(mailingPlan);
-            //        await _context.SaveChangesAsync();
-            //    }
-            //    catch (DbUpdateConcurrencyException)
-            //    {
-            //        if (!MailingPlanExists(mailingPlan.Id))
-            //        {
-            //            return NotFound();
-            //        }
-            //        else
-            //        {
-            //            throw;
-            //        }
-            //    }
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //ViewData["SchedulationId"] = new SelectList(_context.Set<Schedulation>(), "Id", "Id", mailingPlan.SchedulationId);
-            //return View(mailingPlan);
-            throw new NotImplementedException();
+            string messages = string.Join("; ", ModelState.Values
+                                        .SelectMany(x => x.Errors)
+                                        .Select(x => x.ErrorMessage));
+
+            MailPlanInputModel restoredModel = await mailingPlanService.RestoreModelForCreation(model);
+            return View(restoredModel);
         }
 
         // GET: MailingPlans/Delete/5
