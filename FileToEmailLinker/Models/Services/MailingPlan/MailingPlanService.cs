@@ -69,8 +69,6 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             return mailPlanCreateInputModel;
         }
 
-        
-
         private async Task SetReceiverSelectListForCreate(MailPlanInputModel mailPlanCreateInputModel)
         {
             List<SelectListItem> receiversSelectList = new List<SelectListItem>();
@@ -342,6 +340,12 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
                 receiversSelectList.Add(item);
             }
             mailPlanCreateInputModel.ReceiverSelectList = receiversSelectList;
+        }
+
+        public async Task DeleteMailingPlanAsync(Entities.MailingPlan mailingPlan)
+        {
+            context.Remove(mailingPlan);
+            await context.SaveChangesAsync();
         }
     }
 }

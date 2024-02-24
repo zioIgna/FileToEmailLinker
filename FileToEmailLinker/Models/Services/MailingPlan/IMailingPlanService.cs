@@ -12,5 +12,6 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         Task<MailPlanInputModel> RestoreModelForCreation(MailPlanInputModel model);
         Task<MailPlanInputModel> GetMailingPlanEditModelAsync(int id);
         Task<Entities.MailingPlan> EditMailingPlanAsync(MailPlanInputModel model);
+        Task DeleteMailingPlanAsync(Entities.MailingPlan mailingPlan);
     }
 }

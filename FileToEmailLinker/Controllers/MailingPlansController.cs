@@ -208,17 +208,17 @@ namespace FileToEmailLinker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.MailingPlan == null)
+            var mailingPlan = await mailingPlanService.GetMailingPlanById(id);
+            if (mailingPlan == null)
             {
-                return Problem("Entity set 'FileToEmailLinkerContext.MailingPlan'  is null.");
+                TempData["ErrorMessage"] = "Non è stato possibile recuperare la pianificazione cercata";
             }
-            var mailingPlan = await _context.MailingPlan.FindAsync(id);
-            if (mailingPlan != null)
+            else
             {
-                _context.MailingPlan.Remove(mailingPlan);
+                await mailingPlanService.DeleteMailingPlanAsync(mailingPlan);
+                TempData["ConfirmationMessage"] = "Pianificazione eliminata correttamente";
             }
-            
-            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
