@@ -4,11 +4,13 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="d-flex">
+    <h1>Elenco pianificazioni</h1>
+    <span class="align-self-center ms-auto">
+        <a asp-action="Create" class="btn btn-outline-primary">Aggiungi <i class="bi bi-plus-circle"></i></a>
+    </span>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -39,7 +41,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ActiveState)
             </td>
-            <td>
+            <td class="text-break">
                 @Html.DisplayFor(modelItem => item.Subject)
             </td>
             <td>
@@ -54,19 +56,11 @@
             </td>
             <td>
                 <span>@item.Schedulation.Time</span>
-@*                @if (item.WeeklySchedulation != null)
-                {
-                    <span>@item.WeeklySchedulation.Time</span>
-                }
-                else
-                {
-                    <span>@item.MonthlySchedulation.Time</span>
-                }*@
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            <td style="white-space:nowrap">
+                <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-file-text"></i></a> |
+                <a asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" style="color:red"><i class="bi bi-trash3"></i></a>
             </td>
         </tr>
 }

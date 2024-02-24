@@ -66,6 +66,7 @@ namespace FileToEmailLinker.Controllers
             if (ModelState.IsValid)
             {
                 MailingPlan mailingPlan = await mailingPlanService.CreateMailingPlanAsync(model);
+                TempData["ConfirmationMessage"] = "Pianificazione creata con successo";
                 return RedirectToAction(nameof(Details), new { id = mailingPlan.Id });
             }
 
@@ -179,6 +180,7 @@ namespace FileToEmailLinker.Controllers
             if (ModelState.IsValid)
             {
                 MailingPlan mailingPlan = await mailingPlanService.EditMailingPlanAsync(model);
+                TempData["ConfirmationMessage"] = "Pianificazione modificata con successo";
                 return RedirectToAction(nameof(Details), new { id = mailingPlan.Id });
             }
 
