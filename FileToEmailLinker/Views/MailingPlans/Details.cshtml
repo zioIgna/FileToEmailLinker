@@ -14,59 +14,9 @@
 <h1>Programmazione @Model.Name</h1>
 
     <hr />
-    <div class="card bg-light mb-2">
-        <div class="card-header fw-bold">Informazioni generali</div>
-        <div class="card-body">
-            <div class="row d-flex row-cols-md-2 mb-1">
-                <div class="col-6">
-                    <div class="row row-cols-2">
-                        <div class="col-8">
-                            <div class="form-group">
-                                <label asp-for="Name" class="control-label">Nome programmazione</label>
-                                <input id="Name" value="@Model.Name" class="form-control" style="background-color:white" disabled readonly/>
-                            </div>
-                        </div>
-                        <div class="col-4 d-flex">
-                            <div class="form-check form-switch align-self-end">
-                                <label asp-for="ActiveState" class="form-check-label">Attivo</label>
-                                @if(Model.ActiveState == ActiveState.Active){
-                                    <input id="ActiveState" class="form-check-input" type="checkbox" checked disabled/>
-                                }
-                                else
-                                {
-                                    <input id="ActiveState" class="form-check-input" type="checkbox" disabled/>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group mt-2 mb-2">
-                                <label asp-for="Subject" class="control-label">Soggetto email</label>
-                                <input type="text" id="Subject" value="@Model.Subject" class="form-control" style="background-color:white" disabled readonly />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row row-cols-2">
-                        <div class="col form-group">
-                            <label for="StartDate" class="control-label">Inizio pianificazione</label>
-                            <input id="StartDate" value="@startDateStr" class="form-control" style="background-color:white" type="text" disabled readonly />
-                        </div>
-                        <div class="col form-group">
-                            <label for="EndDate" class="control-label">Fine pianificazione</label>
-                            <input id="EndDate" value="@endDateStr" class="form-control" style="background-color:white" type="text" disabled readonly />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 align-self-stretch">
-                    <div class="form-group stretchtextarea">
-                        <label asp-for="Text" class="control-label">Testo email</label>
-                        <textarea id="Text" class="form-control stretchtextarea" style="background-color:white" disabled readonly>@Model.Text</textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+    <partial name="/Views/Shared/Output/_InformazioniGeneraliOutput.cshtml" model="@Model"></partial>
+
     <div class="card bg-light mb-2">
         <div class="card-header fw-bold">
             Allegati

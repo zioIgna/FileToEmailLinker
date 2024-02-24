@@ -42,6 +42,18 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            @if (TempData["ConfirmationMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissable mt-3" role="alert">
+                    @TempData["ConfirmationMessage"]
+                </div>
+            }
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-dismissable mt-3" role="alert">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
             @RenderBody()
         </main>
     </div>

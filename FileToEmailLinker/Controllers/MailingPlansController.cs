@@ -40,7 +40,8 @@ namespace FileToEmailLinker.Controllers
             var mailingPlan = await mailingPlanService.GetMailingPlanById(id);
             if(mailingPlan == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "Non è stato possibile recuperare la pianificazione cercata";
+                return RedirectToAction(nameof(Index));
             }
 
             return View(mailingPlan);
@@ -148,18 +149,6 @@ namespace FileToEmailLinker.Controllers
             return PartialView("/Views/Schedulations/_MonthlySchedulation.cshtml", model);
         }
 
-        //public async Task<IActionResult> Create([Bind("Id,Name,ActiveState,Text,SchedulationId")] MailingPlan mailingPlan)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(mailingPlan);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["SchedulationId"] = new SelectList(_context.Set<Schedulation>(), "Id", "Id", mailingPlan.SchedulationId);
-        //    return View(mailingPlan);
-        //}
-
         // GET: MailingPlans/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -202,19 +191,13 @@ namespace FileToEmailLinker.Controllers
         }
 
         // GET: MailingPlans/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null || _context.MailingPlan == null)
-            {
-                return NotFound();
-            }
-
-            var mailingPlan = await _context.MailingPlan
-                //.Include(m => m.Schedulation)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var mailingPlan = await mailingPlanService.GetMailingPlanById(id);
             if (mailingPlan == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "Non è stato possibile recuperare la pianificazione cercata";
+                return RedirectToAction(nameof(Index));
             }
 
             return View(mailingPlan);
