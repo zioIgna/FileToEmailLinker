@@ -4,8 +4,8 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
 {
     public interface IMailingPlanService
     {
-        Task<Entities.MailingPlan> GetMailingPlanById(int id);
-        Task<Entities.MailingPlan> GetMailingPlanBySchedulationId(int schedulationId);
+        Task<Entities.MailingPlan> GetMailingPlanByIdAsync(int id);
+        Task<Entities.MailingPlan> GetMailingPlanBySchedulationIdAsync(int schedulationId);
         Task<ICollection<Entities.MailingPlan>> GetMailingPlanListAsync();
         Task<MailPlanInputModel> CreateMailPlanInputModelAsync();
         Task<Entities.MailingPlan> CreateMailingPlanAsync(MailPlanInputModel model);
@@ -13,5 +13,6 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         Task<MailPlanInputModel> GetMailingPlanEditModelAsync(int id);
         Task<Entities.MailingPlan> EditMailingPlanAsync(MailPlanInputModel model);
         Task DeleteMailingPlanAsync(Entities.MailingPlan mailingPlan);
+        string GetFilesDirectoryFullPath();
     }
 }

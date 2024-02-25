@@ -37,7 +37,7 @@ namespace FileToEmailLinker.Controllers
         // GET: MailingPlans/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var mailingPlan = await mailingPlanService.GetMailingPlanById(id);
+            var mailingPlan = await mailingPlanService.GetMailingPlanByIdAsync(id);
             if(mailingPlan == null)
             {
                 TempData["ErrorMessage"] = "Non è stato possibile recuperare la pianificazione cercata";
@@ -158,7 +158,7 @@ namespace FileToEmailLinker.Controllers
                 ViewData["ErrorMessage"] = "Errato riferimento per la programmazione";
                 return View(nameof(Index));
             }
-            MailingPlan mailingPlan = await mailingPlanService.GetMailingPlanById((int)id);
+            MailingPlan mailingPlan = await mailingPlanService.GetMailingPlanByIdAsync((int)id);
             if(mailingPlan is null)
             {
                 ViewData["ErrorMessage"] = "Non è possibile recuperare la programmazione cercata";
@@ -195,7 +195,7 @@ namespace FileToEmailLinker.Controllers
         // GET: MailingPlans/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var mailingPlan = await mailingPlanService.GetMailingPlanById(id);
+            var mailingPlan = await mailingPlanService.GetMailingPlanByIdAsync(id);
             if (mailingPlan == null)
             {
                 TempData["ErrorMessage"] = "Non è stato possibile recuperare la pianificazione cercata";
@@ -210,7 +210,7 @@ namespace FileToEmailLinker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var mailingPlan = await mailingPlanService.GetMailingPlanById(id);
+            var mailingPlan = await mailingPlanService.GetMailingPlanByIdAsync(id);
             if (mailingPlan == null)
             {
                 TempData["ErrorMessage"] = "Non è stato possibile recuperare la pianificazione cercata";

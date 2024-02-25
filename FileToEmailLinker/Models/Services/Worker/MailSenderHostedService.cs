@@ -46,44 +46,81 @@ namespace FileToEmailLinker.Models.Services.Worker
                 //};
                 try
                 {
-                    int schedulationId = await queue.ReceiveAsync(stoppingToken);
+                    int mailingPlanId = await queue.ReceiveAsync(stoppingToken);
+
+                    Console.WriteLine($"Ottenuta la schedulazione {mailingPlanId}");
 
                     using IServiceScope serviceScope = serviceScopeFactory.CreateScope();
                     IServiceProvider serviceProvider = serviceScope.ServiceProvider;
                     IMailingPlanService mailingPlanService = serviceProvider.GetRequiredService<IMailingPlanService>();
 
-                    Entities.MailingPlan mailingPlan = await mailingPlanService.GetMailingPlanBySchedulationId(schedulationId);
-                    if(mailingPlan == null)
+                    Entities.MailingPlan mailingPlan = await mailingPlanService.GetMailingPlanByIdAsync(mailingPlanId);
+                    
+                    if (mailingPlan == null)
                     {
-                        throw new MailingPlanNotFoundException(schedulationId);
+                        Console.WriteLine($"Non si è riconosciuto il MailingPlan");
+                        throw new MailingPlanNotFoundException(mailingPlanId);
                     }
-                    MimeMessage message = new MimeMessage();
-                    message.From.Add(MailboxAddress.Parse(optionsMonitor.CurrentValue.Sender));
-                    InternetAddressList internetAddresses = new InternetAddressList();
-                    internetAddresses.AddRange(mailingPlan.ReceiverList
-                        .Select(receiver => new MailboxAddress(string.Concat(receiver.Name, ' ', receiver.Surname), receiver.Email)));
-                    message.To.AddRange(internetAddresses);
-                    message.Subject = mailingPlan.Subject;
-                    message.Body = new TextPart("html")
-                    {
-                        Text = $"<p>{mailingPlan.Text}</p>"
-                    };
+                    Console.WriteLine($"Riconosciuto il MailingPlan {mailingPlan.Name}");
+                    string filesDirectoryFullPath = mailingPlanService.GetFilesDirectoryFullPath();
 
-                    var options = this.optionsMonitor.CurrentValue;
-                    using var client = new SmtpClient();
-                    await client.ConnectAsync(options.Host, options.Port);
-                    if (!string.IsNullOrEmpty(options.Username))
-                    {
-                        await client.AuthenticateAsync(options.Username, options.Password);
-                    }
-                    await client.SendAsync(message);
-                    await client.DisconnectAsync(true);
+                    MimeMessage message = CreateMimeMessage(mailingPlan, filesDirectoryFullPath);
+                    using SmtpClient client = await SendEmail(message);
                 }
                 catch (Exception ex)
                 {
-
+                    Console.WriteLine($"Si è ottenuta la eccezione {ex.Message}");
                 }
             }
+        }
+
+        private async Task<SmtpClient> SendEmail(MimeMessage message)
+        {
+            var options = this.optionsMonitor.CurrentValue;
+            var client = new SmtpClient();
+            await client.ConnectAsync(options.Host, options.Port);
+            if (!string.IsNullOrEmpty(options.Username))
+            {
+                await client.AuthenticateAsync(options.Username, options.Password);
+            }
+            await client.SendAsync(message);
+            await client.DisconnectAsync(true);
+            return client;
+        }
+
+        private MimeMessage CreateMimeMessage(Entities.MailingPlan mailingPlan, string filesDirectoryFullPath)
+        {
+            MimeMessage message = new MimeMessage();
+            message.From.Add(MailboxAddress.Parse(optionsMonitor.CurrentValue.Sender));
+            InternetAddressList internetAddresses = new InternetAddressList();
+            internetAddresses.AddRange(mailingPlan.ReceiverList
+                .Select(receiver => new MailboxAddress(string.Concat(receiver.Name, ' ', receiver.Surname), receiver.Email)));
+            message.To.AddRange(internetAddresses);
+            message.Subject = mailingPlan.Subject;
+
+            var body = new TextPart("html")
+            {
+                Text = $"<p>{mailingPlan.Text}</p>"
+            };
+
+            var multipart = new Multipart("mixed");
+            multipart.Add(body); 
+            string[] fileNames = mailingPlan.FileStringList.Split(";");
+            foreach (var fileName in fileNames)
+            {
+                string fileNameWithPath = Path.Combine(filesDirectoryFullPath, fileName);
+                var attachment = new MimePart("application", "vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                {
+                    Content = new MimeContent(File.OpenRead(fileNameWithPath), ContentEncoding.Default),
+                    ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                    ContentTransferEncoding = ContentEncoding.Binary,
+                    FileName = Path.GetFileName(fileNameWithPath)
+                };
+                multipart.Add(attachment);
+            }
+
+            message.Body = multipart;
+            return message;
         }
     }
 }

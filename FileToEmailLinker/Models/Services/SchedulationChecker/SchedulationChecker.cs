@@ -1,6 +1,5 @@
 ﻿using FileToEmailLinker.Models.Services.Schedulation;
 using FileToEmailLinker.Models.Services.Worker;
-using System.Timers;
 
 namespace FileToEmailLinker.Models.Services.SchedulationChecker
 {
@@ -48,16 +47,16 @@ namespace FileToEmailLinker.Models.Services.SchedulationChecker
                 Console.WriteLine($"I secondi mancanti alla {++ordinale}^ esecuzione sono {missingSeconds}");
                 if (missingSeconds >= 0)
                 {
-                    Console.WriteLine($"Impostato il timer per la schedulazione {schedulation.Id}"); //schedulation.Name
+                    Console.WriteLine($"Impostato il timer per la schedulazione {schedulation.Id}");
                     System.Timers.Timer timer = new System.Timers.Timer(missingSeconds * 1000);
                     timer.AutoReset = false;
                     timer.Enabled = true;
                     timer.Elapsed += (sender, e) =>
                     {
-                        Console.WriteLine($"La schedulazione riconosciuta è la {schedulation.Id}"); //schedulation.Name
+                        Console.WriteLine($"La schedulazione riconosciuta è la {schedulation.Id}");
                         try
                         {
-                            mailSenderHostedService.EnqueueMailingPlan(schedulation.Id);
+                            mailSenderHostedService.EnqueueMailingPlan(schedulation.MailingPlanId);
                             timer.Stop();
                             timer.Dispose();
                         }

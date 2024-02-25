@@ -24,7 +24,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             this.receiverService = receiverService;
             this.env = env;
         }
-        public async Task<Entities.MailingPlan> GetMailingPlanById(int id)
+        public async Task<Entities.MailingPlan> GetMailingPlanByIdAsync(int id)
         {
             IQueryable<Entities.MailingPlan> query = context.MailingPlan
                 .Include(mp => mp.MonthlySchedulation)
@@ -35,7 +35,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<Entities.MailingPlan> GetMailingPlanBySchedulationId(int schedulationId)
+        public async Task<Entities.MailingPlan> GetMailingPlanBySchedulationIdAsync(int schedulationId)
         {
             IQueryable<Entities.MailingPlan> query = context.MailingPlan
                 .Include(mp => mp.ReceiverList)
@@ -92,6 +92,13 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
 
         private IEnumerable<string> GetFolderFiles()
         {
+            string fullPath = GetFilesDirectoryFullPath();
+            IEnumerable<string>? files = Directory.EnumerateFiles(fullPath, "*.xlsx");
+            return files;
+        }
+
+        public string GetFilesDirectoryFullPath()
+        {
             var rootdir = env.ContentRootPath;
             var folderPath = configuration["HolderPath"];
             if (folderPath == null)
@@ -99,8 +106,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
                 throw new Exception("La cartella degli allegati non è raggiungibile");
             }
             var fullPath = Path.Combine(rootdir, "wwwroot", folderPath);
-            IEnumerable<string>? files = Directory.EnumerateFiles(fullPath, "*.xlsx");
-            return files;
+            return fullPath;
         }
 
         public async Task<Entities.MailingPlan> CreateMailingPlanAsync(MailPlanInputModel model)
@@ -116,7 +122,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
 
         public async Task<Entities.MailingPlan> EditMailingPlanAsync(MailPlanInputModel model)
         {
-            Entities.MailingPlan mailingPlan = await GetMailingPlanById(model.Id);
+            Entities.MailingPlan mailingPlan = await GetMailingPlanByIdAsync(model.Id);
             if(mailingPlan == null)
             {
                 throw new Exception("Non è possibile recuperare la programmazione richiesta");
@@ -282,7 +288,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
 
         public async Task<MailPlanInputModel?> GetMailingPlanEditModelAsync(int id)
         {
-            Entities.MailingPlan mailingPlan = await GetMailingPlanById(id);
+            Entities.MailingPlan mailingPlan = await GetMailingPlanByIdAsync(id);
             if (mailingPlan is null)
             {
                 return null;
