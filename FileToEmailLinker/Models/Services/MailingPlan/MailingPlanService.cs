@@ -264,23 +264,36 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             restoredModel.SchedTime = model.SchedTime;
             restoredModel.StartDate = model.StartDate;
             restoredModel.EndDate = model.EndDate;
-            foreach (var originalAttachment in model.FilesSelection)
+            if(model.FilesSelection != null)
             {
-                var restoredAttachment = restoredModel.FileSelectList.FirstOrDefault(file => file.Value.Equals(originalAttachment));
-                if (restoredAttachment == null)
+                foreach (var originalAttachment in model.FilesSelection)
                 {
-                    throw new Exception("Attachment not found");
+                    var restoredAttachment = restoredModel.FileSelectList.FirstOrDefault(file => file.Value.Equals(originalAttachment));
+                    if (restoredAttachment == null)
+                    {
+                        throw new Exception("Attachment not found");
+                    }
+                    restoredAttachment.Selected = true;
                 }
-                restoredAttachment.Selected = true;
             }
-            foreach (var originalRecipient in model.ReceiversSelection)
+            if(model.ReceiversSelection != null)
             {
-                var restoredRecipient = restoredModel.ReceiverSelectList.FirstOrDefault(recepient => recepient.Value.Equals(originalRecipient));
-                if (restoredRecipient == null)
+                foreach (var originalRecipient in model.ReceiversSelection)
                 {
-                    throw new Exception("Recipient not found");
+                    var restoredRecipient = restoredModel.ReceiverSelectList.FirstOrDefault(recepient => recepient.Value.Equals(originalRecipient));
+                    if (restoredRecipient == null)
+                    {
+                        throw new Exception("Recipient not found");
+                    }
+                    restoredRecipient.Selected = true;
                 }
-                restoredRecipient.Selected = true;
+            }
+            if(model.WeeklySchedulation != null)
+            {
+                restoredModel.WeeklySchedulation = model.WeeklySchedulation;
+            }else if(model.MonthlySchedulation != null)
+            {
+                restoredModel.MonthlySchedulation = model.MonthlySchedulation;
             }
 
             return restoredModel;

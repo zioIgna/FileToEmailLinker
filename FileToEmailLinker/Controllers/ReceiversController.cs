@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FileToEmailLinker.Data;
 using FileToEmailLinker.Models.Entities;
+using FileToEmailLinker.Models.InputModels.Receivers;
 
 namespace FileToEmailLinker.Controllers
 {
