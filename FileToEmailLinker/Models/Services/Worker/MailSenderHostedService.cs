@@ -109,6 +109,8 @@ namespace FileToEmailLinker.Models.Services.Worker
             foreach (var fileName in fileNames)
             {
                 string fileNameWithPath = Path.Combine(filesDirectoryFullPath, fileName);
+                //TODO: decidere come gestire la mancanza di un file:
+                if(!File.Exists(fileNameWithPath)) continue;
                 var attachment = new MimePart("application", "vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                 {
                     Content = new MimeContent(File.OpenRead(fileNameWithPath), ContentEncoding.Default),
