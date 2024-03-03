@@ -254,9 +254,13 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             return schedulation;
         }
 
-        public async Task<MailPlanInputModel> RestoreModelForCreation(MailPlanInputModel model)
+        public async Task<MailPlanInputModel> RestoreModelForCreationAndEditing(MailPlanInputModel model)
         {
             MailPlanInputModel restoredModel = await CreateMailPlanInputModelAsync();
+            if(model.Id != 0)
+            {
+                restoredModel.Id = model.Id;
+            }
             restoredModel.Name = model.Name;
             restoredModel.ActiveState = model.ActiveState;
             restoredModel.Subject = model.Subject;
@@ -291,7 +295,8 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             if(model.WeeklySchedulation != null)
             {
                 restoredModel.WeeklySchedulation = model.WeeklySchedulation;
-            }else if(model.MonthlySchedulation != null)
+            }
+            else if(model.MonthlySchedulation != null)
             {
                 restoredModel.MonthlySchedulation = model.MonthlySchedulation;
             }

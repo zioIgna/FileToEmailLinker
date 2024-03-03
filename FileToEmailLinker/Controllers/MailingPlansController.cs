@@ -74,7 +74,7 @@ namespace FileToEmailLinker.Controllers
                                         .SelectMany(x => x.Errors)
                                         .Select(x => x.ErrorMessage));
 
-            MailPlanInputModel restoredModel = await mailingPlanService.RestoreModelForCreation(model);
+            MailPlanInputModel restoredModel = await mailingPlanService.RestoreModelForCreationAndEditing(model);
             return View(restoredModel);
         }
 
@@ -188,7 +188,7 @@ namespace FileToEmailLinker.Controllers
                                         .SelectMany(x => x.Errors)
                                         .Select(x => x.ErrorMessage));
 
-            MailPlanInputModel restoredModel = await mailingPlanService.RestoreModelForCreation(model);
+            MailPlanInputModel restoredModel = await mailingPlanService.RestoreModelForCreationAndEditing(model);
             return View(restoredModel);
         }
 
