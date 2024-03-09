@@ -4,5 +4,6 @@
     {
         Task<ICollection<Entities.Receiver>> GetReceiverListAsync();
         Task<Entities.Receiver> GetReceiverByIdAsync(int id);
+        Task<Entities.Receiver> CreateReceiverAsync(Entities.Receiver receiver);
     }
 }

@@ -9,6 +9,8 @@ using FileToEmailLinker.Data;
 using FileToEmailLinker.Models.Entities;
 using FileToEmailLinker.Models.InputModels.Receivers;
 using FileToEmailLinker.Models.Services.Receiver;
+using FileToEmailLinker.Models.Exceptions;
+using NuGet.Protocol.Plugins;
 
 namespace FileToEmailLinker.Controllers
 {
@@ -26,14 +28,14 @@ namespace FileToEmailLinker.Controllers
         // GET: Receivers
         public async Task<IActionResult> Index()
         {
-            ICollection<Receiver> receiverList = await receiverService.GetReceiverListAsync();
+            ICollection<Models.Entities.Receiver> receiverList = await receiverService.GetReceiverListAsync();
             return View(receiverList);
         }
 
         // GET: Receivers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            Receiver receiver = await receiverService.GetReceiverByIdAsync((int)id);
+            Models.Entities.Receiver receiver = await receiverService.GetReceiverByIdAsync((int)id);
             if(receiver == null)
             {
                 TempData["ErrorMessage"] = "Non è stato possibile recuperare il destinatario cercato";
@@ -54,15 +56,15 @@ namespace FileToEmailLinker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Surname,Email")] Receiver receiver)
+        public async Task<IActionResult> Create([Bind("Id,Name,Surname,Email")] Models.Entities.Receiver model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(receiver);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                Models.Entities.Receiver receiver = await receiverService.CreateReceiverAsync(model);
+                TempData["ConfirmationMessage"] = "Pianificazione creata con successo";
+                return RedirectToAction(nameof(Details), new { id = receiver.Id });
             }
-            return View(receiver);
+            return View(model);
         }
 
         // GET: Receivers/Edit/5
@@ -86,7 +88,7 @@ namespace FileToEmailLinker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,Email")] Receiver receiver)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,Email")] Models.Entities.Receiver receiver)
         {
             if (id != receiver.Id)
             {
@@ -119,17 +121,19 @@ namespace FileToEmailLinker.Controllers
         // GET: Receivers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Receiver == null)
-            {
-                return NotFound();
-            }
-
-            var receiver = await _context.Receiver
-                .FirstOrDefaultAsync(m => m.Id == id);
+            Models.Entities.Receiver receiver = await receiverService.GetReceiverByIdAsync((int)id);
             if (receiver == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "Non è stato possibile recuperare il destinatario cercato";
+                return RedirectToAction(nameof(Index));
             }
+            bool canDeleteReceiver = !receiver.MailingPlanList.Any();
+            if (canDeleteReceiver)
+            {
+                return View();
+            }
+            TempData["ErrorMessage"] = "Non è possibile eliminare il destinatario in quanto collegato a una o più pianificazioni. Eliminare prima il link a tali pianificazioni";
+            return RedirectToAction(nameof(Index));
 
             return View(receiver);
         }
