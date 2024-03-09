@@ -22,8 +22,11 @@ namespace FileToEmailLinker.Models.Services.Receiver
 
         public async Task<Entities.Receiver> GetReceiverByIdAsync(int id)
         {
-            return await context.Receiver
+            Entities.Receiver? receiver = await context.Receiver
+                .Include(rec => rec.MailingPlanList)
                 .FirstOrDefaultAsync(rec => rec.Id == id);
+
+            return receiver;
         }
     }
 }

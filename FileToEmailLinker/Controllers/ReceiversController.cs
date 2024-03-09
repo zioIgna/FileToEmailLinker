@@ -8,39 +8,36 @@ using Microsoft.EntityFrameworkCore;
 using FileToEmailLinker.Data;
 using FileToEmailLinker.Models.Entities;
 using FileToEmailLinker.Models.InputModels.Receivers;
+using FileToEmailLinker.Models.Services.Receiver;
 
 namespace FileToEmailLinker.Controllers
 {
     public class ReceiversController : Controller
     {
         private readonly FileToEmailLinkerContext _context;
+        private readonly IReceiverService receiverService;
 
-        public ReceiversController(FileToEmailLinkerContext context)
+        public ReceiversController(FileToEmailLinkerContext context, IReceiverService receiverService)
         {
             _context = context;
+            this.receiverService = receiverService;
         }
 
         // GET: Receivers
         public async Task<IActionResult> Index()
         {
-              return _context.Receiver != null ? 
-                          View(await _context.Receiver.ToListAsync()) :
-                          Problem("Entity set 'FileToEmailLinkerContext.Receiver'  is null.");
+            ICollection<Receiver> receiverList = await receiverService.GetReceiverListAsync();
+            return View(receiverList);
         }
 
         // GET: Receivers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Receiver == null)
+            Receiver receiver = await receiverService.GetReceiverByIdAsync((int)id);
+            if(receiver == null)
             {
-                return NotFound();
-            }
-
-            var receiver = await _context.Receiver
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (receiver == null)
-            {
-                return NotFound();
+                TempData["ErrorMessage"] = "Non è stato possibile recuperare il destinatario cercato";
+                return RedirectToAction(nameof(Index));
             }
 
             return View(receiver);
