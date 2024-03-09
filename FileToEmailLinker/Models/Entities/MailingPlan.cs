@@ -1,8 +1,9 @@
 ﻿using FileToEmailLinker.Models.Enums;
+using FileToEmailLinker.Models.ViewModels;
 
 namespace FileToEmailLinker.Models.Entities
 {
-    public class MailingPlan
+    public class MailingPlan : IIdEntity
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

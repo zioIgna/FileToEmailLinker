@@ -1,6 +1,8 @@
-﻿namespace FileToEmailLinker.Models.Entities
+﻿using FileToEmailLinker.Models.ViewModels;
+
+namespace FileToEmailLinker.Models.Entities
 {
-    public class Receiver
+    public class Receiver : IIdEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

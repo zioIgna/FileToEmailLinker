@@ -4,33 +4,56 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="container">
+    <h1>Dettagli</h1>
 
-<div>
-    <h4>Receiver</h4>
+    <h4>Destinatario</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Surname)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Surname)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="row row-cols-1 row-cols-md-2">
+        <div class="col">
+            <div class="card bg-light mb-2">
+                <div class="card-header fw-bold">
+                    Info
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label">Nome</label>
+                            <input id="Name" value="@Model.Name" class="form-control" style="background-color:white" disabled readonly />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label asp-for="Surname" class="control-label">Cognome</label>
+                            <input id="Surname" value="@Model.Surname" class="form-control" style="background-color:white" disabled readonly />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label">email</label>
+                            <input id="Email" value="@Model.Email" class="form-control" style="background-color:white" disabled readonly />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card bg-light mb-2">
+                <div class="card-header fw-bold">
+                    Pianificazioni
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        @foreach(var pianif in Model.MailingPlanList)
+                        {
+                            <a class="list-group-item list-group-item-action" style="color:royalblue" asp-action="Details" asp-controller="MailingPlans" asp-route-id="@pianif.Id"><i class="bi bi-send me-1"></i> @pianif.Name</a>
+                        }
+
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <partial name="ButtonGroup/EditBackToListButtonGroup" model="@Model"></partial>
 </div>

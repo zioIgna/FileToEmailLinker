@@ -71,8 +71,5 @@
             }
         </div>
     </div>
-    <div class="form-group d-flex mt-2">
-        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.Id">Modifica <i class="bi bi-pencil-square"></i></a>
-        <a class="btn btn-outline-secondary ms-2" asp-action="Index">Elenco <i class="bi bi-list-ul ms-1"></i></a>
-    </div>
+    <partial name="ButtonGroup/EditBackToListButtonGroup" model="@Model"></partial>
 </div>
