@@ -1,0 +1,23 @@
+﻿@model Receiver
+@{
+    var receiverVcId = "receiver_" + Model.Id;
+    var hashedReceiverVcId = "#receiver_" + Model.Id;
+}
+
+@*<tr id="@receiverVcId">*@
+    <td class="form-group">
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </td>
+    <td class="form-group">
+        <input asp-for="Surname" class="form-control" />
+        <span asp-validation-for="Surname" class="text-danger"></span>
+    </td>
+    <td class="form-group">
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </td>
+    <td>
+        <a asp-action="InlineOutput" asp-route-id="@Model.Id" data-ajax="true" data-ajax-mode="replace" data-ajax-update="@hashedReceiverVcId">Annulla</a>
+    </td>
+@*</tr>*@

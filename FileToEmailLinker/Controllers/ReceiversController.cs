@@ -118,6 +118,32 @@ namespace FileToEmailLinker.Controllers
             return View(receiver);
         }
 
+        public async Task<IActionResult> InlineOutput(int id)
+        {
+            Models.Entities.Receiver receiver = await receiverService.GetReceiverByIdAsync(id);
+            if (receiver == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return PartialView("/Views/Shared/Output/_ReceiverInlineOutput.cshtml", receiver);
+            }
+        }
+
+        public async Task<IActionResult> InlineInput(int id)
+        {
+            Models.Entities.Receiver receiver = await receiverService.GetReceiverByIdAsync(id);
+            if (receiver == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return PartialView("/Views/Shared/Input/_ReceiverInlineInput.cshtml", receiver);
+            }
+        }
+
         // GET: Receivers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

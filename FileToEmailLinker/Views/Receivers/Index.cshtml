@@ -28,7 +28,12 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+    var receiverVcId = "receiver_" + item.Id;
+    <tr id="@receiverVcId">
+        <partial name="/Views/Shared/Output/_ReceiverInlineOutput.cshtml" model="@item"></partial>
+    </tr>
+            @*<vc:receiver-inline-row model="@item"></vc:receiver-inline-row>*@
+@*        <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -43,7 +48,7 @@
                 <a asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a> |
                 <a asp-action="Delete" asp-route-id="@item.Id" style="color:red"><i class="bi bi-trash3"></i></a>
             </td>
-        </tr>
+        </tr>*@
 }
     </tbody>
 </table>
