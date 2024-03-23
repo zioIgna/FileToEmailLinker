@@ -11,44 +11,84 @@
     </span>
 </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Nome
-            </th>
-            <th>
-                Cognome
-            </th>
-            <th>
-                Email
-            </th>
-            <th></th>
+<form asp-action="EditInline" id="formId" >
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Cognome
+                </th>
+                <th>
+                    Email
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+        var receiverVcId = "receiver_" + item.Id;
+        <tr id="@receiverVcId">
+            <partial name="/Views/Shared/Output/_ReceiverInlineOutput.cshtml" model="@item"></partial>
         </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-    var receiverVcId = "receiver_" + item.Id;
-    <tr id="@receiverVcId">
-        <partial name="/Views/Shared/Output/_ReceiverInlineOutput.cshtml" model="@item"></partial>
-    </tr>
-            @*<vc:receiver-inline-row model="@item"></vc:receiver-inline-row>*@
-@*        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Surname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td style="white-space:nowrap">
-                <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-file-text"></i></a> |
-                <a asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a> |
-                <a asp-action="Delete" asp-route-id="@item.Id" style="color:red"><i class="bi bi-trash3"></i></a>
-            </td>
-        </tr>*@
-}
-    </tbody>
-</table>
+                @*<vc:receiver-inline-row model="@item"></vc:receiver-inline-row>*@
+    @*        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td style="white-space:nowrap">
+                    <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-file-text"></i></a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" style="color:red"><i class="bi bi-trash3"></i></a>
+                </td>
+            </tr>*@
+    }
+        </tbody>
+    </table>
+</form>
+
+<script src="/js/Receiver/InlineEdit.js"></script>
+@*<script>
+    let form = document.getElementById("formId");
+
+    form.addEventListener("submit", function(event){
+        event.preventDefault();
+
+        fetch(form.action, {
+            method: "post",
+            body: new FormData(form)
+        })
+        .then((response) => {
+            console.log(response);
+            document.getElementById("receiver_5").innerHTML = response;
+        })
+    });
+</script>*@
+
+@*<script>
+    var form = document.getElementById("formId");
+    //var opTag = document.getElementById("opTag");
+    function submitForm(event) {
+        event.preventDefault();
+        //form.style.display = "none";
+        //opTag.innerHTML = "<b>Form submit successful</b>";
+    }
+    form.addEventListener('submit', submitForm);
+</script>*@
+
+@*<script>
+    var retForm = document.getElementById("formId");
+    //var retOp = document.getElementById("retOp");
+    function submitFormReturn(event) {
+        retForm.style.display = "none";
+        //retOp.innerHTML = "<b>Form submit successful</b>";
+    }
+</script>*@

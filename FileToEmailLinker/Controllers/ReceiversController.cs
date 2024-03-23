@@ -118,6 +118,36 @@ namespace FileToEmailLinker.Controllers
             return View(receiver);
         }
 
+        public async Task<IActionResult> EditInline(Models.Entities.Receiver receiver)
+        {
+            if (receiver == null || receiver.Id == 0)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(receiver);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ReceiverExists(receiver.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return PartialView("/Views/Shared/Output/_ReceiverInlineOutput.cshtml", receiver);
+            }
+            Models.Entities.Receiver originalReceiver = await receiverService.GetReceiverByIdAsync(receiver.Id);
+            return PartialView("/Views/Shared/Output/_ReceiverInlineOutput.cshtml", originalReceiver);
+        }
+
         public async Task<IActionResult> InlineOutput(int id)
         {
             Models.Entities.Receiver receiver = await receiverService.GetReceiverByIdAsync(id);

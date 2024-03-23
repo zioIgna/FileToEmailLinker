@@ -4,20 +4,26 @@
     var hashedReceiverVcId = "#receiver_" + Model.Id;
 }
 
-@*<tr id="@receiverVcId">*@
+@*<form method="post" asp-action="EditInline">*@
+    <input asp-for="Id" hidden/>
     <td class="form-group">
         <input asp-for="Name" class="form-control" />
+        @*<input id="Name" class="form-control" value="@Model.Name"/>*@
         <span asp-validation-for="Name" class="text-danger"></span>
     </td>
     <td class="form-group">
         <input asp-for="Surname" class="form-control" />
+        @*<input id="Surname" class="form-control" value="@Model.Surname"/>*@
         <span asp-validation-for="Surname" class="text-danger"></span>
     </td>
     <td class="form-group">
         <input asp-for="Email" class="form-control" />
+        @*<input id="Email" class="form-control" value="@Model.Email"/>*@
         <span asp-validation-for="Email" class="text-danger"></span>
     </td>
     <td>
-        <a asp-action="InlineOutput" asp-route-id="@Model.Id" data-ajax="true" data-ajax-mode="replace" data-ajax-update="@hashedReceiverVcId">Annulla</a>
+    @*<a asp-action="EditInline" value="Save" data-ajax="true" data-ajax-mode="replace" data-ajax-update="@hashedReceiverVcId" >Salva</a> | *@
+    <input type="submit" value="Save" data-ajax="true" data-ajax-mode="replace" data-ajax-update="@hashedReceiverVcId" /> |
+    <a asp-action="InlineOutput" asp-route-id="@Model.Id" data-ajax="true" data-ajax-mode="replace" data-ajax-update="@hashedReceiverVcId">Annulla</a>
     </td>
-@*</tr>*@
+@*</form>*@
