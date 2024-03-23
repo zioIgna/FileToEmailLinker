@@ -1,15 +1,18 @@
-﻿let form = document.getElementById("formId");
+﻿let formColl = document.getElementsByTagName('form');
+Array.from(formColl).forEach(el => el.addEventListener("submit", populatePartialView));
 
-form.addEventListener("submit", populatePartialView);
+//let form = document.getElementById("formId");
+
+//form.addEventListener("submit", populatePartialView);
 
 async function populatePartialView(event) {
     event.preventDefault();
 
     const response = await fetch(
-        form.action,
+        event.target.action,
         {
             method: "post",
-            body: new FormData(form)
+            body: new FormData(event.target)
         }
     );
     const view = await response.text();
