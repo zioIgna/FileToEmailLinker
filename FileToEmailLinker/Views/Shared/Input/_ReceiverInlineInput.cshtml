@@ -19,7 +19,7 @@
     <span asp-validation-for="Email" class="text-danger"></span>
 </td>
 <td>
-    <input type="submit" value="Save" data-recId="@hashedReceiverVcId" form="@formId"/> |
-    <a asp-action="InlineOutput" asp-route-id="@Model.Id" data-ajax="true" data-ajax-mode="replace" data-ajax-update="@hashedReceiverVcId">Annulla</a>
+    <button type="submit" class="btn btn-outline-primary" data-recId="@hashedReceiverVcId" form="@formId"><i class="bi bi-check-circle"></i></button>
+    <a asp-action="InlineOutput" class="btn btn-outline-secondary" asp-route-id="@Model.Id" data-ajax="true" data-ajax-mode="replace" data-ajax-update="@hashedReceiverVcId"><i class="bi bi-x-circle"></i></a>
 </td>
 
