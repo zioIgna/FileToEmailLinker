@@ -1,0 +1,37 @@
+﻿@model Dictionary<DateOnly,ICollection<Schedulation>>
+
+<h1>Prossimi invii</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Data</th>
+            <th scope="col">Pianificazione</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (KeyValuePair<DateOnly,ICollection<Schedulation>> entry in Model)
+        {
+            <tr>
+                <td class="fw-bolder">@entry.Key</td>
+                <td>
+                    <ul class="list-group">
+                        @foreach(var sched in entry.Value)
+                        {
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm-2 fst-italic">
+                                        @sched.Time
+                                    </div>
+                                    <div class="col">
+                                        <a asp-controller="MailingPlans" asp-action="Details" asp-route-id="@sched.MailingPlan.Id"><i class="bi bi-box-arrow-up-right me-2"></i></a>
+                                        @sched.MailingPlan.Name
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

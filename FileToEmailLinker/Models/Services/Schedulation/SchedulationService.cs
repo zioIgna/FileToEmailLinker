@@ -19,6 +19,7 @@ namespace FileToEmailLinker.Models.Services.Schedulation
             //    .Where(s => s.Date.Equals(date));
 
             IQueryable<Entities.Schedulation> queryByWeekDay = context.WeeklySchedulation
+                .Include(sched => sched.MailingPlan)
                 .Where(s => (s.Monday && date.DayOfWeek == DayOfWeek.Monday ||
                     s.Tuesday && date.DayOfWeek == DayOfWeek.Tuesday ||
                     s.Wednesday && date.DayOfWeek == DayOfWeek.Wednesday ||
@@ -30,6 +31,7 @@ namespace FileToEmailLinker.Models.Services.Schedulation
                     && s.StartDate.CompareTo(date) <= 0);
 
             IQueryable<Entities.Schedulation> queryByDayAndMonth = context.MonthlySchedulation
+                .Include(sched => sched.MailingPlan)
                 .Where(s =>
                     (s.One && date.Day == 1
                     || s.Two && date.Day == 2
