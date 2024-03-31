@@ -21,7 +21,7 @@ namespace FileToEmailLinker.Models.Services.SchedulationChecker
         {
             var tomorrow = DateOnly.FromDateTime(DateTime.Now.AddDays(1).Date);
             var today = DateOnly.FromDateTime(DateTime.Now.Date);
-            ICollection<Entities.Schedulation> schedulations = await schedulationService.GetSchedulationsByDateOrWeekDay(today);
+            ICollection<Entities.Schedulation> schedulations = await schedulationService.GetActiveSchedulationsByDateOrWeekDay(today);
 
             return schedulations;
         }

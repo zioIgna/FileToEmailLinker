@@ -54,8 +54,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         {
             IQueryable<Entities.MailingPlan> query = context.MailingPlan
                 .Include(mp => mp.WeeklySchedulation)
-                .Include(mp => mp.MonthlySchedulation)
-                .Where(mp => mp.ActiveState == Enums.ActiveState.Active);
+                .Include(mp => mp.MonthlySchedulation);
 
             return await query.ToListAsync();
         }
