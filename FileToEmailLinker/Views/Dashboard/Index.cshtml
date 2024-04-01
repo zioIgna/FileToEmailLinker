@@ -3,7 +3,18 @@
     ViewData["Title"] = "Schedulazioni";
 }
 
-<h1>Prossimi invii</h1>
+<div class="d-flex">
+    <h1>Prossimi invii</h1>
+    <form class="ms-auto align-self-center" asp-action="SearchByDate" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#dashboardRows">
+        <div class="input-group">
+            @*<label for="dateSearch" class="control-label">Ricerca</label>*@
+            <span class="input-group-text" id="basic-addon1">Ricerca:</span>
+            <input id="dateSearch" name="dateSearch" class="form-control" type="date"/>
+            <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
+            <a class="btn btn-outline-secondary" asp-action="ClearDateSearch" onclick="document.getElementById('dateSearch').value = ''" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#dashboardRows"><i class="bi bi-x-circle"></i></a>
+        </div>
+    </form>
+</div>
 <table class="table table-sm">
     <thead>
         <tr>
@@ -11,30 +22,7 @@
             <th scope="col">Pianificazione</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (KeyValuePair<DateOnly,ICollection<Schedulation>> entry in Model)
-        {
-            <tr>
-                <td class="fw-bolder">@entry.Key</td>
-                <td>
-                    <ul class="list-group">
-                        @foreach(var sched in entry.Value)
-                        {
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-sm-2 fst-italic">
-                                        @sched.Time
-                                    </div>
-                                    <div class="col">
-                                        <a asp-controller="MailingPlans" asp-action="Details" asp-route-id="@sched.MailingPlan.Id"><i class="bi bi-box-arrow-up-right me-2"></i></a>
-                                        @sched.MailingPlan.Name
-                                    </div>
-                                </div>
-                            </li>
-                        }
-                    </ul>
-                </td>
-            </tr>
-        }
+    <tbody id="dashboardRows">
+        <partial name="/Views/Shared/Dashboard/_DashboardRows.cshtml" model="@Model"></partial>
     </tbody>
 </table>

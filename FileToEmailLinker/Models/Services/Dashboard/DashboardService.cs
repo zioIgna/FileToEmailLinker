@@ -35,5 +35,13 @@ namespace FileToEmailLinker.Models.Services.Dashboard
                     
             return schedulationDict;
         }
+
+        public async Task<Dictionary<DateOnly, ICollection<Entities.Schedulation>>> GetSchedulationByDate(DateOnly date)
+        {
+            Dictionary<DateOnly, ICollection<Entities.Schedulation>> schedulationDict = new Dictionary<DateOnly, ICollection<Entities.Schedulation>>();
+            var schedulations = await schedulationService.GetActiveSchedulationsByDateOrWeekDay(date);
+            schedulationDict.Add(date, schedulations.OrderBy(sched => sched.Time).ToList());
+            return schedulationDict;
+        }
     }
 }

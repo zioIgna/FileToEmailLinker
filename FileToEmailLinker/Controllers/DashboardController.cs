@@ -20,5 +20,19 @@ namespace FileToEmailLinker.Controllers
 
             return View(upcomingSchedulations);
         }
+
+        public async Task<IActionResult> SearchByDate(DateOnly dateSearch)
+        {
+            var requiredSchedulations = await dashboardService.GetSchedulationByDate(dateSearch);
+
+            return PartialView("/Views/Shared/Dashboard/_DashboardRows.cshtml", requiredSchedulations);
+        }
+
+        public async Task<IActionResult> ClearDateSearch()
+        {
+            var upcomingSchedulations = await dashboardService.GetUpcomingSchedulations();
+
+            return PartialView("/Views/Shared/Dashboard/_DashboardRows.cshtml", upcomingSchedulations);
+        }
     }
 }
