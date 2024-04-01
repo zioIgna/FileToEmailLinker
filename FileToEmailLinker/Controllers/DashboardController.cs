@@ -23,9 +23,13 @@ namespace FileToEmailLinker.Controllers
 
         public async Task<IActionResult> SearchByDate(DateOnly dateSearch)
         {
-            var requiredSchedulations = await dashboardService.GetSchedulationByDate(dateSearch);
+            if(dateSearch != DateOnly.MinValue)
+            {
+                var requiredSchedulations = await dashboardService.GetSchedulationByDate(dateSearch);
 
-            return PartialView("/Views/Shared/Dashboard/_DashboardRows.cshtml", requiredSchedulations);
+                return PartialView("/Views/Shared/Dashboard/_DashboardRows.cshtml", requiredSchedulations);
+            }
+            return Ok(null);
         }
 
         public async Task<IActionResult> ClearDateSearch()
