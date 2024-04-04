@@ -61,7 +61,7 @@ namespace FileToEmailLinker.Controllers
             if (ModelState.IsValid)
             {
                 Models.Entities.Receiver receiver = await receiverService.CreateReceiverAsync(model);
-                TempData["ConfirmationMessage"] = "Pianificazione creata con successo";
+                TempData["ConfirmationMessage"] = "Destinatario creato con successo";
                 return RedirectToAction(nameof(Details), new { id = receiver.Id });
             }
             return View(model);
@@ -186,12 +186,10 @@ namespace FileToEmailLinker.Controllers
             bool canDeleteReceiver = !receiver.MailingPlanList.Any();
             if (canDeleteReceiver)
             {
-                return View();
+                return View(receiver);
             }
             TempData["ErrorMessage"] = "Non è possibile eliminare il destinatario in quanto collegato a una o più pianificazioni. Eliminare prima il link a tali pianificazioni";
             return RedirectToAction(nameof(Index));
-
-            return View(receiver);
         }
 
         // POST: Receivers/Delete/5

@@ -1,0 +1,49 @@
+﻿@model Receiver
+
+<hr />
+<div class="row row-cols-1 row-cols-md-2">
+    <div class="col">
+        <div class="card bg-light mb-2">
+            <div class="card-header fw-bold">
+                Info
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label">Nome</label>
+                        <input id="Name" value="@Model.Name" class="form-control" style="background-color:white" disabled readonly />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label asp-for="Surname" class="control-label">Cognome</label>
+                        <input id="Surname" value="@Model.Surname" class="form-control" style="background-color:white" disabled readonly />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label">email</label>
+                        <input id="Email" value="@Model.Email" class="form-control" style="background-color:white" disabled readonly />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card bg-light mb-2">
+            <div class="card-header fw-bold">
+                Pianificazioni
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    @foreach (var pianif in Model.MailingPlanList)
+                    {
+                        <a class="list-group-item list-group-item-action" style="color:royalblue" asp-action="Details" asp-controller="MailingPlans" asp-route-id="@pianif.Id"><i class="bi bi-send me-1"></i> @pianif.Name</a>
+                    }
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
