@@ -1,10 +1,37 @@
-﻿@model Dictionary<DateOnly,ICollection<Schedulation>>
+﻿@using FileToEmailLinker.Models.ViewModels;
+@model DashboardViewModel
+
 @{
     ViewData["Title"] = "Schedulazioni";
 }
+<h3>
+    Segnalazioni
+    <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#alertTable" aria-expanded="false" aria-controls="alertTable">
+        <i class="bi bi-arrows-collapse"></i>
+    </button>
+</h3>
+<table class="table table-sm collapse" id="alertTable">
+    <thead>
+        <tr>
+            <th scope="col">Messaggio</th>
+            <th scope="col">Data</th>
+            <th scope="col">Livello</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var segnalazione in Model.AlertList)
+        {
+            <tr>
+                <td>@segnalazione.Message</td>
+                <td>@segnalazione.DateTime</td>
+                <td>@segnalazione.AlertSeverity</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 <div class="d-flex">
-    <h1>Prossimi invii</h1>
+    <h3>Prossimi invii</h3>
     <form class="ms-auto align-self-center" asp-action="SearchByDate" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#dashboardRows">
         <div class="input-group">
             @*<label for="dateSearch" class="control-label">Ricerca</label>*@
@@ -23,6 +50,6 @@
         </tr>
     </thead>
     <tbody id="dashboardRows">
-        <partial name="/Views/Shared/Dashboard/_DashboardRows.cshtml" model="@Model"></partial>
+        <partial name="/Views/Shared/Dashboard/_DashboardRows.cshtml" model="@Model.SchedulationGroupList"></partial>
     </tbody>
 </table>

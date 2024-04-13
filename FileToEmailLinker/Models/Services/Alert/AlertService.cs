@@ -1,5 +1,6 @@
 ﻿using FileToEmailLinker.Data;
 using FileToEmailLinker.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace FileToEmailLinker.Models.Services.Alert
 {
@@ -10,6 +11,14 @@ namespace FileToEmailLinker.Models.Services.Alert
         public AlertService(FileToEmailLinkerContext context)
         {
             this.context = context;
+        }
+
+        public async Task<ICollection<Entities.Alert>> GetUnvisualizedAlertListAsync()
+        {
+            IQueryable<Entities.Alert> query = context.Alert
+                .Where(al => !al.Visualized && al.AlertSeverity <= Enums.AlertSeverity.Warning);
+
+            return await query.ToListAsync();
         }
 
         public async Task CreateAlertForMissingAttachmentFile(Entities.MailingPlan mailingPlan, string filesDirectoryFullPath, string fileName)

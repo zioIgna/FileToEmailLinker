@@ -8,6 +8,7 @@ using FileToEmailLinker.Models.Options;
 using FileToEmailLinker.Models.Services.MailingPlan;
 using FileToEmailLinker.Models.Services.Receiver;
 using FileToEmailLinker.Models.Services.Alert;
+using FileToEmailLinker.Models.Services.Dashboard;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<FileToEmailLinkerContext>(options =>
@@ -27,6 +28,7 @@ builder.Services.AddTransient<ISchedulationChecker,  SchedulationChecker>();
 builder.Services.AddTransient<IMailingPlanService, MailingPlanService>();
 builder.Services.AddTransient<IReceiverService, ReceiverService>();
 builder.Services.AddTransient<IAlertService, AlertService>();
+builder.Services.AddTransient<IDashboardService, DashboardService>();
 
 builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
 
@@ -49,6 +51,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Dashboard}/{action=Index}/{id?}");
 
 app.Run();

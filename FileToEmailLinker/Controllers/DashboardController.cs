@@ -1,6 +1,8 @@
 ﻿using FileToEmailLinker.Models.Entities;
+using FileToEmailLinker.Models.Services.Alert;
 using FileToEmailLinker.Models.Services.Dashboard;
 using FileToEmailLinker.Models.Services.Schedulation;
+using FileToEmailLinker.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Packaging;
 
@@ -9,16 +11,24 @@ namespace FileToEmailLinker.Controllers
     public class DashboardController : Controller
     {
         private readonly IDashboardService dashboardService;
+        private readonly IAlertService alertService;
 
-        public DashboardController(IDashboardService dashboardService)
+        public DashboardController(IDashboardService dashboardService, IAlertService alertService)
         {
             this.dashboardService = dashboardService;
+            this.alertService = alertService;
         }
         public async Task<IActionResult> Index()
         {
             var upcomingSchedulations = await dashboardService.GetUpcomingSchedulations();
+            var unvisualizedAlerts = await alertService.GetUnvisualizedAlertListAsync();
+            DashboardViewModel model = new()
+            {
+                AlertList = unvisualizedAlerts,
+                SchedulationGroupList = upcomingSchedulations
+            };
 
-            return View(upcomingSchedulations);
+            return View(model);
         }
 
         public async Task<IActionResult> SearchByDate(DateOnly dateSearch)
