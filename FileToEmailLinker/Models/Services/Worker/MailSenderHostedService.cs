@@ -2,6 +2,7 @@
 using FileToEmailLinker.Models.Entities;
 using FileToEmailLinker.Models.Exceptions;
 using FileToEmailLinker.Models.Options;
+using FileToEmailLinker.Models.Services.Alert;
 using FileToEmailLinker.Models.Services.MailingPlan;
 using FileToEmailLinker.Models.Services.SchedulationChecker;
 using MailKit.Net.Smtp;
@@ -64,7 +65,7 @@ namespace FileToEmailLinker.Models.Services.Worker
                     Console.WriteLine($"Riconosciuto il MailingPlan {mailingPlan.Name}");
                     string filesDirectoryFullPath = mailingPlanService.GetFilesDirectoryFullPath();
 
-                    MimeMessage message = CreateMimeMessage(mailingPlan, filesDirectoryFullPath);
+                    MimeMessage message = await CreateMimeMessage(mailingPlan, filesDirectoryFullPath);
                     using SmtpClient client = await SendEmail(message);
                 }
                 catch (Exception ex)
@@ -88,7 +89,7 @@ namespace FileToEmailLinker.Models.Services.Worker
             return client;
         }
 
-        private MimeMessage CreateMimeMessage(Entities.MailingPlan mailingPlan, string filesDirectoryFullPath)
+        private async Task<MimeMessage> CreateMimeMessage(Entities.MailingPlan mailingPlan, string filesDirectoryFullPath)
         {
             MimeMessage message = new MimeMessage();
             message.From.Add(MailboxAddress.Parse(optionsMonitor.CurrentValue.Sender));
@@ -104,13 +105,29 @@ namespace FileToEmailLinker.Models.Services.Worker
             };
 
             var multipart = new Multipart("mixed");
-            multipart.Add(body); 
+            multipart.Add(body);
+            await AddAttachments(mailingPlan, filesDirectoryFullPath, body, multipart);
+
+            message.Body = multipart;
+            return message;
+        }
+
+        private async Task AddAttachments(Entities.MailingPlan mailingPlan, string filesDirectoryFullPath, TextPart body, Multipart multipart)
+        {
             string[] fileNames = mailingPlan.FileStringList.Split(";");
             foreach (var fileName in fileNames)
             {
                 string fileNameWithPath = Path.Combine(filesDirectoryFullPath, fileName);
-                //TODO: decidere come gestire la mancanza di un file:
-                if(!File.Exists(fileNameWithPath)) continue;
+                if (!File.Exists(fileNameWithPath))
+                {
+                    using IServiceScope serviceScope = serviceScopeFactory.CreateScope();
+                    IServiceProvider serviceProvider = serviceScope.ServiceProvider;
+                    IAlertService alertService = serviceProvider.GetService<IAlertService>();
+                    await alertService.CreateAlertForMissingAttachmentFile(mailingPlan, filesDirectoryFullPath, fileName);
+                    body.Text += $"<hr /><p>Non è stato possibile recuperare il file {fileName}</p>";
+
+                    continue;
+                }
                 var attachment = new MimePart("application", "vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                 {
                     Content = new MimeContent(File.OpenRead(fileNameWithPath), ContentEncoding.Default),
@@ -120,9 +137,6 @@ namespace FileToEmailLinker.Models.Services.Worker
                 };
                 multipart.Add(attachment);
             }
-
-            message.Body = multipart;
-            return message;
         }
     }
 }

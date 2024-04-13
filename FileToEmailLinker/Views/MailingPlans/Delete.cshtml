@@ -4,36 +4,16 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Cancellazione</h1>
+<div class="container">
+    <h1>Cancellazione</h1>
 
-<h3>Confermare la calcellazione della seguente programmazione?</h3>
-<div>
-
-    <partial name="/Views/Shared/Output/_InformazioniGeneraliOutput.cshtml" model="@Model"></partial>
-@*    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ActiveState)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ActiveState)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Text)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Text)
-        </dd>
-    </dl>*@
+    <h4>Confermare la cancellazione della seguente programmazione?</h4>
+    <hr />
+    <partial name="Output/_InformazioniGeneraliOutput" model="@Model"></partial>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Elimina" class="btn btn-danger" />
-        <a asp-action="Index" class="btn btn-outline-secondary ms-2">Annulla</a>
+        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary ms-2">Annulla</a>
     </form>
 </div>

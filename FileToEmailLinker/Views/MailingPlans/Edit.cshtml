@@ -39,6 +39,7 @@
                 <button type="submit" class="btn btn-primary">Modifica <i class="bi bi-pencil-square"></i></button>
                 <a class="btn btn-outline-secondary ms-2" role="button" asp-action="Details" asp-route-id="@Model.Id">Annulla</a>
                 <a class="btn btn-outline-primary ms-auto" asp-action="Index">Elenco <i class="bi bi-list-ul ms-1"></i></a>
+                <a class="btn btn-outline-danger ms-2" asp-action="Delete" asp-route-id="@Model.Id">Cancella <i class="bi bi-trash3"></i></a>
             </div>
         </div>
     </form>
