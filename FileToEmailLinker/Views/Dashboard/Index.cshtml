@@ -4,12 +4,21 @@
 @{
     ViewData["Title"] = "Schedulazioni";
 }
-<h3>
-    Segnalazioni
-    <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#alertTable" aria-expanded="false" aria-controls="alertTable">
-        <i class="bi bi-arrows-collapse"></i>
-    </button>
-</h3>
+<div class="row row-cols-2">
+    <div class="col-auto position-relative">
+        <h3>Segnalazioni</h3>
+        <h6>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                @Model.AlertList.Count()
+            </span>
+        </h6>
+    </div>
+    <div class="col">
+        <button class="btn btn-outline-primary btn-sm ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#alertTable" aria-expanded="false" aria-controls="alertTable">
+            <i class="bi bi-arrows-collapse"></i>
+        </button>
+    </div>
+</div>
 <table class="table table-sm collapse" id="alertTable">
     <thead>
         <tr>
