@@ -134,6 +134,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             return mailingPlan;
         }
 
+        //TODO: impostare un try catch per questo metodo
         private async Task SetInputValues(MailPlanInputModel model, Entities.MailingPlan mailingPlan)
         {
             mailingPlan.Name = model.Name;

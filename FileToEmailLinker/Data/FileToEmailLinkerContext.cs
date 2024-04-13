@@ -24,5 +24,6 @@ namespace FileToEmailLinker.Data
         public DbSet<WeeklySchedulation> WeeklySchedulation { get; set; } = default!;
         public DbSet<MonthlySchedulation> MonthlySchedulation { get; set; } = default!;
         public DbSet<FixedDatesSchedulation> FixedDatesSchedulation { get; set; } = default!;
+        public DbSet<Alert> Alert { get; set; } = default!;
     }
 }
