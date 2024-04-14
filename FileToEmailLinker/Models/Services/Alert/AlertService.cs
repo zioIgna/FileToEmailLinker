@@ -16,7 +16,8 @@ namespace FileToEmailLinker.Models.Services.Alert
         public async Task<ICollection<Entities.Alert>> GetUnvisualizedAlertListAsync()
         {
             IQueryable<Entities.Alert> query = context.Alert
-                .Where(al => !al.Visualized && al.AlertSeverity <= Enums.AlertSeverity.Warning);
+                .Where(al => !al.Visualized && al.AlertSeverity <= Enums.AlertSeverity.Warning)
+                .OrderByDescending(al => al.DateTime);
 
             return await query.ToListAsync();
         }
@@ -62,6 +63,15 @@ namespace FileToEmailLinker.Models.Services.Alert
                 .Where(al => al.Id == id);
 
             return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task<ICollection<Entities.Alert>?> GetVisualizedAlertListAsync()
+        {
+            IQueryable<Entities.Alert> query = context.Alert
+                .Where(al => al.Visualized && al.AlertSeverity <= Enums.AlertSeverity.Warning)
+                .OrderByDescending(al => al.DateTime);
+
+            return await query.ToListAsync();
         }
     }
 }

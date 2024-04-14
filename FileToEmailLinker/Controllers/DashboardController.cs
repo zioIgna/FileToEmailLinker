@@ -20,11 +20,13 @@ namespace FileToEmailLinker.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var upcomingSchedulations = await dashboardService.GetUpcomingSchedulations();
-            var unvisualizedAlerts = await alertService.GetUnvisualizedAlertListAsync();
+            Dictionary<DateOnly, ICollection<Schedulation>> upcomingSchedulations = await dashboardService.GetUpcomingSchedulations();
+            ICollection<Alert>? unvisualizedAlerts = await alertService.GetUnvisualizedAlertListAsync();
+            ICollection<Alert>? visualizedAlerts = await alertService.GetVisualizedAlertListAsync();
             DashboardViewModel model = new()
             {
-                AlertList = unvisualizedAlerts,
+                UnvisualizedAlertList = unvisualizedAlerts,
+                VisualizedAlertList = visualizedAlerts,
                 SchedulationGroupList = upcomingSchedulations
             };
 

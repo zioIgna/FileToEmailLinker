@@ -1,0 +1,10 @@
+﻿@model ICollection<Alert>
+
+@foreach (var segnalazione in Model)
+{
+    <tr>
+        <td>@segnalazione.Message</td>
+        <td>@segnalazione.DateTime</td>
+        <td>@segnalazione.AlertSeverity</td>
+    </tr>
+}

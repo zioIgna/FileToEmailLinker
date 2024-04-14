@@ -6,5 +6,6 @@
         Task<ICollection<Entities.Alert>> GetUnvisualizedAlertListAsync();
         Task<Entities.Alert> GetAlertByIdAsync(int id);
         Task CheckAlertAsync(int id);
+        Task<ICollection<Entities.Alert>?> GetVisualizedAlertListAsync();
     }
 }
