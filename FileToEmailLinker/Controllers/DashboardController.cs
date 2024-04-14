@@ -48,5 +48,21 @@ namespace FileToEmailLinker.Controllers
 
             return PartialView("/Views/Shared/Dashboard/_DashboardRows.cshtml", upcomingSchedulations);
         }
+
+        public async Task<IActionResult> CheckAlert(int id)
+        {
+            await alertService.CheckAlertAsync(id);
+            ICollection<Alert> alerts = await alertService.GetUnvisualizedAlertListAsync();
+            //UpdateBadgeCount(alerts.Count);
+
+            return PartialView("Dashboard/_SegnalazioniRows", alerts);
+        }
+
+        //public async Task<IActionResult> UpdateBadgeCount()
+        //{
+        //    ICollection<Alert> alerts = await alertService.GetUnvisualizedAlertListAsync();
+
+        //    return PartialView("Dashboard/_SegnalazioniBadge", alerts.Count());
+        //}
     }
 }

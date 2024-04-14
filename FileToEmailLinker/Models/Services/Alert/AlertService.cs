@@ -44,5 +44,24 @@ namespace FileToEmailLinker.Models.Services.Alert
             context.Add(alert);
             await context.SaveChangesAsync();
         }
+
+        public async Task CheckAlertAsync(int id)
+        {
+            Entities.Alert alert = await GetAlertByIdAsync(id);
+            if(alert == null)
+            {
+                throw new Exception("Non è stato possibile recuperare l'alert cercato");
+            }
+            alert.Visualized = true;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<Entities.Alert> GetAlertByIdAsync(int id)
+        {
+            IQueryable<Entities.Alert> query = context.Alert
+                .Where(al => al.Id == id);
+
+            return await query.FirstOrDefaultAsync();
+        }
     }
 }

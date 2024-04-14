@@ -1,0 +1,21 @@
+﻿@model ICollection<Alert>
+
+@foreach (var segnalazione in Model)
+{
+    <tr>
+        <td>@segnalazione.Message</td>
+        <td>@segnalazione.DateTime</td>
+        <td>@segnalazione.AlertSeverity</td>
+        <td>
+            @*<div>*@
+
+            <a asp-controller="Dashboard" asp-action="CheckAlert" asp-route-id="@segnalazione.Id" onClick="decreaseBadge()" class="badgeUpdater" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#segnalazioniRows">
+                    <i class="bi bi-check-circle"></i>
+                </a>
+
+                    @*<a asp-controller="Dashboard" asp-action="UpdateBadgeCount" asp-route-id="@segnalazione.Id" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#segnalazioniBadge"></a>*@
+            
+            @*</div>*@
+        </td>
+    </tr>
+}

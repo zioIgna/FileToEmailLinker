@@ -7,10 +7,11 @@
 <div class="row row-cols-2">
     <div class="col-auto position-relative">
         <h3>Segnalazioni</h3>
-        <h6>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        <h6 id="segnalazioniBadge">
+            <partial name="Dashboard/_SegnalazioniBadge" model="@Model.AlertList.Count()"></partial>
+            @*<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                 @Model.AlertList.Count()
-            </span>
+            </span>*@
         </h6>
     </div>
     <div class="col">
@@ -19,23 +20,27 @@
         </button>
     </div>
 </div>
+@*<input type="button" id="badgeCountUpdater" style="display:none"/>*@
+<a asp-controller="Dashboard" asp-action="UpdateBadgeCount" id="badgeUpdateAction" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#segnalazioniBadge"></a>
 <table class="table table-sm collapse" id="alertTable">
     <thead>
         <tr>
             <th scope="col">Messaggio</th>
             <th scope="col">Data</th>
             <th scope="col">Livello</th>
+            <th></th>
         </tr>
     </thead>
-    <tbody>
-        @foreach(var segnalazione in Model.AlertList)
+    <tbody id="segnalazioniRows">
+        <partial name="Dashboard/_SegnalazioniRows" model="@Model.AlertList"></partial>
+        @*@foreach(var segnalazione in Model.AlertList)
         {
             <tr>
                 <td>@segnalazione.Message</td>
                 <td>@segnalazione.DateTime</td>
                 <td>@segnalazione.AlertSeverity</td>
             </tr>
-        }
+        }*@
     </tbody>
 </table>
 
@@ -62,3 +67,5 @@
         <partial name="/Views/Shared/Dashboard/_DashboardRows.cshtml" model="@Model.SchedulationGroupList"></partial>
     </tbody>
 </table>
+
+<script src="/js/Dashboard/BadgeUpdate.js"></script>
