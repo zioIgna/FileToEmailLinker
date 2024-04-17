@@ -60,6 +60,14 @@ namespace FileToEmailLinker.Controllers
             return PartialView("Dashboard/_SegnalazioniRows", alerts);
         }
 
+        public async Task<IActionResult> GetVisualizedAlerts()
+        {
+            ICollection<Alert> alerts = await alertService.GetVisualizedAlertListAsync();
+
+            return PartialView("Dashboard/_VisualizedSegnalazioniRows", alerts);
+        }
+
+
         //public async Task<IActionResult> UpdateBadgeCount()
         //{
         //    ICollection<Alert> alerts = await alertService.GetUnvisualizedAlertListAsync();

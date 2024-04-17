@@ -1,0 +1,57 @@
+﻿@using FileToEmailLinker.Models.ViewModels;
+@model DashboardViewModel
+
+<div class="row row-cols-2">
+    <div class="col-auto position-relative">
+        <h3>Segnalazioni</h3>
+        <h6 id="segnalazioniBadge">
+            <partial name="Dashboard/_SegnalazioniBadge" model="@Model.UnvisualizedAlertList.Count()"></partial>
+        </h6>
+    </div>
+    <div class="col">
+        <button class="btn btn-outline-primary btn-sm ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#alertTable" aria-expanded="false" aria-controls="alertTable">
+            <i class="bi bi-arrows-collapse"></i>
+        </button>
+    </div>
+</div>
+<div class="collapse" id="alertTable">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Messaggio</th>
+                <th scope="col">Data</th>
+                <th scope="col">Livello</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="segnalazioniRows">
+            <partial name="Dashboard/_SegnalazioniRows" model="@Model.UnvisualizedAlertList"></partial>
+        </tbody>
+    </table>
+
+    <div class="row row-cols-2 mb-2">
+        <div class="col-auto">
+            <h5>Visualizzate</h5>
+        </div>
+        <div class="col">
+            <button class="btn btn-outline-primary btn-sm ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#unvisualizedAlertTable" aria-expanded="false" aria-controls="unvisualizedAlertTable">
+                <i class="bi bi-arrows-collapse"></i>
+            </button>
+        </div>
+    </div>
+    <a asp-controller="Dashboard" asp-action="GetVisualizedAlerts" id="updateVisualizedTable" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#unvisualizedAlertRows" style="display:none"></a>
+    <div class="collapse" id="unvisualizedAlertTable">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Messaggio</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Livello</th>
+                </tr>
+            </thead>
+            <tbody id="unvisualizedAlertRows">
+                <partial name="Dashboard/_VisualizedSegnalazioniRows" model="@Model.VisualizedAlertList"></partial>
+            </tbody>
+        </table>
+    </div>
+</div>

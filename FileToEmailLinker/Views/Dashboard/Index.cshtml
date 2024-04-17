@@ -4,68 +4,61 @@
 @{
     ViewData["Title"] = "Schedulazioni";
 }
-<div class="row row-cols-2">
-    <div class="col-auto position-relative">
-        <h3>Segnalazioni</h3>
-        <h6 id="segnalazioniBadge">
-            <partial name="Dashboard/_SegnalazioniBadge" model="@Model.UnvisualizedAlertList.Count()"></partial>
-        </h6>
-    </div>
-    <div class="col">
-        <button class="btn btn-outline-primary btn-sm ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#alertTable" aria-expanded="false" aria-controls="alertTable">
-            <i class="bi bi-arrows-collapse"></i>
-        </button>
-    </div>
-</div>
-@*<input type="button" id="badgeCountUpdater" style="display:none"/>*@
-@*<a asp-controller="Dashboard" asp-action="UpdateBadgeCount" id="badgeUpdateAction" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#segnalazioniBadge"></a>*@
-<div class="collapse" id="alertTable">
-    <table class="table table-sm">
-        <thead>
-            <tr>
-                <th scope="col">Messaggio</th>
-                <th scope="col">Data</th>
-                <th scope="col">Livello</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody id="segnalazioniRows">
-            <partial name="Dashboard/_SegnalazioniRows" model="@Model.UnvisualizedAlertList"></partial>
-            @*@foreach(var segnalazione in Model.AlertList)
-            {
-                <tr>
-                    <td>@segnalazione.Message</td>
-                    <td>@segnalazione.DateTime</td>
-                    <td>@segnalazione.AlertSeverity</td>
-                </tr>
-            }*@
-        </tbody>
-    </table>
-
-    <div class="row row-cols-2 mb-2">
-        <div class="col-auto">
-            <h5>Visualizzate</h5>
+<div id="allSegnalazioniTables">
+    <partial name="Dashboard/_AllSegnalazioniTables" model="@Model"></partial>
+@*    <div class="row row-cols-2">
+        <div class="col-auto position-relative">
+            <h3>Segnalazioni</h3>
+            <h6 id="segnalazioniBadge">
+                <partial name="Dashboard/_SegnalazioniBadge" model="@Model.UnvisualizedAlertList.Count()"></partial>
+            </h6>
         </div>
         <div class="col">
-            <button class="btn btn-outline-primary btn-sm ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#unvisualizedAlertTable" aria-expanded="false" aria-controls="unvisualizedAlertTable">
+            <button class="btn btn-outline-primary btn-sm ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#alertTable" aria-expanded="false" aria-controls="alertTable">
                 <i class="bi bi-arrows-collapse"></i>
             </button>
         </div>
     </div>
-    <div class="collapse" id="unvisualizedAlertTable">
+    <div class="collapse" id="alertTable">
         <table class="table table-sm">
             <thead>
                 <tr>
                     <th scope="col">Messaggio</th>
                     <th scope="col">Data</th>
                     <th scope="col">Livello</th>
+                    <th></th>
                 </tr>
             </thead>
-            <tbody>
-                <partial name="Dashboard/_VisualizedSegnalazioniRows" model="@Model.VisualizedAlertList"></partial>
+            <tbody id="segnalazioniRows">
+                <partial name="Dashboard/_SegnalazioniRows" model="@Model.UnvisualizedAlertList"></partial>
             </tbody>
         </table>
-    </div>
+
+        <div class="row row-cols-2 mb-2">
+            <div class="col-auto">
+                <h5>Visualizzate</h5>
+            </div>
+            <div class="col">
+                <button class="btn btn-outline-primary btn-sm ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#unvisualizedAlertTable" aria-expanded="false" aria-controls="unvisualizedAlertTable">
+                    <i class="bi bi-arrows-collapse"></i>
+                </button>
+            </div>
+        </div>
+        <div class="collapse" id="unvisualizedAlertTable">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Messaggio</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Livello</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <partial name="Dashboard/_VisualizedSegnalazioniRows" model="@Model.VisualizedAlertList"></partial>
+                </tbody>
+            </table>
+        </div>
+    </div>*@
 </div>
 
 <div class="d-flex">
