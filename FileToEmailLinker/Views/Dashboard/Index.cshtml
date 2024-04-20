@@ -5,8 +5,8 @@
     ViewData["Title"] = "Schedulazioni";
 }
 <div id="allSegnalazioniTables">
-    <partial name="Dashboard/_AllSegnalazioniTables" model="@Model"></partial>
-@*    <div class="row row-cols-2">
+    @*<partial name="Dashboard/_AllSegnalazioniTables" model="@Model"></partial>*@
+    <div class="row row-cols-2">
         <div class="col-auto position-relative">
             <h3>Segnalazioni</h3>
             <h6 id="segnalazioniBadge">
@@ -44,6 +44,7 @@
                 </button>
             </div>
         </div>
+        <a asp-controller="Dashboard" asp-action="GetVisualizedAlerts" id="updateVisualizedTable" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#unvisualizedAlertRows" style="display:none"></a>
         <div class="collapse" id="unvisualizedAlertTable">
             <table class="table table-sm">
                 <thead>
@@ -53,12 +54,12 @@
                         <th scope="col">Livello</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="unvisualizedAlertRows">
                     <partial name="Dashboard/_VisualizedSegnalazioniRows" model="@Model.VisualizedAlertList"></partial>
                 </tbody>
             </table>
         </div>
-    </div>*@
+    </div>
 </div>
 
 <div class="d-flex">
