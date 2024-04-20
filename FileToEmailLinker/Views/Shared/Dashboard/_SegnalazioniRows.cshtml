@@ -10,18 +10,7 @@
         <td>@segnalazione.DateTime</td>
         <td>@segnalazione.AlertSeverity</td>
         <td>
-            @*<div>*@
-
-            <a  href="#" onclick="@actionLink" class="badgeUpdater">
-                @*data-url="@dataUrl"*@
-                @*data-ajax="true" data-ajax-mode="replace" data-ajax-update="#segnalazioniRows"*@
-                @*onClick="decreaseBadge()"  "#allSegnalazioniTables"*@ @*asp-controller="Dashboard" asp-action="CheckAlert" asp-route-id="@segnalazione.Id"*@
-                <i class="bi bi-check-circle"></i>
-            </a><a name="@rowName" style="display:none"></a>
-
-                    @*<a asp-controller="Dashboard" asp-action="UpdateBadgeCount" asp-route-id="@segnalazione.Id" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#segnalazioniBadge"></a>*@
-            
-            @*</div>*@
+            <a href="#" data-id="@segnalazione.Id" onclick="swapAlert(@segnalazione.Id)"><i class="bi bi-check-circle"></i></a>
         </td>
     </tr>
 }

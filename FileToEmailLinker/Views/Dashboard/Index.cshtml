@@ -5,7 +5,6 @@
     ViewData["Title"] = "Schedulazioni";
 }
 <div id="allSegnalazioniTables">
-    @*<partial name="Dashboard/_AllSegnalazioniTables" model="@Model"></partial>*@
     <div class="row row-cols-2">
         <div class="col-auto position-relative">
             <h3>Segnalazioni</h3>
@@ -44,7 +43,6 @@
                 </button>
             </div>
         </div>
-        <a asp-controller="Dashboard" asp-action="GetVisualizedAlerts" id="updateVisualizedTable" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#unvisualizedAlertRows" style="display:none"></a>
         <div class="collapse" id="unvisualizedAlertTable">
             <table class="table table-sm">
                 <thead>
@@ -54,7 +52,7 @@
                         <th scope="col">Livello</th>
                     </tr>
                 </thead>
-                <tbody id="unvisualizedAlertRows">
+                <tbody id="visualizedAlertRows">
                     <partial name="Dashboard/_VisualizedSegnalazioniRows" model="@Model.VisualizedAlertList"></partial>
                 </tbody>
             </table>
@@ -66,7 +64,6 @@
     <h3>Prossimi invii</h3>
     <form class="ms-auto align-self-center" asp-action="SearchByDate" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#dashboardRows">
         <div class="input-group">
-            @*<label for="dateSearch" class="control-label">Ricerca</label>*@
             <span class="input-group-text" id="basic-addon1">Ricerca:</span>
             <input id="dateSearch" name="dateSearch" class="form-control" type="date"/>
             <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
