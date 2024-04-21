@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Schedulazioni";
 }
-<ul class="nav nav-tabs" role="tablist">
+<ul class="nav nav-tabs" style="background-color: #e3f2fd;" role="tablist">
     <li class="nav-item" role="presentation">
         <button class="nav-link active position-relative" id="pianificazioniTab" data-bs-toggle="tab" aria-current="page" data-bs-target="#pianificazioniSection" type="button" role="tab" aria-controls="pianificazioniSection" aria-selected="true">Invii</button>
     </li>
@@ -22,20 +22,15 @@
 </ul>
 <div class="tab-content">
     <div id="allSegnalazioniTables" class="tab-pane mt-2" role="tabpanel" aria-labelledby="pianificazioniTab" tabindex="0">
-        <div class="row row-cols-2">
+        <div class="row">
             <div class="col-auto position-relative">
                 <h3>Segnalazioni</h3>
                 <h6 id="segnalazioniBadge">
                     <partial name="Dashboard/_SegnalazioniBadge" model="@Model.UnvisualizedAlertList.Count()"></partial>
                 </h6>
             </div>
-            <div class="col">
-                <button class="btn btn-outline-primary btn-sm ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#alertTable" aria-expanded="false" aria-controls="alertTable">
-                    <i class="bi bi-arrows-collapse"></i>
-                </button>
-            </div>
         </div>
-        <div class="collapse" id="alertTable">
+        <div id="alertTable">
             <table class="table table-sm">
                 <thead>
                     <tr>
