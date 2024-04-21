@@ -3,6 +3,10 @@
     let originalVal = parseInt(elem.innerHTML);
     let updatedVal = --originalVal;
     elem.innerHTML = updatedVal.toString();
+    let basicBadge = document.getElementById('basicBadge');
+    if (updatedVal == 0 && basicBadge) {
+        basicBadge.remove();
+    }
 }
 
 function swapAlert(id) {

@@ -4,83 +4,103 @@
 @{
     ViewData["Title"] = "Schedulazioni";
 }
-<div id="allSegnalazioniTables">
-    <div class="row row-cols-2">
-        <div class="col-auto position-relative">
-            <h3>Segnalazioni</h3>
-            <h6 id="segnalazioniBadge">
-                <partial name="Dashboard/_SegnalazioniBadge" model="@Model.UnvisualizedAlertList.Count()"></partial>
-            </h6>
-        </div>
-        <div class="col">
-            <button class="btn btn-outline-primary btn-sm ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#alertTable" aria-expanded="false" aria-controls="alertTable">
-                <i class="bi bi-arrows-collapse"></i>
-            </button>
-        </div>
-    </div>
-    <div class="collapse" id="alertTable">
-        <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th scope="col">Messaggio</th>
-                    <th scope="col">Data</th>
-                    <th scope="col">Livello</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody id="segnalazioniRows">
-                <partial name="Dashboard/_SegnalazioniRows" model="@Model.UnvisualizedAlertList"></partial>
-            </tbody>
-        </table>
-
-        <div class="row row-cols-2 mb-2">
-            <div class="col-auto">
-                <h5>Visualizzate</h5>
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active position-relative" id="pianificazioniTab" data-bs-toggle="tab" aria-current="page" data-bs-target="#pianificazioniSection" type="button" role="tab" aria-controls="pianificazioniSection" aria-selected="true">Invii</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link position-relative" id="segnalazioniTab" data-bs-toggle="tab" data-bs-target="#allSegnalazioniTables" type="button" role="tab" aria-controls="allSegnalazioniTables" arial-selected="false">
+            <span>
+                Segnalazioni
+                @if (Model.UnvisualizedAlertList.Count() > 0)
+                {
+                    <span id="basicBadge" class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle"><span style="display:none">Segnalazioni</span></span>
+                }
+            </span>
+        </button>
+    </li>
+</ul>
+<div class="tab-content">
+    <div id="allSegnalazioniTables" class="tab-pane mt-2" role="tabpanel" aria-labelledby="pianificazioniTab" tabindex="0">
+        <div class="row row-cols-2">
+            <div class="col-auto position-relative">
+                <h3>Segnalazioni</h3>
+                <h6 id="segnalazioniBadge">
+                    <partial name="Dashboard/_SegnalazioniBadge" model="@Model.UnvisualizedAlertList.Count()"></partial>
+                </h6>
             </div>
             <div class="col">
-                <button class="btn btn-outline-primary btn-sm ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#unvisualizedAlertTable" aria-expanded="false" aria-controls="unvisualizedAlertTable">
+                <button class="btn btn-outline-primary btn-sm ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#alertTable" aria-expanded="false" aria-controls="alertTable">
                     <i class="bi bi-arrows-collapse"></i>
                 </button>
             </div>
         </div>
-        <div class="collapse" id="unvisualizedAlertTable">
+        <div class="collapse" id="alertTable">
             <table class="table table-sm">
                 <thead>
                     <tr>
                         <th scope="col">Messaggio</th>
                         <th scope="col">Data</th>
                         <th scope="col">Livello</th>
+                        <th></th>
                     </tr>
                 </thead>
-                <tbody id="visualizedAlertRows">
-                    <partial name="Dashboard/_VisualizedSegnalazioniRows" model="@Model.VisualizedAlertList"></partial>
+                <tbody id="segnalazioniRows">
+                    <partial name="Dashboard/_SegnalazioniRows" model="@Model.UnvisualizedAlertList"></partial>
                 </tbody>
             </table>
+
+            <div class="row row-cols-2 mb-2">
+                <div class="col-auto">
+                    <h5>Visualizzate</h5>
+                </div>
+                <div class="col">
+                    <button class="btn btn-outline-primary btn-sm ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#unvisualizedAlertTable" aria-expanded="false" aria-controls="unvisualizedAlertTable">
+                        <i class="bi bi-arrows-collapse"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="collapse" id="unvisualizedAlertTable">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">Messaggio</th>
+                            <th scope="col">Data</th>
+                            <th scope="col">Livello</th>
+                        </tr>
+                    </thead>
+                    <tbody id="visualizedAlertRows">
+                        <partial name="Dashboard/_VisualizedSegnalazioniRows" model="@Model.VisualizedAlertList"></partial>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="d-flex">
-    <h3>Prossimi invii</h3>
-    <form class="ms-auto align-self-center" asp-action="SearchByDate" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#dashboardRows">
-        <div class="input-group">
-            <span class="input-group-text" id="basic-addon1">Ricerca:</span>
-            <input id="dateSearch" name="dateSearch" class="form-control" type="date"/>
-            <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
-            <a class="btn btn-outline-secondary" asp-action="ClearDateSearch" onclick="document.getElementById('dateSearch').value = ''" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#dashboardRows"><i class="bi bi-x-circle"></i></a>
+    <div id="pianificazioniSection" class="tab-pane active mt-2" role="tabpanel" arial-labelledby="segnalazioniTab" tabindex="0">
+        <div class="d-flex">
+            <h3>Prossimi invii</h3>
+            <form class="ms-auto align-self-center" asp-action="SearchByDate" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#dashboardRows">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">Ricerca:</span>
+                    <input id="dateSearch" name="dateSearch" class="form-control" type="date"/>
+                    <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
+                    <a class="btn btn-outline-secondary" asp-action="ClearDateSearch" onclick="document.getElementById('dateSearch').value = ''" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#dashboardRows"><i class="bi bi-x-circle"></i></a>
+                </div>
+            </form>
         </div>
-    </form>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Data</th>
+                    <th scope="col">Pianificazione</th>
+                </tr>
+            </thead>
+            <tbody id="dashboardRows">
+                <partial name="/Views/Shared/Dashboard/_DashboardRows.cshtml" model="@Model.SchedulationGroupList"></partial>
+            </tbody>
+        </table>
+    </div>
 </div>
-<table class="table table-sm">
-    <thead>
-        <tr>
-            <th scope="col">Data</th>
-            <th scope="col">Pianificazione</th>
-        </tr>
-    </thead>
-    <tbody id="dashboardRows">
-        <partial name="/Views/Shared/Dashboard/_DashboardRows.cshtml" model="@Model.SchedulationGroupList"></partial>
-    </tbody>
-</table>
 
 <script src="/js/Dashboard/BadgeUpdate.js"></script>
