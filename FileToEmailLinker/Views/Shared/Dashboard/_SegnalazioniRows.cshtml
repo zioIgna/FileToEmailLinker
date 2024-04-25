@@ -1,0 +1,16 @@
+﻿@model ICollection<Alert>
+
+@foreach (var segnalazione in Model)
+{
+    var rowName = "unvisualizedRow_" + segnalazione.Id;
+    var dataUrl = "Dashboard/CheckAlert/" + segnalazione.Id;
+    var actionLink = "startSequence('" + dataUrl + "')";
+    <tr>
+        <td>@segnalazione.Message</td>
+        <td>@segnalazione.DateTime</td>
+        <td>@segnalazione.AlertSeverity</td>
+        <td>
+            <a href="#" data-id="@segnalazione.Id" onclick="swapAlert(@segnalazione.Id)"><i class="bi bi-check-circle"></i></a>
+        </td>
+    </tr>
+}

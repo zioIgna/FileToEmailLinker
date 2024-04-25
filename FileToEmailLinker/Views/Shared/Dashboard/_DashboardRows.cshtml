@@ -1,0 +1,33 @@
+﻿@model Dictionary<DateOnly,ICollection<Schedulation>>
+
+@foreach (KeyValuePair<DateOnly, ICollection<Schedulation>> entry in Model)
+{
+    <tr>
+        <td class="fw-bolder pt-2">@entry.Key</td>
+        <td>
+            @if(entry.Value != null && entry.Value.Count > 0)
+            {
+                <ul class="list-group list-group-flush">
+                    @foreach (var sched in entry.Value)
+                    {
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm-2 fst-italic">
+                                    @sched.Time
+                                </div>
+                                <div class="col">
+                                    <a asp-controller="MailingPlans" asp-action="Details" asp-route-id="@sched.MailingPlan.Id"><i class="bi bi-box-arrow-up-right me-2"></i></a>
+                                    @sched.MailingPlan.Name
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <span>Nessuna schedulazione in questa data</span>
+            }
+        </td>
+    </tr>
+}

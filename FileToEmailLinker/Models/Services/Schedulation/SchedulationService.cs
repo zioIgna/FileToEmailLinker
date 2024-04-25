@@ -13,11 +13,8 @@ namespace FileToEmailLinker.Models.Services.Schedulation
             this.context = context;
         }
 
-        public async Task<ICollection<Entities.Schedulation>> GetSchedulationsByDateOrWeekDay(DateOnly date)
+        private IQueryable<Entities.Schedulation> BasicSchedulationByWeekDayQuery(DateOnly date)
         {
-            //IQueryable<Entities.Schedulation> queryByDate = context.Schedulation
-            //    .Where(s => s.Date.Equals(date));
-
             IQueryable<Entities.Schedulation> queryByWeekDay = context.WeeklySchedulation
                 .Where(s => (s.Monday && date.DayOfWeek == DayOfWeek.Monday ||
                     s.Tuesday && date.DayOfWeek == DayOfWeek.Tuesday ||
@@ -29,6 +26,11 @@ namespace FileToEmailLinker.Models.Services.Schedulation
                     && s.EndDate.CompareTo(date) >= 0
                     && s.StartDate.CompareTo(date) <= 0);
 
+            return queryByWeekDay;
+        }
+
+        private IQueryable<Entities.Schedulation> BasicSchedulationByDateQuery(DateOnly date)
+        {
             IQueryable<Entities.Schedulation> queryByDayAndMonth = context.MonthlySchedulation
                 .Where(s =>
                     (s.One && date.Day == 1
@@ -78,12 +80,41 @@ namespace FileToEmailLinker.Models.Services.Schedulation
                     && s.EndDate.CompareTo(date) >= 0
                     && s.StartDate.CompareTo(date) <= 0);
 
+            return queryByDayAndMonth;
+        }
+
+        public async Task<ICollection<Entities.Schedulation>> GetActiveSchedulationsByDateOrWeekDay(DateOnly date)
+        {
+            //IQueryable<Entities.Schedulation> queryByDate = context.Schedulation
+            //    .Where(s => s.Date.Equals(date));
+
+            IQueryable<Entities.Schedulation> queryByWeekDay = BasicSchedulationByWeekDayQuery(date)
+                .Include(sched => sched.MailingPlan)
+                .Where(sched => sched.MailingPlan.ActiveState == Enums.ActiveState.Active);
+
+            IQueryable<Entities.Schedulation> queryByDayAndMonth = BasicSchedulationByDateQuery(date)
+                .Include(sched => sched.MailingPlan)
+                .Where(sched => sched.MailingPlan.ActiveState == Enums.ActiveState.Active);
+
             ICollection<Entities.Schedulation> ongoingSchedulations = new List<Entities.Schedulation>();
             //ongoingSchedulations.AddRange(await queryByDate.ToListAsync());
             ongoingSchedulations.AddRange(await queryByWeekDay.ToListAsync());
             ongoingSchedulations.AddRange(await queryByDayAndMonth.ToListAsync());
 
             return ongoingSchedulations;
+        }
+
+        public async Task<ICollection<Entities.Schedulation>> GetAllSchedulationsByDateOrWeekDay(DateOnly date)
+        {
+            IQueryable<Entities.Schedulation> queryByWeekDay = BasicSchedulationByWeekDayQuery(date);
+            IQueryable<Entities.Schedulation> queryByDayAndMonth = BasicSchedulationByDateQuery(date);
+
+            ICollection<Entities.Schedulation> allSchedulations = new List<Entities.Schedulation>();
+
+            allSchedulations.AddRange(await queryByWeekDay.ToListAsync());
+            allSchedulations.AddRange(await queryByDayAndMonth.ToListAsync());
+
+            return allSchedulations;
         }
     }
 }

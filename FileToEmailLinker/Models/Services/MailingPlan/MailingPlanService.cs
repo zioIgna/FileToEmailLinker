@@ -54,8 +54,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         {
             IQueryable<Entities.MailingPlan> query = context.MailingPlan
                 .Include(mp => mp.WeeklySchedulation)
-                .Include(mp => mp.MonthlySchedulation)
-                .Where(mp => mp.ActiveState == Enums.ActiveState.Active);
+                .Include(mp => mp.MonthlySchedulation);
 
             return await query.ToListAsync();
         }
@@ -134,6 +133,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             return mailingPlan;
         }
 
+        //TODO: impostare un try catch per questo metodo
         private async Task SetInputValues(MailPlanInputModel model, Entities.MailingPlan mailingPlan)
         {
             mailingPlan.Name = model.Name;
