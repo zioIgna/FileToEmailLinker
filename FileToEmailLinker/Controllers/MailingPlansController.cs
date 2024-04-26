@@ -11,6 +11,7 @@ using FileToEmailLinker.Models.Services.MailingPlan;
 using FileToEmailLinker.Models.InputModels.MailPlans;
 using FileToEmailLinker.Models.InputModels.Schedulations;
 using Org.BouncyCastle.Bcpg;
+using FileToEmailLinker.Models.ViewModels;
 
 namespace FileToEmailLinker.Controllers
 {
@@ -26,12 +27,16 @@ namespace FileToEmailLinker.Controllers
         }
 
         // GET: MailingPlans
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, int limit = 3, string search = "")
         {
-            //var fileToEmailLinkerContext = _context.MailingPlan.Include(m => m.Schedulation);
-            //return View(await fileToEmailLinkerContext.ToListAsync());
-            ICollection<MailingPlan> mailinPlanList = await mailingPlanService.GetMailingPlanListAsync();
-            return View(mailinPlanList);
+            ListViewModel<MailingPlan> mailinPlanListView = await mailingPlanService.GetMailingPlanListAsync(page, limit, search);
+            MailingPlanListViewModel model = new();
+            model.MailingPlanList = mailinPlanListView;
+            model.Page = page;
+            model.Limit = limit;
+            model.Search = search;
+
+            return View(model);
         }
 
         // GET: MailingPlans/Details/5

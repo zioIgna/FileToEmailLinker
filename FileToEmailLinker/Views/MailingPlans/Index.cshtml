@@ -1,4 +1,5 @@
-﻿@model IEnumerable<FileToEmailLinker.Models.Entities.MailingPlan>
+﻿@using FileToEmailLinker.Models.ViewModels;
+@model MailingPlanListViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -33,7 +34,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.MailingPlanList.Results) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -55,7 +56,7 @@
                 }
             </td>
             <td>
-                <span>@item.Schedulation.Time</span>
+                <span>@item.Schedulation?.Time</span>
             </td>
             <td style="white-space:nowrap">
                 <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-file-text"></i></a> |
@@ -66,3 +67,5 @@
 }
     </tbody>
 </table>
+
+<vc:pagination-bar model="@Model"></vc:pagination-bar>

@@ -1,4 +1,5 @@
 ﻿using FileToEmailLinker.Models.InputModels.MailPlans;
+using FileToEmailLinker.Models.ViewModels;
 
 namespace FileToEmailLinker.Models.Services.MailingPlan
 {
@@ -6,7 +7,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
     {
         Task<Entities.MailingPlan> GetMailingPlanByIdAsync(int id);
         Task<Entities.MailingPlan> GetMailingPlanBySchedulationIdAsync(int schedulationId);
-        Task<ICollection<Entities.MailingPlan>> GetMailingPlanListAsync();
+        Task<ListViewModel<Entities.MailingPlan>> GetMailingPlanListAsync(int page, int limit, string search);
         Task<MailPlanInputModel> CreateMailPlanInputModelAsync();
         Task<Entities.MailingPlan> CreateMailingPlanAsync(MailPlanInputModel model);
         Task<MailPlanInputModel> RestoreModelForCreationAndEditing(MailPlanInputModel model);

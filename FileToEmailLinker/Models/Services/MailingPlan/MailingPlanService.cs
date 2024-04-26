@@ -3,6 +3,7 @@ using FileToEmailLinker.Models.Entities;
 using FileToEmailLinker.Models.InputModels.MailPlans;
 using FileToEmailLinker.Models.InputModels.Schedulations;
 using FileToEmailLinker.Models.Services.Receiver;
+using FileToEmailLinker.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Plugins;
@@ -50,13 +51,31 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<ICollection<Entities.MailingPlan>> GetMailingPlanListAsync()
+        public async Task<ListViewModel<Entities.MailingPlan>> GetMailingPlanListAsync(int page, int limit, string search)
         {
-            IQueryable<Entities.MailingPlan> query = context.MailingPlan
-                .Include(mp => mp.WeeklySchedulation)
-                .Include(mp => mp.MonthlySchedulation);
+            int realPage = Math.Max(1, page);
+            int realLimit = Math.Max(1, limit);
+            int offset = (realPage - 1) * realLimit;
 
-            return await query.ToListAsync();
+            IQueryable<Entities.MailingPlan> queryLinq = context.MailingPlan
+                .Include(mp => mp.WeeklySchedulation)
+                .Include(mp => mp.MonthlySchedulation)
+                .Where(mp => mp.Name.Contains(search) || mp.Subject.Contains(search) || mp.Text.Contains(search));
+
+            List<Entities.MailingPlan> mailingPlans = await queryLinq
+                .Skip(offset)
+                .Take(realLimit)
+                .ToListAsync();
+
+            int totalCount = await queryLinq.CountAsync();
+
+            ListViewModel<Entities.MailingPlan> listViewModel = new ListViewModel<Entities.MailingPlan>
+            {
+                Results = mailingPlans,
+                TotalCount = totalCount
+            };
+
+            return listViewModel;
         }
 
         public async Task<MailPlanInputModel> CreateMailPlanInputModelAsync()
