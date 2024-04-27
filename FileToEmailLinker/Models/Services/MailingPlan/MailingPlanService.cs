@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Plugins;
 using Org.BouncyCastle.Asn1.Crmf;
+using System.Linq;
 
 namespace FileToEmailLinker.Models.Services.MailingPlan
 {
@@ -389,6 +390,29 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         {
             context.Remove(mailingPlan);
             await context.SaveChangesAsync();
+        }
+
+        public List<SelectListItem> GetPageLimitOptions()
+        {
+            int[] values = configuration.GetSection("DropdownOptions").GetSection("MailingPlan").Get<int[]>();
+            List<SelectListItem> options = new List<SelectListItem>();
+            options.AddRange(values.Select(val => new SelectListItem(val.ToString(), val.ToString(), values.ElementAt(0).Equals(val))));
+
+            return options;
+        }
+
+        public async Task<MailingPlanListViewModel> GetMailingPlanListViewModelAsync(int page, int limit, string search)
+        {
+            MailingPlanListViewModel model = new();
+            ListViewModel<Entities.MailingPlan> mailinPlanListView = await GetMailingPlanListAsync(page, limit, search);
+            List<SelectListItem> pageLimitOptions = GetPageLimitOptions();
+            model.MailingPlanList = mailinPlanListView;
+            model.Page = page;
+            model.Limit = limit;
+            model.Search = search;
+            model.PageLimitOptions = pageLimitOptions;
+
+            return model;
         }
     }
 }

@@ -80,23 +80,10 @@
 
 <section class="row">
     <div class="col-1">
-        <select asp-for="@Model.Limit" class="form-select mt-3" aria-label="Pagination select" form="searchForm"> @*onchange="refreshWithNewLimit(this)"*@
-            <option selected value="5">5</option>
-            <option value="10">10</option>
-            <option value="30">30</option>
+        <select asp-for="@Model.Limit" class="form-select mt-3" aria-label="Pagination select" form="searchForm" asp-items="@Model.PageLimitOptions">
         </select>
     </div>
     <div class="col">
         <vc:pagination-bar model="@Model"></vc:pagination-bar>
     </div>
 </section>
-
-@*<script src="/js/MailingPlan/SetPaginationLimit.js"></script>*@
-
-@*@section scripts{
-    <script type="text/javascript">
-        function refreshWithNewLimit(ev){
-            window.location.href='@Url.Action("Index","MailingPlans")';
-        }
-    </script>
-}*@

@@ -1,4 +1,5 @@
 ﻿using FileToEmailLinker.Models.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FileToEmailLinker.Models.ViewModels
 {
@@ -9,6 +10,7 @@ namespace FileToEmailLinker.Models.ViewModels
         public int Page { get; set; }
         public int Limit { get; set; }
         public int Offset { get; set; }
+        public List<SelectListItem> PageLimitOptions { get; set; }
 
         int IPaginationInfo.CurrentPage => Page;
 

@@ -29,12 +29,7 @@ namespace FileToEmailLinker.Controllers
         // GET: MailingPlans
         public async Task<IActionResult> Index(int page = 1, int limit = 10, string search = "")
         {
-            ListViewModel<MailingPlan> mailinPlanListView = await mailingPlanService.GetMailingPlanListAsync(page, limit, search);
-            MailingPlanListViewModel model = new();
-            model.MailingPlanList = mailinPlanListView;
-            model.Page = page;
-            model.Limit = limit;
-            model.Search = search;
+            MailingPlanListViewModel model = await mailingPlanService.GetMailingPlanListViewModelAsync(page, limit, search);
 
             return View(model);
         }

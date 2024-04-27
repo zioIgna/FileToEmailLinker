@@ -1,5 +1,6 @@
 ﻿using FileToEmailLinker.Models.InputModels.MailPlans;
 using FileToEmailLinker.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FileToEmailLinker.Models.Services.MailingPlan
 {
@@ -15,5 +16,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         Task<Entities.MailingPlan> EditMailingPlanAsync(MailPlanInputModel model);
         Task DeleteMailingPlanAsync(Entities.MailingPlan mailingPlan);
         string GetFilesDirectoryFullPath();
+        List<SelectListItem> GetPageLimitOptions();
+        Task<MailingPlanListViewModel> GetMailingPlanListViewModelAsync(int page, int limit, string search);
     }
 }
