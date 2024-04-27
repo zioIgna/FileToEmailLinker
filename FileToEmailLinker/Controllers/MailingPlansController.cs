@@ -27,7 +27,7 @@ namespace FileToEmailLinker.Controllers
         }
 
         // GET: MailingPlans
-        public async Task<IActionResult> Index(int page = 1, int limit = 3, string search = "")
+        public async Task<IActionResult> Index(int page = 1, int limit = 10, string search = "")
         {
             ListViewModel<MailingPlan> mailinPlanListView = await mailingPlanService.GetMailingPlanListAsync(page, limit, search);
             MailingPlanListViewModel model = new();

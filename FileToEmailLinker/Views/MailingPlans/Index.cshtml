@@ -8,12 +8,12 @@
 <div class="d-flex">
     <h1 class="me-auto">Pianificazioni</h1>
     <div class="align-self-center">
-        <form method="get">
+        <form id="searchForm" method="get">
             <div class="input-group">
                 <span class="input-group-text" id="basic-addon1">Ricerca:</span>
                 <input id="search" name="search" class="form-control" type="text" value="@Model.Search"/>
                 <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
-                <a class="btn btn-outline-secondary" asp-action="Index" onclick="document.getElementById('search').value = ''" ><i class="bi bi-x-circle"></i></a>
+                <a class="btn btn-outline-secondary" asp-action="Index" asp-route-limit="@Model.Limit" onclick="document.getElementById('search').value = ''" ><i class="bi bi-x-circle"></i></a>
             </div>
         </form>
     </div>
@@ -78,4 +78,25 @@
     </tbody>
 </table>
 
-<vc:pagination-bar model="@Model"></vc:pagination-bar>
+<section class="row">
+    <div class="col-1">
+        <select asp-for="@Model.Limit" class="form-select mt-3" aria-label="Pagination select" form="searchForm"> @*onchange="refreshWithNewLimit(this)"*@
+            <option selected value="5">5</option>
+            <option value="10">10</option>
+            <option value="30">30</option>
+        </select>
+    </div>
+    <div class="col">
+        <vc:pagination-bar model="@Model"></vc:pagination-bar>
+    </div>
+</section>
+
+@*<script src="/js/MailingPlan/SetPaginationLimit.js"></script>*@
+
+@*@section scripts{
+    <script type="text/javascript">
+        function refreshWithNewLimit(ev){
+            window.location.href='@Url.Action("Index","MailingPlans")';
+        }
+    </script>
+}*@
