@@ -21,7 +21,32 @@
     </li>
 </ul>
 <div class="tab-content">
-    <div id="allSegnalazioniTables" class="tab-pane mt-2" role="tabpanel" aria-labelledby="pianificazioniTab" tabindex="0">
+    <div id="pianificazioniSection" class="tab-pane active mt-2" role="tabpanel" arial-labelledby="pinaificazioniTab" tabindex="0">
+        <div class="d-flex">
+            <h3>Prossimi invii</h3>
+            <form class="ms-auto align-self-center" asp-action="SearchByDate" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#dashboardRows">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">Ricerca:</span>
+                    <input id="dateSearch" name="dateSearch" class="form-control" type="date"/>
+                    <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
+                    <a class="btn btn-outline-secondary" asp-action="ClearDateSearch" onclick="document.getElementById('dateSearch').value = ''" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#dashboardRows"><i class="bi bi-x-circle"></i></a>
+                </div>
+            </form>
+        </div>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Data</th>
+                    <th scope="col">Pianificazione</th>
+                </tr>
+            </thead>
+            <tbody id="dashboardRows">
+                <partial name="/Views/Shared/Dashboard/_DashboardRows.cshtml" model="@Model.SchedulationGroupList"></partial>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="allSegnalazioniTables" class="tab-pane mt-2" role="tabpanel" aria-labelledby="segnalazioniTab" tabindex="0">
         <div class="row">
             <div class="col-auto position-relative">
                 <h3>Segnalazioni</h3>
@@ -70,31 +95,6 @@
                 </table>
             </div>
         </div>
-    </div>
-
-    <div id="pianificazioniSection" class="tab-pane active mt-2" role="tabpanel" arial-labelledby="segnalazioniTab" tabindex="0">
-        <div class="d-flex">
-            <h3>Prossimi invii</h3>
-            <form class="ms-auto align-self-center" asp-action="SearchByDate" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#dashboardRows">
-                <div class="input-group">
-                    <span class="input-group-text" id="basic-addon1">Ricerca:</span>
-                    <input id="dateSearch" name="dateSearch" class="form-control" type="date"/>
-                    <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
-                    <a class="btn btn-outline-secondary" asp-action="ClearDateSearch" onclick="document.getElementById('dateSearch').value = ''" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#dashboardRows"><i class="bi bi-x-circle"></i></a>
-                </div>
-            </form>
-        </div>
-        <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th scope="col">Data</th>
-                    <th scope="col">Pianificazione</th>
-                </tr>
-            </thead>
-            <tbody id="dashboardRows">
-                <partial name="/Views/Shared/Dashboard/_DashboardRows.cshtml" model="@Model.SchedulationGroupList"></partial>
-            </tbody>
-        </table>
     </div>
 </div>
 

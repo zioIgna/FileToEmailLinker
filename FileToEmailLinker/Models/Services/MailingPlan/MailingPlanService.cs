@@ -60,7 +60,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             IQueryable<Entities.MailingPlan> queryLinq = context.MailingPlan
                 .Include(mp => mp.WeeklySchedulation)
                 .Include(mp => mp.MonthlySchedulation)
-                .Where(mp => mp.Name.Contains(search) || mp.Subject.Contains(search) || mp.Text.Contains(search));
+                .Where(mp => mp.Name.ToUpper().Contains(search.ToUpper()) || mp.Subject.ToUpper().Contains(search.ToUpper()) || mp.Text.ToUpper().Contains(search.ToUpper()));
 
             List<Entities.MailingPlan> mailingPlans = await queryLinq
                 .Skip(offset)

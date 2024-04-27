@@ -6,10 +6,20 @@
 }
 
 <div class="d-flex">
-    <h1>Pianificazioni</h1>
-    <span class="align-self-center ms-auto">
+    <h1 class="me-auto">Pianificazioni</h1>
+    <div class="align-self-center">
+        <form method="get">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">Ricerca:</span>
+                <input id="search" name="search" class="form-control" type="text" value="@Model.Search"/>
+                <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
+                <a class="btn btn-outline-secondary" asp-action="Index" onclick="document.getElementById('search').value = ''" ><i class="bi bi-x-circle"></i></a>
+            </div>
+        </form>
+    </div>
+    <div class="align-self-center ms-2">
         <a asp-action="Create" class="btn btn-outline-primary">Aggiungi <i class="bi bi-plus-circle"></i></a>
-    </span>
+    </div>
 </div>
 
 <table class="table">
