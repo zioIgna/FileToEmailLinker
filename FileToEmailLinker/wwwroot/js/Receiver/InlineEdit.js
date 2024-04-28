@@ -1,9 +1,5 @@
-﻿let formColl = document.getElementsByTagName('form');
+﻿let formColl = document.getElementsByClassName('inlineReceiverForm');
 Array.from(formColl).forEach(el => el.addEventListener("submit", populatePartialView));
-
-//let form = document.getElementById("formId");
-
-//form.addEventListener("submit", populatePartialView);
 
 async function populatePartialView(event) {
     event.preventDefault();

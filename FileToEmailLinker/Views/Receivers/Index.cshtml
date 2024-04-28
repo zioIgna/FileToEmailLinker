@@ -1,47 +1,57 @@
-﻿@model IEnumerable<Receiver>
+﻿@using FileToEmailLinker.Models.ViewModels;
+@model ReceiverListViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <div class="d-flex">
-    <h1>Destinatari</h1>
-    <span class="align-self-center ms-auto">
-        <a asp-action="Create" class="btn btn-outline-primary">Aggiungi <i class="bi bi-plus-circle"></i></a>
-    </span>
+    <h1 class="me-auto">Destinatari</h1>
+    <partial name="IndexTools/SearchAndAddTools" model="@Model"></partial>
 </div>
 
-@foreach(var item in Model)
+@foreach(var item in Model.ReceiverList.Results)
 {
     var formId = "form_" + item.Id;
-    <form asp-action="EditInline" id="@formId"></form>
+    <form asp-action="EditInline" id="@formId" class="inlineReceiverForm"></form>
 }
-@*<form asp-action="EditInline" id="formId" >*@
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Nome
-                </th>
-                <th>
-                    Cognome
-                </th>
-                <th>
-                    Email
-                </th>
-                <th></th>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nome
+            </th>
+            <th>
+                Cognome
+            </th>
+            <th>
+                Email
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ReceiverList.Results)
+        {
+            var receiverVcId = "receiver_" + item.Id;
+            <tr id="@receiverVcId">
+                <partial name="/Views/Shared/Output/_ReceiverInlineOutput.cshtml" model="@item"></partial>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                var receiverVcId = "receiver_" + item.Id;
-                <tr id="@receiverVcId">
-                    <partial name="/Views/Shared/Output/_ReceiverInlineOutput.cshtml" model="@item"></partial>
-                </tr>
-            }
-        </tbody>
-    </table>
-@*</form>*@
+        }
+    </tbody>
+</table>
+
+<section class="row">
+    <div class="col-sm-auto">
+        <div class="input-group mt-3">
+            <select asp-for="@Model.Limit" class="form-select" aria-label="Pagination select" form="searchForm" asp-items="@Model.PageLimitOptions">
+            </select>
+            <button class="btn btn-outline-secondary" type="submit" form="searchForm"><i class="bi bi-skip-end"></i></button>
+        </div>
+    </div>
+    <div class="col">
+        <vc:pagination-bar model="@Model"></vc:pagination-bar>
+    </div>
+</section>
 
 <script src="/js/Receiver/InlineEdit.js"></script>

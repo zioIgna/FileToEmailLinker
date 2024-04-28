@@ -11,6 +11,7 @@ using FileToEmailLinker.Models.InputModels.Receivers;
 using FileToEmailLinker.Models.Services.Receiver;
 using FileToEmailLinker.Models.Exceptions;
 using NuGet.Protocol.Plugins;
+using FileToEmailLinker.Models.ViewModels;
 
 namespace FileToEmailLinker.Controllers
 {
@@ -26,10 +27,10 @@ namespace FileToEmailLinker.Controllers
         }
 
         // GET: Receivers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, int limit = 10, string search = "")
         {
-            ICollection<Models.Entities.Receiver> receiverList = await receiverService.GetReceiverListAsync();
-            return View(receiverList);
+            ReceiverListViewModel model = await receiverService.GetReceiverListViewModelAsync(page, limit, search);
+            return View(model);
         }
 
         // GET: Receivers/Details/5
