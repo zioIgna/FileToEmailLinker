@@ -4,7 +4,7 @@
     {
         int CurrentPage { get; }
         int TotalResults { get; }
-        int ResultsPePage { get; }
+        int ResultsPerPage { get; }
         string Search { get; }
     }
 }

@@ -16,7 +16,7 @@ namespace FileToEmailLinker.Models.ViewModels
 
         int IPaginationInfo.TotalResults => MailingPlanList.TotalCount;
 
-        int IPaginationInfo.ResultsPePage => Limit;
+        int IPaginationInfo.ResultsPerPage => Limit;
 
         string IPaginationInfo.Search => Search;
     }
