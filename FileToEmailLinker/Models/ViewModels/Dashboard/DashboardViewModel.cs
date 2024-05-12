@@ -1,11 +1,11 @@
 ﻿using FileToEmailLinker.Models.Entities;
 
-namespace FileToEmailLinker.Models.ViewModels
+namespace FileToEmailLinker.Models.ViewModels.Dashboard
 {
     public class DashboardViewModel
     {
         public Dictionary<DateOnly, ICollection<Schedulation>> SchedulationGroupList { get; set; }
-        public ICollection<Alert> UnvisualizedAlertList { get; set; }
-        public ICollection<Alert> VisualizedAlertList { get; set; }
+        public AlertsListViewModel UnvisualizedAlertList { get; set; }
+        public AlertsListViewModel VisualizedAlertList { get; set; }
     }
 }

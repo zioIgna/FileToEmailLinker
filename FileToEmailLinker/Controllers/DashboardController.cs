@@ -1,8 +1,7 @@
 ﻿using FileToEmailLinker.Models.Entities;
 using FileToEmailLinker.Models.Services.Alert;
 using FileToEmailLinker.Models.Services.Dashboard;
-using FileToEmailLinker.Models.Services.Schedulation;
-using FileToEmailLinker.Models.ViewModels;
+using FileToEmailLinker.Models.ViewModels.Dashboard;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Packaging;
 
@@ -20,15 +19,16 @@ namespace FileToEmailLinker.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            Dictionary<DateOnly, ICollection<Schedulation>> upcomingSchedulations = await dashboardService.GetUpcomingSchedulations();
-            ICollection<Alert>? unvisualizedAlerts = await alertService.GetUnvisualizedAlertListAsync();
-            ICollection<Alert>? visualizedAlerts = await alertService.GetVisualizedAlertListAsync();
-            DashboardViewModel model = new()
-            {
-                UnvisualizedAlertList = unvisualizedAlerts,
-                VisualizedAlertList = visualizedAlerts,
-                SchedulationGroupList = upcomingSchedulations
-            };
+            DashboardViewModel model = await dashboardService.GetDashboardViewModel();
+            //Dictionary<DateOnly, ICollection<Schedulation>> upcomingSchedulations = await dashboardService.GetUpcomingSchedulations();
+            //ICollection<Alert>? unvisualizedAlerts = await alertService.GetUnvisualizedAlertListAsync();
+            //ICollection<Alert>? visualizedAlerts = await alertService.GetVisualizedAlertListAsync();
+            //DashboardViewModel model = new()
+            //{
+            //    UnvisualizedAlertList = unvisualizedAlerts,
+            //    VisualizedAlertList = visualizedAlerts,
+            //    SchedulationGroupList = upcomingSchedulations
+            //};
 
             return View(model);
         }

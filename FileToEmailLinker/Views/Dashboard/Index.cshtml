@@ -1,4 +1,5 @@
 ﻿@using FileToEmailLinker.Models.ViewModels;
+@using FileToEmailLinker.Models.ViewModels.Dashboard;
 @model DashboardViewModel
 
 @{
@@ -12,7 +13,7 @@
         <button class="nav-link position-relative" id="segnalazioniTab" data-bs-toggle="tab" data-bs-target="#allSegnalazioniTables" type="button" role="tab" aria-controls="allSegnalazioniTables" arial-selected="false">
             <span>
                 Segnalazioni
-                @if (Model.UnvisualizedAlertList.Count() > 0)
+                @if (Model.UnvisualizedAlertList.Alerts.Results.Count() > 0)
                 {
                     <span id="basicBadge" class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle"><span style="display:none">Segnalazioni</span></span>
                 }
@@ -51,7 +52,7 @@
             <div class="col-auto position-relative">
                 <h3>Segnalazioni</h3>
                 <h6 id="segnalazioniBadge">
-                    <partial name="Dashboard/_SegnalazioniBadge" model="@Model.UnvisualizedAlertList.Count()"></partial>
+                    <partial name="Dashboard/_SegnalazioniBadge" model="@Model.UnvisualizedAlertList.Alerts.Results.Count()"></partial>
                 </h6>
             </div>
         </div>
@@ -66,9 +67,22 @@
                     </tr>
                 </thead>
                 <tbody id="segnalazioniRows">
-                    <partial name="Dashboard/_SegnalazioniRows" model="@Model.UnvisualizedAlertList"></partial>
+                    <partial name="Dashboard/_SegnalazioniRows" model="@Model.UnvisualizedAlertList.Alerts.Results"></partial>
                 </tbody>
             </table>
+            <vc:pagination-bar model="@Model.UnvisualizedAlertList"></vc:pagination-bar>
+            @*<section class="row">
+                <div class="col-sm-auto">
+                    <div class="input-group mt-3">
+                        <select asp-for="@Model.Limit" class="form-select" aria-label="Pagination select" form="searchForm" asp-items="@Model.PageLimitOptions">
+                        </select>
+                        <button class="btn btn-outline-secondary" type="submit" form="searchForm"><i class="bi bi-skip-end"></i></button>
+                    </div>
+                </div>
+                <div class="col">
+                    <vc:pagination-bar model="@Model"></vc:pagination-bar>
+                </div>
+            </section>*@
 
             <div class="row row-cols-2 mb-2">
                 <div class="col-auto">
@@ -90,9 +104,10 @@
                         </tr>
                     </thead>
                     <tbody id="visualizedAlertRows">
-                        <partial name="Dashboard/_VisualizedSegnalazioniRows" model="@Model.VisualizedAlertList"></partial>
+                        <partial name="Dashboard/_VisualizedSegnalazioniRows" model="@Model.VisualizedAlertList.Alerts.Results"></partial>
                     </tbody>
                 </table>
+                <vc:pagination-bar model="@Model.VisualizedAlertList"></vc:pagination-bar>
             </div>
         </div>
     </div>

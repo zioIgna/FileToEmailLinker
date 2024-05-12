@@ -1,5 +1,7 @@
 ﻿using FileToEmailLinker.Data;
 using FileToEmailLinker.Models.Entities;
+using FileToEmailLinker.Models.ViewModels;
+using FileToEmailLinker.Models.ViewModels.Dashboard;
 using Microsoft.EntityFrameworkCore;
 
 namespace FileToEmailLinker.Models.Services.Alert
@@ -20,6 +22,67 @@ namespace FileToEmailLinker.Models.Services.Alert
                 .OrderByDescending(al => al.DateTime);
 
             return await query.ToListAsync();
+        }
+
+        public async Task<ICollection<Entities.Alert>> GetVisualizedAlertListAsync()
+        {
+            IQueryable<Entities.Alert> query = context.Alert
+                .Where(al => al.Visualized && al.AlertSeverity <= Enums.AlertSeverity.Warning)
+                .OrderByDescending(al => al.DateTime);
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<AlertsListViewModel> GetUnvisualizedAlertListViewModelAsync(int page, int limit)
+        {
+            IQueryable<Entities.Alert> queryLinq = GetUnvisualizedAlertsQuery();
+            return await GenerateListViewModel(page, limit, queryLinq);
+        }
+
+        public async Task<AlertsListViewModel> GetVisualizedAlertListViewModelAsync(int page, int limit)
+        {
+            IQueryable<Entities.Alert> queryLinq = GetVisualizedAlertsQuery();
+            return await GenerateListViewModel(page, limit, queryLinq);
+        }
+
+        private static async Task<AlertsListViewModel> GenerateListViewModel(int page, int limit, IQueryable<Entities.Alert> queryLinq)
+        {
+            ListViewModel<Entities.Alert> listViewModel = new ListViewModel<Entities.Alert>();
+            int realPage = Math.Max(1, page);
+            int realLimit = Math.Max(1, limit);
+            int offset = (realPage - 1) * realLimit;
+
+            List<Entities.Alert> alerts = await queryLinq
+                .Skip(offset)
+                .Take(realLimit)
+                .ToListAsync();
+
+            int totalCount = await queryLinq.CountAsync();
+            listViewModel.Results = alerts;
+            listViewModel.TotalCount = totalCount;
+
+            AlertsListViewModel alertsListViewModel = new AlertsListViewModel();
+            alertsListViewModel.Alerts = listViewModel;
+            alertsListViewModel.Offset = offset;
+            alertsListViewModel.Limit = realLimit;
+            alertsListViewModel.Page = realPage;
+            alertsListViewModel.Search = string.Empty;
+
+            return alertsListViewModel;
+        }
+
+        private IQueryable<Entities.Alert> GetUnvisualizedAlertsQuery()
+        {
+            return context.Alert
+                            .Where(al => !al.Visualized && al.AlertSeverity <= Enums.AlertSeverity.Warning)
+                            .OrderByDescending(al => al.DateTime);
+        }
+
+        private IQueryable<Entities.Alert> GetVisualizedAlertsQuery()
+        {
+            return context.Alert
+                            .Where(al => al.Visualized && al.AlertSeverity <= Enums.AlertSeverity.Warning)
+                            .OrderByDescending(al => al.DateTime);
         }
 
         public async Task CreateAlertForMissingAttachmentFile(Entities.MailingPlan mailingPlan, string filesDirectoryFullPath, string fileName)
@@ -63,15 +126,6 @@ namespace FileToEmailLinker.Models.Services.Alert
                 .Where(al => al.Id == id);
 
             return await query.FirstOrDefaultAsync();
-        }
-
-        public async Task<ICollection<Entities.Alert>?> GetVisualizedAlertListAsync()
-        {
-            IQueryable<Entities.Alert> query = context.Alert
-                .Where(al => al.Visualized && al.AlertSeverity <= Enums.AlertSeverity.Warning)
-                .OrderByDescending(al => al.DateTime);
-
-            return await query.ToListAsync();
         }
     }
 }
