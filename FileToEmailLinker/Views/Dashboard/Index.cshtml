@@ -52,49 +52,39 @@
             <div class="col-auto position-relative">
                 <h3>Segnalazioni</h3>
                 <h6 id="segnalazioniBadge">
-                    <partial name="Dashboard/_SegnalazioniBadge" model="@Model.UnvisualizedAlertList.Alerts.Results.Count()"></partial>
+                    <partial name="Dashboard/_SegnalazioniBadge" model="@Model.UnvisualizedAlertList.Alerts.TotalCount"></partial>
                 </h6>
             </div>
         </div>
         <div id="alertTable">
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">Messaggio</th>
-                        <th scope="col">Data</th>
-                        <th scope="col">Livello</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="segnalazioniRows">
-                    <partial name="Dashboard/_SegnalazioniRows" model="@Model.UnvisualizedAlertList.Alerts.Results"></partial>
-                </tbody>
-            </table>
-            <vc:pagination-bar model="@Model.UnvisualizedAlertList"></vc:pagination-bar>
-            @*<section class="row">
-                <div class="col-sm-auto">
-                    <div class="input-group mt-3">
-                        <select asp-for="@Model.Limit" class="form-select" aria-label="Pagination select" form="searchForm" asp-items="@Model.PageLimitOptions">
-                        </select>
-                        <button class="btn btn-outline-secondary" type="submit" form="searchForm"><i class="bi bi-skip-end"></i></button>
-                    </div>
-                </div>
-                <div class="col">
-                    <vc:pagination-bar model="@Model"></vc:pagination-bar>
-                </div>
-            </section>*@
+            <div id="unvisualizedAlertTable">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">Messaggio</th>
+                            <th scope="col">Data</th>
+                            <th scope="col">Livello</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="segnalazioniRows">
+                        <partial name="Dashboard/_SegnalazioniRows" model="@Model.UnvisualizedAlertList.Alerts.Results"></partial>
+                    </tbody>
+                </table>
+                <vc:pagination-bar model="@Model.UnvisualizedAlertList"></vc:pagination-bar>
+            </div>
 
             <div class="row row-cols-2 mb-2">
                 <div class="col-auto">
                     <h5>Visualizzate</h5>
                 </div>
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-sm ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#unvisualizedAlertTable" aria-expanded="false" aria-controls="unvisualizedAlertTable">
+                    <button class="btn btn-outline-primary btn-sm ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#visualizedAlertTable" aria-expanded="false" aria-controls="visualizedAlertTable">
                         <i class="bi bi-arrows-collapse"></i>
                     </button>
                 </div>
             </div>
-            <div class="collapse" id="unvisualizedAlertTable">
+            <div class="collapse" id="visualizedAlertTable">
                 <table class="table table-sm">
                     <thead>
                         <tr>

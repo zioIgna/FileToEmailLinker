@@ -7,7 +7,11 @@ namespace FileToEmailLinker.Customizations
     {
         public IViewComponentResult Invoke(IPaginationInfo model)
         {
-            return View(model);
+            if (!string.IsNullOrEmpty(model.Action))
+            {
+                return View("ForReplacement", model);
+            }
+            return View("Default",model);
         }
     }
 }

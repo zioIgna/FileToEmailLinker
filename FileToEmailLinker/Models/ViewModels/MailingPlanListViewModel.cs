@@ -12,6 +12,10 @@ namespace FileToEmailLinker.Models.ViewModels
         public int Offset { get; set; }
         public List<SelectListItem> PageLimitOptions { get; set; }
 
+        public string? Action { get; set; }
+
+        public string? TargetId { get; set; }
+
         int IPaginationInfo.CurrentPage => Page;
 
         int IPaginationInfo.TotalResults => MailingPlanList.TotalCount;

@@ -10,6 +10,8 @@ namespace FileToEmailLinker.Models.ViewModels.Dashboard
         public int Page { get; set; }
         public int Limit { get; set; }
         public int Offset { get; set; }
+        public string? Action { get; set; }
+        public string? TargetId { get; set; }
         public List<SelectListItem> PageLimitOptions { get; set; }
         int IPaginationInfo.CurrentPage => Page;
 

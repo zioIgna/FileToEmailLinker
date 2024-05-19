@@ -67,6 +67,17 @@ namespace FileToEmailLinker.Controllers
             return PartialView("Dashboard/_VisualizedSegnalazioniRows", alerts);
         }
 
+        public async Task<IActionResult> GetUnvisualizedAlertListNthPage(int page)
+        {
+            AlertsListViewModel alertsListViewModel = await alertService.GetUnvisualizedAlertListViewModelAsync(page, 10);
+            return PartialView("Dashboard/_UnvisualizedAlertTable", alertsListViewModel);
+        }
+
+        public async Task<IActionResult> GetVisualizedAlertListNthPage(int page)
+        {
+            AlertsListViewModel alertsListViewModel = await alertService.GetVisualizedAlertListViewModelAsync(page, 10);
+            return PartialView("Dashboard/_VisualizedAlertTable", alertsListViewModel);
+        }
 
         //public async Task<IActionResult> UpdateBadgeCount()
         //{

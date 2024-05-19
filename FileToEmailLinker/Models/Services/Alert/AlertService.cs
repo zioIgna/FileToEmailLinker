@@ -36,16 +36,16 @@ namespace FileToEmailLinker.Models.Services.Alert
         public async Task<AlertsListViewModel> GetUnvisualizedAlertListViewModelAsync(int page, int limit)
         {
             IQueryable<Entities.Alert> queryLinq = GetUnvisualizedAlertsQuery();
-            return await GenerateListViewModel(page, limit, queryLinq);
+            return await GenerateListViewModel(page, limit, queryLinq, "GetUnvisualizedAlertListNthPage", "unvisualizedAlertTable");
         }
 
         public async Task<AlertsListViewModel> GetVisualizedAlertListViewModelAsync(int page, int limit)
         {
             IQueryable<Entities.Alert> queryLinq = GetVisualizedAlertsQuery();
-            return await GenerateListViewModel(page, limit, queryLinq);
+            return await GenerateListViewModel(page, limit, queryLinq, "GetVisualizedAlertListNthPage", "visualizedAlertTable");
         }
 
-        private static async Task<AlertsListViewModel> GenerateListViewModel(int page, int limit, IQueryable<Entities.Alert> queryLinq)
+        private static async Task<AlertsListViewModel> GenerateListViewModel(int page, int limit, IQueryable<Entities.Alert> queryLinq, string action, string targetId)
         {
             ListViewModel<Entities.Alert> listViewModel = new ListViewModel<Entities.Alert>();
             int realPage = Math.Max(1, page);
@@ -67,6 +67,8 @@ namespace FileToEmailLinker.Models.Services.Alert
             alertsListViewModel.Limit = realLimit;
             alertsListViewModel.Page = realPage;
             alertsListViewModel.Search = string.Empty;
+            alertsListViewModel.Action = action;
+            alertsListViewModel.TargetId = targetId;
 
             return alertsListViewModel;
         }

@@ -6,5 +6,7 @@
         int TotalResults { get; }
         int ResultsPerPage { get; }
         string Search { get; }
+        string? Action { get; }
+        string? TargetId { get; }
     }
 }
