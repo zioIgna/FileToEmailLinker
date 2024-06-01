@@ -12,5 +12,6 @@ namespace FileToEmailLinker.Models.Services.Alert
         Task<ICollection<Entities.Alert>?> GetVisualizedAlertListAsync();
         Task<AlertsListViewModel> GetUnvisualizedAlertListViewModelAsync(int page, int limit);
         Task<AlertsListViewModel> GetVisualizedAlertListViewModelAsync(int page, int limit);
+        Task<DashboardViewModel> CheckAlertAndReloadModel(int id);
     }
 }

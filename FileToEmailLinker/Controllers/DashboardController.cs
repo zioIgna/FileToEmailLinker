@@ -19,15 +19,6 @@ namespace FileToEmailLinker.Controllers
         public async Task<IActionResult> Index()
         {
             DashboardViewModel model = await dashboardService.GetDashboardViewModel();
-            //Dictionary<DateOnly, ICollection<Schedulation>> upcomingSchedulations = await dashboardService.GetUpcomingSchedulations();
-            //ICollection<Alert>? unvisualizedAlerts = await alertService.GetUnvisualizedAlertListAsync();
-            //ICollection<Alert>? visualizedAlerts = await alertService.GetVisualizedAlertListAsync();
-            //DashboardViewModel model = new()
-            //{
-            //    UnvisualizedAlertList = unvisualizedAlerts,
-            //    VisualizedAlertList = visualizedAlerts,
-            //    SchedulationGroupList = upcomingSchedulations
-            //};
 
             return View(model);
         }
@@ -61,12 +52,7 @@ namespace FileToEmailLinker.Controllers
 
         public async Task<IActionResult> CheckAlertAndReload(int id)
         {
-            await alertService.CheckAlertAsync(id);
-            AlertsListViewModel unvisualizedAlertList = await alertService.GetUnvisualizedAlertListViewModelAsync(1, 10);
-            AlertsListViewModel visualizedAlertList = await alertService.GetVisualizedAlertListViewModelAsync(1, 10);
-            DashboardViewModel dashboardViewModel = new();
-            dashboardViewModel.UnvisualizedAlertList = unvisualizedAlertList;
-            dashboardViewModel.VisualizedAlertList = visualizedAlertList;
+            DashboardViewModel dashboardViewModel = await alertService.CheckAlertAndReloadModel(id);
 
             return PartialView("Dashboard/_AllSegnalazioniTables", dashboardViewModel);
         }

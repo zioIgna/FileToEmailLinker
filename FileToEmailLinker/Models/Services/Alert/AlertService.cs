@@ -122,6 +122,18 @@ namespace FileToEmailLinker.Models.Services.Alert
             await context.SaveChangesAsync();
         }
 
+        public async Task<DashboardViewModel> CheckAlertAndReloadModel(int id)
+        {
+            await CheckAlertAsync(id);
+            DashboardViewModel dashboardViewModel = new();
+            AlertsListViewModel unvisualizedAlertList = await GetUnvisualizedAlertListViewModelAsync(1, 10);
+            AlertsListViewModel visualizedAlertList = await GetVisualizedAlertListViewModelAsync(1, 10);
+            dashboardViewModel.UnvisualizedAlertList = unvisualizedAlertList;
+            dashboardViewModel.VisualizedAlertList = visualizedAlertList;
+
+            return dashboardViewModel;
+        }
+
         public async Task<Entities.Alert> GetAlertByIdAsync(int id)
         {
             IQueryable<Entities.Alert> query = context.Alert
