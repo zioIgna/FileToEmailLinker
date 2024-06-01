@@ -1,0 +1,55 @@
+﻿@using FileToEmailLinker.Models.ViewModels.Dashboard;
+@model DashboardViewModel
+
+<div class="row">
+    <div class="col-auto position-relative">
+        <h3>Segnalazioni</h3>
+        <h6 id="segnalazioniBadge">
+            <partial name="Dashboard/_SegnalazioniBadge" model="@Model.UnvisualizedAlertList.Alerts.TotalCount"></partial>
+        </h6>
+    </div>
+</div>
+<div id="alertTable">
+    <div id="unvisualizedAlertTable">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Messaggio</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Livello</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="segnalazioniRows">
+                <partial name="Dashboard/_SegnalazioniRows" model="@Model.UnvisualizedAlertList.Alerts.Results"></partial>
+            </tbody>
+        </table>
+        <vc:pagination-bar model="@Model.UnvisualizedAlertList"></vc:pagination-bar>
+    </div>
+
+    <div class="row row-cols-2 mb-2">
+        <div class="col-auto">
+            <h5>Visualizzate</h5>
+        </div>
+        <div class="col">
+            <button class="btn btn-outline-primary btn-sm ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#visualizedAlertTable" aria-expanded="false" aria-controls="visualizedAlertTable">
+                <i class="bi bi-arrows-collapse"></i>
+            </button>
+        </div>
+    </div>
+    <div class="collapse" id="visualizedAlertTable">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Messaggio</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Livello</th>
+                </tr>
+            </thead>
+            <tbody id="visualizedAlertRows">
+                <partial name="Dashboard/_VisualizedSegnalazioniRows" model="@Model.VisualizedAlertList.Alerts.Results"></partial>
+            </tbody>
+        </table>
+        <vc:pagination-bar model="@Model.VisualizedAlertList"></vc:pagination-bar>
+    </div>
+</div>

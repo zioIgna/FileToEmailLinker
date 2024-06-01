@@ -48,7 +48,8 @@
     </div>
 
     <div id="allSegnalazioniTables" class="tab-pane mt-2" role="tabpanel" aria-labelledby="segnalazioniTab" tabindex="0">
-        <div class="row">
+        <partial name="Dashboard/_AllSegnalazioniTables" model="@Model"></partial>
+        @*<div class="row">
             <div class="col-auto position-relative">
                 <h3>Segnalazioni</h3>
                 <h6 id="segnalazioniBadge">
@@ -99,7 +100,7 @@
                 </table>
                 <vc:pagination-bar model="@Model.VisualizedAlertList"></vc:pagination-bar>
             </div>
-        </div>
+        </div>*@
     </div>
 </div>
 

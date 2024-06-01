@@ -3,7 +3,6 @@ using FileToEmailLinker.Models.Services.Alert;
 using FileToEmailLinker.Models.Services.Dashboard;
 using FileToEmailLinker.Models.ViewModels.Dashboard;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Packaging;
 
 namespace FileToEmailLinker.Controllers
 {
@@ -58,6 +57,18 @@ namespace FileToEmailLinker.Controllers
             //UpdateBadgeCount(alerts.Count);
 
             return PartialView("Dashboard/_SegnalazioniRows", alerts);
+        }
+
+        public async Task<IActionResult> CheckAlertAndReload(int id)
+        {
+            await alertService.CheckAlertAsync(id);
+            AlertsListViewModel unvisualizedAlertList = await alertService.GetUnvisualizedAlertListViewModelAsync(1, 10);
+            AlertsListViewModel visualizedAlertList = await alertService.GetVisualizedAlertListViewModelAsync(1, 10);
+            DashboardViewModel dashboardViewModel = new();
+            dashboardViewModel.UnvisualizedAlertList = unvisualizedAlertList;
+            dashboardViewModel.VisualizedAlertList = visualizedAlertList;
+
+            return PartialView("Dashboard/_AllSegnalazioniTables", dashboardViewModel);
         }
 
         public async Task<IActionResult> GetVisualizedAlerts()

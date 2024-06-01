@@ -54,7 +54,7 @@ namespace FileToEmailLinker.Models.Services.Dashboard
             DashboardViewModel model = new();
             Dictionary<DateOnly, ICollection<Entities.Schedulation>> upcomingSchedulations = await GetUpcomingSchedulations();
             AlertsListViewModel unvisualizedAlertList = await alertService.GetUnvisualizedAlertListViewModelAsync(1, 10);
-            AlertsListViewModel visualizedAlertList = await alertService.GetVisualizedAlertListViewModelAsync(1, 5);
+            AlertsListViewModel visualizedAlertList = await alertService.GetVisualizedAlertListViewModelAsync(1, 10);
             model.SchedulationGroupList = upcomingSchedulations;
             model.UnvisualizedAlertList = unvisualizedAlertList;
             model.VisualizedAlertList = visualizedAlertList;

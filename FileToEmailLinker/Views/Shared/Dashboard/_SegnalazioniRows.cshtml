@@ -10,7 +10,11 @@
         <td>@segnalazione.DateTime</td>
         <td>@segnalazione.AlertSeverity</td>
         <td>
-            <a href="#" data-id="@segnalazione.Id" onclick="swapAlert(@segnalazione.Id)"><i class="bi bi-check-circle"></i></a>
+            <a asp-action="CheckAlertAndReload" 
+                asp-route-id="@segnalazione.Id" 
+                data-ajax="true" 
+                data-ajax-mode="replace" 
+                data-ajax-update="#allSegnalazioniTables"><i class="bi bi-check-circle"></i></a> @*onclick="swapAlert(@segnalazione.Id)"*@
         </td>
     </tr>
 }
