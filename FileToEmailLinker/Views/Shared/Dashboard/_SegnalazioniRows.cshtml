@@ -2,9 +2,6 @@
 
 @foreach (var segnalazione in Model)
 {
-    var rowName = "unvisualizedRow_" + segnalazione.Id;
-    var dataUrl = "Dashboard/CheckAlert/" + segnalazione.Id;
-    var actionLink = "startSequence('" + dataUrl + "')";
     <tr>
         <td>@segnalazione.Message</td>
         <td>@segnalazione.DateTime</td>
@@ -14,7 +11,7 @@
                 asp-route-id="@segnalazione.Id" 
                 data-ajax="true" 
                 data-ajax-mode="replace" 
-                data-ajax-update="#allSegnalazioniTables"><i class="bi bi-check-circle"></i></a> @*onclick="swapAlert(@segnalazione.Id)"*@
+                data-ajax-update="#allSegnalazioniTables"><i class="bi bi-check-circle"></i></a>
         </td>
     </tr>
 }
