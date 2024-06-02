@@ -57,6 +57,12 @@ namespace FileToEmailLinker.Controllers
             return PartialView("Dashboard/_AllSegnalazioniTables", dashboardViewModel);
         }
 
+        public async Task<IActionResult> RemoveAlertAndReload(int id)
+        {
+            AlertsListViewModel alertsListViewModel = await alertService.RemoveAlertAndReload(id);
+            return PartialView("Dashboard/_VisualizedAlertTable", alertsListViewModel);
+        }
+
         public async Task<IActionResult> GetVisualizedAlerts()
         {
             ICollection<Alert> alerts = await alertService.GetVisualizedAlertListAsync();

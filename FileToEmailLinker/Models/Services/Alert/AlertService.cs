@@ -134,6 +134,25 @@ namespace FileToEmailLinker.Models.Services.Alert
             return dashboardViewModel;
         }
 
+        private async Task RemoveAlertAsync(int id)
+        {
+            Entities.Alert alert = await GetAlertByIdAsync(id);
+            if (alert == null)
+            {
+                throw new Exception("Non è stato possibile recuperare l'alert cercato");
+            }
+            context.Remove(alert);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<AlertsListViewModel> RemoveAlertAndReload(int id)
+        {
+            await RemoveAlertAsync(id);
+            AlertsListViewModel visualizedAlertList = await GetVisualizedAlertListViewModelAsync(1, 10);
+
+            return visualizedAlertList;
+        }
+
         public async Task<Entities.Alert> GetAlertByIdAsync(int id)
         {
             IQueryable<Entities.Alert> query = context.Alert

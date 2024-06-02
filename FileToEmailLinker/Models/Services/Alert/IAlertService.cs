@@ -13,5 +13,6 @@ namespace FileToEmailLinker.Models.Services.Alert
         Task<AlertsListViewModel> GetUnvisualizedAlertListViewModelAsync(int page, int limit);
         Task<AlertsListViewModel> GetVisualizedAlertListViewModelAsync(int page, int limit);
         Task<DashboardViewModel> CheckAlertAndReloadModel(int id);
+        Task<AlertsListViewModel> RemoveAlertAndReload(int id);
     }
 }

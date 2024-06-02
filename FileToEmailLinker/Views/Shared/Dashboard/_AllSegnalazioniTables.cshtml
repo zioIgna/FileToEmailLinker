@@ -38,18 +38,6 @@
         </div>
     </div>
     <div class="collapse" id="visualizedAlertTable">
-        <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th scope="col">Messaggio</th>
-                    <th scope="col">Data</th>
-                    <th scope="col">Livello</th>
-                </tr>
-            </thead>
-            <tbody id="visualizedAlertRows">
-                <partial name="Dashboard/_VisualizedSegnalazioniRows" model="@Model.VisualizedAlertList.Alerts.Results"></partial>
-            </tbody>
-        </table>
-        <vc:pagination-bar model="@Model.VisualizedAlertList"></vc:pagination-bar>
+        <partial name="Dashboard/_VisualizedAlertTable" model="@Model.VisualizedAlertList"></partial>
     </div>
 </div>
