@@ -1,14 +1,13 @@
-﻿@model IEnumerable<FileToEmailLinker.Models.Entities.MailingPlan>
+﻿@using FileToEmailLinker.Models.ViewModels;
+@model MailingPlanListViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <div class="d-flex">
-    <h1>Pianificazioni</h1>
-    <span class="align-self-center ms-auto">
-        <a asp-action="Create" class="btn btn-outline-primary">Aggiungi <i class="bi bi-plus-circle"></i></a>
-    </span>
+    <h1 class="me-auto">Pianificazioni</h1>
+    <partial name="IndexTools/SearchAndAddTools" model="@Model"></partial>
 </div>
 
 <table class="table">
@@ -33,7 +32,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.MailingPlanList.Results) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -55,7 +54,7 @@
                 }
             </td>
             <td>
-                <span>@item.Schedulation.Time</span>
+                <span>@item.Schedulation?.Time</span>
             </td>
             <td style="white-space:nowrap">
                 <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-file-text"></i></a> |
@@ -66,3 +65,16 @@
 }
     </tbody>
 </table>
+
+<section class="row">
+    <div class="col-sm-auto">
+        <div class="input-group mt-3">
+            <select asp-for="@Model.Limit" class="form-select" aria-label="Pagination select" form="searchForm" asp-items="@Model.PageLimitOptions">
+            </select>
+            <button class="btn btn-outline-secondary" type="submit" form="searchForm"><i class="bi bi-skip-end"></i></button>
+        </div>
+    </div>
+    <div class="col">
+        <vc:pagination-bar model="@Model"></vc:pagination-bar>
+    </div>
+</section>

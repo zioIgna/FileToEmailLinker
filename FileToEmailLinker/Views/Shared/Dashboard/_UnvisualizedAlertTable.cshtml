@@ -1,0 +1,17 @@
+﻿@using FileToEmailLinker.Models.ViewModels.Dashboard;
+@model AlertsListViewModel;
+
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th scope="col">Messaggio</th>
+            <th scope="col">Data</th>
+            <th scope="col">Livello</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="segnalazioniRows">
+        <partial name="Dashboard/_SegnalazioniRows" model="@Model.Alerts.Results"></partial>
+    </tbody>
+</table>
+<vc:pagination-bar model="@Model"></vc:pagination-bar>

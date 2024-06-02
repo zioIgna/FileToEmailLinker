@@ -1,4 +1,7 @@
-﻿using FileToEmailLinker.Models.Services.Schedulation;
+﻿using FileToEmailLinker.Models.Services.Alert;
+using FileToEmailLinker.Models.Services.Schedulation;
+using FileToEmailLinker.Models.ViewModels;
+using FileToEmailLinker.Models.ViewModels.Dashboard;
 
 namespace FileToEmailLinker.Models.Services.Dashboard
 {
@@ -6,11 +9,13 @@ namespace FileToEmailLinker.Models.Services.Dashboard
     {
         private readonly ISchedulationService schedulationService;
         private readonly IConfiguration configuration;
+        private readonly IAlertService alertService;
 
-        public DashboardService(ISchedulationService schedulationService, IConfiguration configuration)
+        public DashboardService(ISchedulationService schedulationService, IConfiguration configuration, IAlertService alertService)
         {
             this.schedulationService = schedulationService;
             this.configuration = configuration;
+            this.alertService = alertService;
         }
 
         public async Task<Dictionary<DateOnly, ICollection<Entities.Schedulation>>> GetUpcomingSchedulations()
@@ -42,6 +47,19 @@ namespace FileToEmailLinker.Models.Services.Dashboard
             var schedulations = await schedulationService.GetActiveSchedulationsByDateOrWeekDay(date);
             schedulationDict.Add(date, schedulations.OrderBy(sched => sched.Time).ToList());
             return schedulationDict;
+        }
+
+        public async Task<DashboardViewModel> GetDashboardViewModel()
+        {
+            DashboardViewModel model = new();
+            Dictionary<DateOnly, ICollection<Entities.Schedulation>> upcomingSchedulations = await GetUpcomingSchedulations();
+            AlertsListViewModel unvisualizedAlertList = await alertService.GetUnvisualizedAlertListViewModelAsync(1, 10);
+            AlertsListViewModel visualizedAlertList = await alertService.GetVisualizedAlertListViewModelAsync(1, 10);
+            model.SchedulationGroupList = upcomingSchedulations;
+            model.UnvisualizedAlertList = unvisualizedAlertList;
+            model.VisualizedAlertList = visualizedAlertList;
+
+            return model;
         }
     }
 }

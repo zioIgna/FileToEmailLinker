@@ -3,10 +3,12 @@ using FileToEmailLinker.Models.Entities;
 using FileToEmailLinker.Models.InputModels.MailPlans;
 using FileToEmailLinker.Models.InputModels.Schedulations;
 using FileToEmailLinker.Models.Services.Receiver;
+using FileToEmailLinker.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Plugins;
 using Org.BouncyCastle.Asn1.Crmf;
+using System.Linq;
 
 namespace FileToEmailLinker.Models.Services.MailingPlan
 {
@@ -50,13 +52,31 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<ICollection<Entities.MailingPlan>> GetMailingPlanListAsync()
+        public async Task<ListViewModel<Entities.MailingPlan>> GetMailingPlanListAsync(int page, int limit, string search)
         {
-            IQueryable<Entities.MailingPlan> query = context.MailingPlan
-                .Include(mp => mp.WeeklySchedulation)
-                .Include(mp => mp.MonthlySchedulation);
+            int realPage = Math.Max(1, page);
+            int realLimit = Math.Max(1, limit);
+            int offset = (realPage - 1) * realLimit;
 
-            return await query.ToListAsync();
+            IQueryable<Entities.MailingPlan> queryLinq = context.MailingPlan
+                .Include(mp => mp.WeeklySchedulation)
+                .Include(mp => mp.MonthlySchedulation)
+                .Where(mp => mp.Name.ToUpper().Contains(search.ToUpper()) || mp.Subject.ToUpper().Contains(search.ToUpper()) || mp.Text.ToUpper().Contains(search.ToUpper()));
+
+            List<Entities.MailingPlan> mailingPlans = await queryLinq
+                .Skip(offset)
+                .Take(realLimit)
+                .ToListAsync();
+
+            int totalCount = await queryLinq.CountAsync();
+
+            ListViewModel<Entities.MailingPlan> listViewModel = new ListViewModel<Entities.MailingPlan>
+            {
+                Results = mailingPlans,
+                TotalCount = totalCount
+            };
+
+            return listViewModel;
         }
 
         public async Task<MailPlanInputModel> CreateMailPlanInputModelAsync()
@@ -370,6 +390,29 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         {
             context.Remove(mailingPlan);
             await context.SaveChangesAsync();
+        }
+
+        public List<SelectListItem> GetPageLimitOptions()
+        {
+            int[] values = configuration.GetSection("DropdownOptions").GetSection("MailingPlan").Get<int[]>();
+            List<SelectListItem> options = new List<SelectListItem>();
+            options.AddRange(values.Select(val => new SelectListItem(val.ToString(), val.ToString(), values.ElementAt(0).Equals(val))));
+
+            return options;
+        }
+
+        public async Task<MailingPlanListViewModel> GetMailingPlanListViewModelAsync(int page, int limit, string search)
+        {
+            MailingPlanListViewModel model = new();
+            ListViewModel<Entities.MailingPlan> mailinPlanListView = await GetMailingPlanListAsync(page, limit, search);
+            List<SelectListItem> pageLimitOptions = GetPageLimitOptions();
+            model.MailingPlanList = mailinPlanListView;
+            model.Page = page;
+            model.Limit = limit;
+            model.Search = search;
+            model.PageLimitOptions = pageLimitOptions;
+
+            return model;
         }
     }
 }

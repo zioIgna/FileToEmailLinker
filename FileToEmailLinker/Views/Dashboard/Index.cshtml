@@ -1,4 +1,5 @@
 ﻿@using FileToEmailLinker.Models.ViewModels;
+@using FileToEmailLinker.Models.ViewModels.Dashboard;
 @model DashboardViewModel
 
 @{
@@ -12,7 +13,7 @@
         <button class="nav-link position-relative" id="segnalazioniTab" data-bs-toggle="tab" data-bs-target="#allSegnalazioniTables" type="button" role="tab" aria-controls="allSegnalazioniTables" arial-selected="false">
             <span>
                 Segnalazioni
-                @if (Model.UnvisualizedAlertList.Count() > 0)
+                @if (Model.UnvisualizedAlertList.Alerts.Results.Count() > 0)
                 {
                     <span id="basicBadge" class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle"><span style="display:none">Segnalazioni</span></span>
                 }
@@ -21,58 +22,7 @@
     </li>
 </ul>
 <div class="tab-content">
-    <div id="allSegnalazioniTables" class="tab-pane mt-2" role="tabpanel" aria-labelledby="pianificazioniTab" tabindex="0">
-        <div class="row">
-            <div class="col-auto position-relative">
-                <h3>Segnalazioni</h3>
-                <h6 id="segnalazioniBadge">
-                    <partial name="Dashboard/_SegnalazioniBadge" model="@Model.UnvisualizedAlertList.Count()"></partial>
-                </h6>
-            </div>
-        </div>
-        <div id="alertTable">
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">Messaggio</th>
-                        <th scope="col">Data</th>
-                        <th scope="col">Livello</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="segnalazioniRows">
-                    <partial name="Dashboard/_SegnalazioniRows" model="@Model.UnvisualizedAlertList"></partial>
-                </tbody>
-            </table>
-
-            <div class="row row-cols-2 mb-2">
-                <div class="col-auto">
-                    <h5>Visualizzate</h5>
-                </div>
-                <div class="col">
-                    <button class="btn btn-outline-primary btn-sm ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#unvisualizedAlertTable" aria-expanded="false" aria-controls="unvisualizedAlertTable">
-                        <i class="bi bi-arrows-collapse"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="collapse" id="unvisualizedAlertTable">
-                <table class="table table-sm">
-                    <thead>
-                        <tr>
-                            <th scope="col">Messaggio</th>
-                            <th scope="col">Data</th>
-                            <th scope="col">Livello</th>
-                        </tr>
-                    </thead>
-                    <tbody id="visualizedAlertRows">
-                        <partial name="Dashboard/_VisualizedSegnalazioniRows" model="@Model.VisualizedAlertList"></partial>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div id="pianificazioniSection" class="tab-pane active mt-2" role="tabpanel" arial-labelledby="segnalazioniTab" tabindex="0">
+    <div id="pianificazioniSection" class="tab-pane active mt-2" role="tabpanel" arial-labelledby="pinaificazioniTab" tabindex="0">
         <div class="d-flex">
             <h3>Prossimi invii</h3>
             <form class="ms-auto align-self-center" asp-action="SearchByDate" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#dashboardRows">
@@ -96,6 +46,10 @@
             </tbody>
         </table>
     </div>
+
+    <div id="allSegnalazioniTables" class="tab-pane mt-2" role="tabpanel" aria-labelledby="segnalazioniTab" tabindex="0">
+        <partial name="Dashboard/_AllSegnalazioniTables" model="@Model"></partial>
+    </div>
 </div>
 
-<script src="/js/Dashboard/BadgeUpdate.js"></script>
+@*<script src="/js/Dashboard/BadgeUpdate.js"></script>*@

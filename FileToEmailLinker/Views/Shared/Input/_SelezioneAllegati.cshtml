@@ -6,21 +6,25 @@
         Selezione allegati
     </div>
     <div class="card-body">
-        @for (int i = 0; i < Model.Count; i++)
-        {
-            var elem = Model[i];
-            var elemId = "FilesSelection_" + i.ToString();
-            <div class="form-check">
-                @if (elem.Selected)
-                {
-                    <input class="form-check-input" type="checkbox" name="FilesSelection" id="@elemId" value="@elem.Value" checked />
-                }
-                else
-                {
-                    <input class="form-check-input" type="checkbox" name="FilesSelection" id="@elemId" value="@elem.Value" />
-                }
-                <label class="form-check-label" for="@elemId">@elem.Text</label>
-            </div>
-        }
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 d-flex">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                var elem = Model[i];
+                var elemId = "FilesSelection_" + i.ToString();
+                <div class="col">
+                    <div class="form-check">
+                        @if (elem.Selected)
+                        {
+                            <input class="form-check-input" type="checkbox" name="FilesSelection" id="@elemId" value="@elem.Value" checked />
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" name="FilesSelection" id="@elemId" value="@elem.Value" />
+                        }
+                        <label class="form-check-label" for="@elemId">@elem.Text</label>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>
