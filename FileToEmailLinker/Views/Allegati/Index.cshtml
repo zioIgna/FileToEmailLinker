@@ -16,21 +16,78 @@
 </form>
 
 <h3>Gestione allegati</h3>
-<div class="row row-cols-1 row-cols-sm-2">
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
     @foreach (var fileName in Model)
     {
+        var modalRif = fileName + "_Modal";
         <div class="col">
-            <div class="row row-cols-2 d-flex">
-                <div class="col">
-                    <i class="bi bi-file-earmark-spreadsheet"></i> @fileName
+            <div class="card mb-1">
+                <div class="card-body">
+                    <div class="row row-cols-2 d-flex">
+                        <div class="col">
+                            <i class="bi bi-file-earmark-spreadsheet"></i> @fileName
+                        </div>
+                        <div class="col-1 ms-auto me-2">
+
+                            <!-- Button trigger modal -->
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#@modalRif" style="color:red">
+                                <i class="bi bi-trash3"></i>
+                            </a>
+
+                            
+
+                            @*<div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="(@fileName + _checkbox)"/>
+                                <label class="form-check-label" for="(@fileName + _checkbox)"></label>
+                            </div>*@
+
+                        </div>
+                    </div>
                 </div>
-                <div class="col-1 ms-auto">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="(@fileName + _checkbox)"/>
-                        <label class="form-check-label" for="(@fileName + _checkbox)"></label>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="@modalRif" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Nome file: @fileName
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>
         </div>
     }
 </div>
+
+@*<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>*@
