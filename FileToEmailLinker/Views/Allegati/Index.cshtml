@@ -1,0 +1,36 @@
+﻿@model ICollection<string>
+@{
+    ViewData["Title"] = "Allegati";
+}
+
+<div class="d-flex">
+    <h1 class="me-auto">Allegati</h1>
+</div>
+
+<h3>Aggiungere un allegato</h3>
+<form asp-action="Add" enctype="multipart/form-data" method="post">
+    <div class="input-group mb-3">
+        <input type="file" class="form-control" id="inpuptGroupFile" aria-describedby="inputGroupFile" aria-label="Upload" />
+        <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileBtn">Carica</button>
+    </div>
+</form>
+
+<h3>Gestione allegati</h3>
+<div class="row row-cols-1 row-cols-sm-2">
+    @foreach (var fileName in Model)
+    {
+        <div class="col">
+            <div class="row row-cols-2 d-flex">
+                <div class="col">
+                    <i class="bi bi-file-earmark-spreadsheet"></i> @fileName
+                </div>
+                <div class="col-1 ms-auto">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="(@fileName + _checkbox)"/>
+                        <label class="form-check-label" for="(@fileName + _checkbox)"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
