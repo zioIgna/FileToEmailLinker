@@ -1,4 +1,5 @@
-﻿@model ICollection<string>
+﻿@using FileToEmailLinker.Models.InputModels.Attachments;
+@model ICollection<AttachmentInfo>
 @{
     ViewData["Title"] = "Allegati";
 }
@@ -17,20 +18,22 @@
 
 <h3>Gestione allegati</h3>
 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
-    @foreach (var fileName in Model)
+    @foreach (var fileInfo in Model)
     {
-        var modalRif = fileName + "_Modal";
+        var modalRif = fileInfo.Name.Replace(' ','_').Replace('.','_') + "_Modal";
+        string pointerEvents = fileInfo.IsDeletable ? "" : "none";
+        string color = fileInfo.IsDeletable ? "red" : "gray";
         <div class="col">
             <div class="card mb-1">
                 <div class="card-body">
                     <div class="row row-cols-2 d-flex">
                         <div class="col">
-                            <i class="bi bi-file-earmark-spreadsheet"></i> @fileName
+                            <i class="bi bi-file-earmark-spreadsheet"></i> @fileInfo.Name
                         </div>
                         <div class="col-1 ms-auto me-2">
 
                             <!-- Button trigger modal -->
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#@modalRif" style="color:red">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#@modalRif" style="color:@color; pointer-events:@pointerEvents">
                                 <i class="bi bi-trash3"></i>
                             </a>
 
@@ -56,7 +59,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        Nome file: @fileName
+                        Nome file: @fileInfo
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

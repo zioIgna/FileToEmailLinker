@@ -79,6 +79,13 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             return listViewModel;
         }
 
+        public IQueryable<Entities.MailingPlan> GetAllMailingPlanListAsync()
+        {
+            IQueryable<Entities.MailingPlan> query = context.MailingPlan;
+
+            return query;
+        }
+
         public async Task<MailPlanInputModel> CreateMailPlanInputModelAsync()
         {
             MailPlanInputModel mailPlanCreateInputModel = new();

@@ -9,6 +9,7 @@ using FileToEmailLinker.Models.Services.MailingPlan;
 using FileToEmailLinker.Models.Services.Receiver;
 using FileToEmailLinker.Models.Services.Alert;
 using FileToEmailLinker.Models.Services.Dashboard;
+using FileToEmailLinker.Models.Services.Attachment;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<FileToEmailLinkerContext>(options =>
@@ -29,6 +30,7 @@ builder.Services.AddTransient<IMailingPlanService, MailingPlanService>();
 builder.Services.AddTransient<IReceiverService, ReceiverService>();
 builder.Services.AddTransient<IAlertService, AlertService>();
 builder.Services.AddTransient<IDashboardService, DashboardService>();
+builder.Services.AddTransient<IAttachmentService, AttachmentService>();
 
 builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
 
