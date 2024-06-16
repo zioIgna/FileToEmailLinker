@@ -21,7 +21,19 @@ namespace FileToEmailLinker.Models.Services.Attachment
         public IEnumerable<string> GetFolderFiles()
         {
             string fullPath = GetFilesDirectoryFullPath();
-            IEnumerable<string>? files = Directory.EnumerateFiles(fullPath, "*.xlsx").Select(file => Path.GetFileName(file));
+            IEnumerable<string>? files = Directory.EnumerateFiles(fullPath);
+            files = FilterFilesByExtension(files);
+            return files;
+        }
+
+        private IEnumerable<string> FilterFilesByExtension(IEnumerable<string> files)
+        {
+            //int[] values = configuration.GetSection("DropdownOptions").GetSection("MailingPlan").Get<int[]>();
+            string[] extensions = configuration.GetSection("AttachmentOptions").GetSection("AcceptedExtensions").Get<string[]>();
+            if (extensions != null && extensions.Length > 0)
+            {
+                files = files.Where(file => extensions.Any(ext => file.EndsWith(ext))); // file.EndsWith(".xlsx") || file.EndsWith(".xls")).Select(file => Path.GetFileName(file));
+            }
             return files;
         }
 
@@ -29,13 +41,14 @@ namespace FileToEmailLinker.Models.Services.Attachment
         {
             var files = GetFolderFiles();
             ICollection<AttachmentInfo> attachmentInfoList = new List<AttachmentInfo>();
-            foreach (var fileName in files)
+            foreach (var file in files)
             {
                 AttachmentInfo attachmentInfo = new();
-                attachmentInfo.Name = fileName;
-                var isAttached = (await mailingPlanService.GetAllMailingPlanListAsync().ToListAsync()).Any(mp => mp.FileStringList.Contains(fileName));
-                attachmentInfo.MailingPlanList.AddRange((await mailingPlanService.GetAllMailingPlanListAsync().ToListAsync()).Where(mp => mp.FileStringList.Split(';').Any(fn => fn.Equals(fileName))));
-                attachmentInfo.IsDeletable = !isAttached;
+                attachmentInfo.Name = Path.GetFileName(file);
+                //var isAttached = (await mailingPlanService.GetAllMailingPlanListAsync().ToListAsync()).Any(mp => mp.FileStringList.Contains(fileName));
+                //attachmentInfo.MailingPlanList.AddRange((await mailingPlanService.GetAllMailingPlanListQuery().ToListAsync()).Where(mp => mp.FileStringList.Split(';').Any(fn => fn.Equals(file))));
+                attachmentInfo.MailingPlanList.AddRange((await mailingPlanService.GetAllMailinPlanListAsync()).Where(mp => mp.FileStringList.Split(';').Any(fn => fn.Equals(attachmentInfo.Name))));
+                //attachmentInfo.IsDeletable = !isAttached;
 
                 attachmentInfoList.Add(attachmentInfo);
             }
@@ -53,6 +66,23 @@ namespace FileToEmailLinker.Models.Services.Attachment
             }
             var fullPath = Path.Combine(rootdir, "wwwroot", folderPath);
             return fullPath;
+        }
+
+        public async Task<bool> FileAlreadyExists(IFormFile attachment)
+        {
+            ICollection<AttachmentInfo> attachments = await GetAttachments();
+            return attachments.Any(att => att.Name.Equals(attachment.FileName));
+        }
+
+        public void UploadFile(IFormFile attachment)
+        {
+            var fileName = Path.GetFileName(attachment.FileName);
+            var filePath = Path.Combine(GetFilesDirectoryFullPath(), fileName);
+            using (var localFile = File.OpenWrite(filePath))
+            using (var uploadedFile = attachment.OpenReadStream())
+            {
+                uploadedFile.CopyTo(localFile);
+            }
         }
     }
 }

@@ -7,5 +7,7 @@ namespace FileToEmailLinker.Models.Services.Attachment
         string GetFilesDirectoryFullPath();
         IEnumerable<string> GetFolderFiles();
         Task<ICollection<AttachmentInfo>> GetAttachments();
+        Task<bool> FileAlreadyExists(IFormFile attachment);
+        void UploadFile(IFormFile attachment);
     }
 }
