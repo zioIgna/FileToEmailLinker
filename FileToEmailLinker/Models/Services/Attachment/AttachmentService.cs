@@ -83,5 +83,20 @@ namespace FileToEmailLinker.Models.Services.Attachment
                 uploadedFile.CopyTo(localFile);
             }
         }
+
+        public string DeleteAttachment(string fileName)
+        {
+            string fileNameWPath = Path.Combine(GetFilesDirectoryFullPath(), fileName);
+            try
+            {
+                File.Delete(fileNameWPath);
+            }
+            catch (Exception ex)
+            {
+
+                return ex.Message;
+            }
+            return string.Empty;
+        }
     }
 }

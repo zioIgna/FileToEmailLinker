@@ -29,6 +29,7 @@
         string pointerEvents = fileInfo.IsDeletable ? "" : "none";
         string color = fileInfo.IsDeletable ? "red" : "gray";
         string disabled = fileInfo.IsDeletable ? "" : "disabled";
+        string btnStyle = fileInfo.IsDeletable ? "btn-danger" : "btn-secondary";
         <div class="col">
             <div class="card mb-1">
                 <div class="card-body">
@@ -66,11 +67,6 @@
                                 {
                                     <li>
                                         <a class="ms-1 me-3" asp-controller="MailingPlans" asp-action="Edit" asp-route-id="@pianif.Id"><i class="bi bi-box-arrow-up-right"></i></a>@pianif.Name
-                                        @*<div class="row row-cols-2">
-                                            <div class="col-auto me-auto">@pianif.Name</div>
-                                            <div class="col-auto me-5"><a class="ms-auto" asp-controller="MailingPlans" asp-action="Edit" asp-route-id="@pianif.Id"><i class="bi bi-box-arrow-up-right"></i></a>
-                                            </div>
-                                        </div>*@
                                     </li>
                                 }
                             </ul>
@@ -82,34 +78,10 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annulla <i class="bi bi-x-circle"></i></button>
-                        <button type="button" class="btn btn-danger" @disabled>Cancella <i class="bi bi-trash3"></i></button>
+                        <a asp-action="DeleteAttachment" asp-route-fileName="@fileInfo.Name" class="btn @btnStyle" style="pointer-events:@pointerEvents">Cancella <i class="bi bi-trash3"></i></a>
                     </div>
                 </div>
             </div>
         </div>
     }
 </div>
-
-@*<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>*@

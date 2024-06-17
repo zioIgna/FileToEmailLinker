@@ -15,9 +15,8 @@ namespace FileToEmailLinker.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            ICollection<AttachmentInfo> allegati = await attachmentService.GetAttachments(); //{ "file1", "file2", "file3", "file4" };
-            //AttachmentListViewModel model = new();
-            //model.Allegati = allegati;
+            ICollection<AttachmentInfo> allegati = await attachmentService.GetAttachments();
+
             return View(allegati);
         }
 
@@ -45,6 +44,19 @@ namespace FileToEmailLinker.Controllers
                 return RedirectToAction(nameof(Index));
             }
             TempData["ErrorMessage"] = "Selezionare un file per il caricamento";
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult DeleteAttachment(string fileName)
+        {
+            string result = attachmentService.DeleteAttachment(fileName);
+            if (string.IsNullOrEmpty(result))
+            {
+                TempData["ConfirmationMessage"] = "File eliminato con successo";
+            }else
+            {
+                TempData["ErrorMessage"] = $"Non è stato possibile eliminare il file. {result}";
+            }
             return RedirectToAction(nameof(Index));
         }
     }
