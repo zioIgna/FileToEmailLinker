@@ -9,7 +9,7 @@
     <h1 class="me-auto">Allegati</h1>
 </div>
 
-<h3>Aggiungere un allegato</h3>
+<h3 class="mb-4">Aggiungere un allegato</h3>
 <form asp-action="AddAttachment" enctype="multipart/form-data" method="post">
     @*<div class="input-form">
         <label for="TestField" class="form-label">Test</label>
@@ -20,8 +20,8 @@
         <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileBtn">Carica</button>
     </div>
 </form>
-
-<h3>Gestione allegati</h3>
+<hr />
+<h3 class="mb-4">Gestione allegati</h3>
 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
     @foreach (var fileInfo in Model)
     {

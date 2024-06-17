@@ -9,13 +9,13 @@ namespace FileToEmailLinker.Models.Services.Attachment
     {
         private readonly IConfiguration configuration;
         private readonly IWebHostEnvironment env;
-        private readonly IMailingPlanService mailingPlanService;
+        private readonly IServiceScopeFactory serviceScopeFactory;
 
-        public AttachmentService(IConfiguration configuration, IWebHostEnvironment env, IMailingPlanService mailingPlanService)
+        public AttachmentService(IConfiguration configuration, IWebHostEnvironment env, IServiceScopeFactory serviceScopeFactory)
         {
             this.configuration = configuration;
             this.env = env;
-            this.mailingPlanService = mailingPlanService;
+            this.serviceScopeFactory = serviceScopeFactory;
         }
 
         public IEnumerable<string> GetFolderFiles()
@@ -28,11 +28,10 @@ namespace FileToEmailLinker.Models.Services.Attachment
 
         private IEnumerable<string> FilterFilesByExtension(IEnumerable<string> files)
         {
-            //int[] values = configuration.GetSection("DropdownOptions").GetSection("MailingPlan").Get<int[]>();
             string[] extensions = configuration.GetSection("AttachmentOptions").GetSection("AcceptedExtensions").Get<string[]>();
             if (extensions != null && extensions.Length > 0)
             {
-                files = files.Where(file => extensions.Any(ext => file.EndsWith(ext))); // file.EndsWith(".xlsx") || file.EndsWith(".xls")).Select(file => Path.GetFileName(file));
+                files = files.Where(file => extensions.Any(ext => file.EndsWith(ext)));
             }
             return files;
         }
@@ -45,10 +44,10 @@ namespace FileToEmailLinker.Models.Services.Attachment
             {
                 AttachmentInfo attachmentInfo = new();
                 attachmentInfo.Name = Path.GetFileName(file);
-                //var isAttached = (await mailingPlanService.GetAllMailingPlanListAsync().ToListAsync()).Any(mp => mp.FileStringList.Contains(fileName));
-                //attachmentInfo.MailingPlanList.AddRange((await mailingPlanService.GetAllMailingPlanListQuery().ToListAsync()).Where(mp => mp.FileStringList.Split(';').Any(fn => fn.Equals(file))));
+                using IServiceScope serviceScope = serviceScopeFactory.CreateScope();
+                IServiceProvider serviceProvider = serviceScope.ServiceProvider;
+                IMailingPlanService mailingPlanService = serviceProvider.GetRequiredService<IMailingPlanService>();
                 attachmentInfo.MailingPlanList.AddRange((await mailingPlanService.GetAllMailinPlanListAsync()).Where(mp => mp.FileStringList.Split(';').Any(fn => fn.Equals(attachmentInfo.Name))));
-                //attachmentInfo.IsDeletable = !isAttached;
 
                 attachmentInfoList.Add(attachmentInfo);
             }
