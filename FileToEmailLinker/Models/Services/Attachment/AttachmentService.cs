@@ -2,6 +2,7 @@
 using FileToEmailLinker.Models.Services.MailingPlan;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
+using System.Collections.Specialized;
 
 namespace FileToEmailLinker.Models.Services.Attachment
 {
@@ -67,6 +68,18 @@ namespace FileToEmailLinker.Models.Services.Attachment
             return fullPath;
         }
 
+        public string GetTempFilesDirectoryFullPath()
+        {
+            var rootdir = env.ContentRootPath;
+            var folderPath = configuration["TempFolderPath"];
+            if (folderPath == null)
+            {
+                throw new Exception("La cartella degli allegati non è raggiungibile");
+            }
+            var fullPath = Path.Combine(rootdir, "wwwroot", folderPath);
+            return fullPath;
+        }
+
         public async Task<bool> FileAlreadyExists(IFormFile attachment)
         {
             ICollection<AttachmentInfo> attachments = await GetAttachments();
@@ -76,12 +89,94 @@ namespace FileToEmailLinker.Models.Services.Attachment
         public void UploadFile(IFormFile attachment)
         {
             var fileName = Path.GetFileName(attachment.FileName);
-            var filePath = Path.Combine(GetFilesDirectoryFullPath(), fileName);
+            var filesDirectoryFullPath = GetFilesDirectoryFullPath();
+            Directory.CreateDirectory(filesDirectoryFullPath);
+            var filePath = Path.Combine(filesDirectoryFullPath, fileName);
             using (var localFile = File.OpenWrite(filePath))
             using (var uploadedFile = attachment.OpenReadStream())
             {
                 uploadedFile.CopyTo(localFile);
             }
+        }
+
+        public void UploadFileToTempDir(IFormFile attachment)
+        {
+            try
+            {
+                var tempFilesDirectory = GetTempFilesDirectoryFullPath();
+                if (Directory.Exists(tempFilesDirectory))
+                {
+                    var fileEntries = Directory.GetFiles(tempFilesDirectory);
+                    foreach (var file in fileEntries)
+                    {
+                        File.Delete(file);
+                    }
+                }
+                var fileName = Path.GetFileName(attachment.FileName);
+                var filePath = Path.Combine(tempFilesDirectory, fileName);
+                Directory.CreateDirectory(tempFilesDirectory);
+                using (var localFile = File.OpenWrite(filePath))
+                using (var uploadedFile = attachment.OpenReadStream())
+                {
+                    uploadedFile.CopyTo(localFile);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Non è stato possibile caricare il file. {ex.Message}");
+            }
+        }
+
+        public void MoveAttachmentFromTempFolder()
+        {
+            string tempFolderPath = GetTempFilesDirectoryFullPath();
+            Directory.CreateDirectory(tempFolderPath);
+            string destinationFolderPath = GetFilesDirectoryFullPath();
+            var fileEntries = Directory.GetFiles(tempFolderPath);
+            if (fileEntries == null || fileEntries.Count() == 0)
+            {
+                throw new Exception("Non è stato trovato il file da caricare. Riprovare");
+            }
+            if (fileEntries.Count() > 1)
+            {
+                foreach (var file in fileEntries)
+                {
+                    File.Delete(file);
+                }
+                throw new Exception("Sono stati trovati più files nella directory temporanea. Riprovare il caricamento");
+            }
+            string fileName = Path.GetFileName(fileEntries[0]);
+            string fileSource = Path.Combine(tempFolderPath, fileName);
+            string fileDestination = Path.Combine(destinationFolderPath, fileName);
+            if (File.Exists(fileDestination))
+            {
+                File.Delete(fileDestination);
+            }
+            File.Move(fileSource, fileDestination);
+        }
+
+        public void DeleteTempAttachment()
+        {
+            try
+            {
+                string tempFolderPath = GetTempFilesDirectoryFullPath();
+                if (Directory.Exists(tempFolderPath))
+                {
+                    var fileEntries = Directory.GetFiles(tempFolderPath);
+                    if (fileEntries != null && fileEntries.Count() > 0)
+                    {
+                        foreach (var file in fileEntries)
+                        {
+                            File.Delete(file);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Non è stato possibile caricare il file. {ex.Message}");
+            }
+            
         }
 
         public string DeleteAttachment(string fileName)
