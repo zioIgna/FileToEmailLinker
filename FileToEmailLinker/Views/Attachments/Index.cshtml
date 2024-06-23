@@ -1,0 +1,83 @@
+﻿@using FileToEmailLinker.Models.InputModels.Attachments;
+@model ICollection<AttachmentInfo>
+@{
+    ViewData["Title"] = "Allegati";
+}
+
+<div class="d-flex">
+    <h1 class="me-auto">Allegati</h1>
+</div>
+
+<h3 class="mb-4">Aggiungere un allegato</h3>
+<form asp-action="AddAttachment" enctype="multipart/form-data" method="post"> @*data-ajax="true" data-ajax-mode="replace" data-ajax-update="#overrideAttachmentModal"*@
+    <div class="input-group mb-3">
+        <input type="file" class="form-control" id="attachment" name="attachment" aria-describedby="attachment" aria-label="Upload" accept=".xlsx, .xls, .csv" required /> @*accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"*@ @*accept=".xls,.xlsx" *@
+        <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileBtn">Carica</button>
+    </div>
+</form>
+<div id="overrideAttachmentModal"></div>
+<hr />
+<h3 class="mb-4">Gestione allegati</h3>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+    @foreach (var fileInfo in Model)
+    {
+        var modalRif = fileInfo.Name.Replace(' ','_').Replace('.','_') + "_Modal";
+        string pointerEvents = fileInfo.IsDeletable ? "" : "none";
+        string color = fileInfo.IsDeletable ? "red" : "gray";
+        string disabled = fileInfo.IsDeletable ? "" : "disabled";
+        string btnStyle = fileInfo.IsDeletable ? "btn-danger" : "btn-secondary";
+        <div class="col">
+            <div class="card mb-1">
+                <div class="card-body">
+                    <div class="row row-cols-2 d-flex">
+                        <div class="col-auto me-auto">
+                            <i class="bi bi-file-earmark-spreadsheet"></i> @fileInfo.Name
+                        </div>
+                        <div class="col-auto">
+
+                            <!-- Button trigger modal -->
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#@modalRif" style="color:red;">
+                                <i class="bi bi-trash3"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="@modalRif" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Cancellazione file</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @if (!fileInfo.IsDeletable)
+                        {
+                            <div>Il file <span class="fw-bold">@fileInfo.Name</span> è collegato alle seguenti pianificazioni:</div>
+                            <ul>
+                                @foreach(var pianif in fileInfo.MailingPlanList)
+                                {
+                                    <li>
+                                        <a class="ms-1 me-3" asp-controller="MailingPlans" asp-action="Edit" asp-route-id="@pianif.Id"><i class="bi bi-box-arrow-up-right"></i></a>@pianif.Name
+                                    </li>
+                                }
+                            </ul>
+                            <div class="text-danger">Rimuovere il file dalle pianificazioni prima di procedere alla cancellazione</div>
+                        }else
+                        {
+                            <div>Confermi di voler eliminare il file <span class="fw-bold">@fileInfo.Name</span>?</div>
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annulla <i class="bi bi-x-circle"></i></button>
+                        <a asp-action="DeleteAttachment" asp-route-fileName="@fileInfo.Name" class="btn @btnStyle" style="pointer-events:@pointerEvents">Cancella <i class="bi bi-trash3"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

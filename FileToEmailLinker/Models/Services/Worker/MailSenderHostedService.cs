@@ -3,6 +3,7 @@ using FileToEmailLinker.Models.Entities;
 using FileToEmailLinker.Models.Exceptions;
 using FileToEmailLinker.Models.Options;
 using FileToEmailLinker.Models.Services.Alert;
+using FileToEmailLinker.Models.Services.Attachment;
 using FileToEmailLinker.Models.Services.MailingPlan;
 using FileToEmailLinker.Models.Services.SchedulationChecker;
 using MailKit.Net.Smtp;
@@ -54,6 +55,7 @@ namespace FileToEmailLinker.Models.Services.Worker
                     using IServiceScope serviceScope = serviceScopeFactory.CreateScope();
                     IServiceProvider serviceProvider = serviceScope.ServiceProvider;
                     IMailingPlanService mailingPlanService = serviceProvider.GetRequiredService<IMailingPlanService>();
+                    IAttachmentService attachmentService = serviceProvider.GetRequiredService<IAttachmentService>();
 
                     Entities.MailingPlan mailingPlan = await mailingPlanService.GetMailingPlanByIdAsync(mailingPlanId);
                     
@@ -63,7 +65,7 @@ namespace FileToEmailLinker.Models.Services.Worker
                         throw new MailingPlanNotFoundException(mailingPlanId);
                     }
                     Console.WriteLine($"Riconosciuto il MailingPlan {mailingPlan.Name}");
-                    string filesDirectoryFullPath = mailingPlanService.GetFilesDirectoryFullPath();
+                    string filesDirectoryFullPath = attachmentService.GetFilesDirectoryFullPath();
 
                     MimeMessage message = await CreateMimeMessage(mailingPlan, filesDirectoryFullPath);
                     using SmtpClient client = await SendEmail(message);

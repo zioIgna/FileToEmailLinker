@@ -2,6 +2,7 @@
 using FileToEmailLinker.Models.Entities;
 using FileToEmailLinker.Models.InputModels.MailPlans;
 using FileToEmailLinker.Models.InputModels.Schedulations;
+using FileToEmailLinker.Models.Services.Attachment;
 using FileToEmailLinker.Models.Services.Receiver;
 using FileToEmailLinker.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,13 +19,15 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         private readonly IConfiguration configuration;
         private readonly IReceiverService receiverService;
         private readonly IWebHostEnvironment env;
+        private readonly IAttachmentService attachmentService;
 
-        public MailingPlanService(FileToEmailLinkerContext context, IConfiguration configuration, IReceiverService receiverService, IWebHostEnvironment env)
+        public MailingPlanService(FileToEmailLinkerContext context, IConfiguration configuration, IReceiverService receiverService, IWebHostEnvironment env, IAttachmentService attachmentService)
         {
             this.context = context;
             this.configuration = configuration;
             this.receiverService = receiverService;
             this.env = env;
+            this.attachmentService = attachmentService;
         }
         public async Task<Entities.MailingPlan> GetMailingPlanByIdAsync(int id)
         {
@@ -79,6 +82,20 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
             return listViewModel;
         }
 
+        public IQueryable<Entities.MailingPlan> GetAllMailingPlanListQuery()
+        {
+            IQueryable<Entities.MailingPlan> query = context.MailingPlan;
+
+            return query;
+        }
+
+        public async Task<ICollection<Entities.MailingPlan>> GetAllMailinPlanListAsync()
+        {
+            IQueryable<Entities.MailingPlan> query = context.MailingPlan;
+
+            return await query.ToListAsync();
+        }
+
         public async Task<MailPlanInputModel> CreateMailPlanInputModelAsync()
         {
             MailPlanInputModel mailPlanCreateInputModel = new();
@@ -101,31 +118,12 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         private void SetFileSelectListForCreate(MailPlanInputModel mailPlanCreateInputModel)
         {
             List<SelectListItem> filesSelectList = new List<SelectListItem>();
-            IEnumerable<string> files = GetFolderFiles();
+            IEnumerable<string> files = attachmentService.GetFolderFiles();
             foreach (var file in files)
             {
                 filesSelectList.Add(new SelectListItem { Text = Path.GetFileName(file), Value = Path.GetFileName(file) });
             }
             mailPlanCreateInputModel.FileSelectList = filesSelectList;
-        }
-
-        private IEnumerable<string> GetFolderFiles()
-        {
-            string fullPath = GetFilesDirectoryFullPath();
-            IEnumerable<string>? files = Directory.EnumerateFiles(fullPath, "*.xlsx");
-            return files;
-        }
-
-        public string GetFilesDirectoryFullPath()
-        {
-            var rootdir = env.ContentRootPath;
-            var folderPath = configuration["HolderPath"];
-            if (folderPath == null)
-            {
-                throw new Exception("La cartella degli allegati non è raggiungibile");
-            }
-            var fullPath = Path.Combine(rootdir, "wwwroot", folderPath);
-            return fullPath;
         }
 
         public async Task<Entities.MailingPlan> CreateMailingPlanAsync(MailPlanInputModel model)
@@ -358,7 +356,7 @@ namespace FileToEmailLinker.Models.Services.MailingPlan
         private void SetFileSelectListForEdit(Entities.MailingPlan mailingPlan, MailPlanInputModel mailPlanCreateInputModel)
         {
             List<SelectListItem> filesSelectList = new List<SelectListItem>();
-            IEnumerable<string> files = GetFolderFiles();
+            IEnumerable<string> files = attachmentService.GetFolderFiles();
             foreach (var file in files)
             {
                 var item = new SelectListItem { Text = Path.GetFileName(file), Value = Path.GetFileName(file) };
